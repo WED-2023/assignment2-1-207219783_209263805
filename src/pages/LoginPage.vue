@@ -148,9 +148,7 @@ section {
   background-position: center;
   background-position: center;
   background-size: cover;
-  /* Uncomment and replace 'background.jpg' with your actual image file if needed
-  background-image: url('background.jpg');
-  */
+
 }
 
 .form-box {
