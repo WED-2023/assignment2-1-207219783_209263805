@@ -1,141 +1,73 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
-  >
-    <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+  <div class="card">
+    <img :src="card.image" class="card-img-top clickable-image" :alt="card.title" @click="navigateToRecipe(card.id)">
+    <div class="card-body">
+      <h5 class="card-title" style="font-weight: bold;">{{ card.title }}</h5>
+      <p class="card-text">{{ card.text }}</p>
+      <p class="card-text"><small class="text-muted">⏱️ Prep time: {{ card.prepTime }}</small></p>
+      <p class="card-text"><small class="text-muted">Likes: {{ card.likes }}</small></p>
+      <p v-if="card.isVegan" class="badge badge-success">🌿 Vegan</p>
+      <p v-if="card.isVegetarian" class="badge badge-warning">🥕 Vegetarian</p>
+      <p v-if="card.isGlutenFree" class="badge badge-info">🚫 Gluten-Free</p>
+      <p v-if="card.viewed" class="badge badge-secondary">👁️ Viewed</p>
+      <LikeButton :recipeId="card.id" :initialLikes="card.likes" :initiallyLiked="card.liked"></LikeButton>
+      <FavoriteButton :recipeId="card.id" :initiallyFavorited="isFavorite" @updateFavorite="updateFavorite"></FavoriteButton>
+
+      
+      <!-- <button @click="addToFavorites(card.id)" class="btn btn-outline-primary" :class="{ 'btn-success': card.isFavorite }">
+        ⭐ {{ card.isFavorite ? 'Added to Favorites' : 'Add to Favorites' }}
+      </button> -->
     </div>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
-      </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-      </ul>
-    </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
+import LikeButton from '@/components/LikeButton.vue';
+import FavoriteButton from '@/components/FavoriteButton.vue';
+
 export default {
-  mounted() {
-    this.axios.get(this.recipe.image).then((i) => {
-      this.image_load = true;
-    });
-  },
-  data() {
-    return {
-      image_load: false
-    };
+  name: 'RecipePreview',
+  components: {
+    LikeButton,
+    FavoriteButton
   },
   props: {
-    recipe: {
+    card: {
       type: Object,
       required: true
     }
-
-    // id: {
-    //   type: Number,
-    //   required: true
-    // },
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // readyInMinutes: {
-    //   type: Number,
-    //   required: true
-    // },
-    // image: {
-    //   type: String,
-    //   required: true
-    // },
-    // aggregateLikes: {
-    //   type: Number,
-    //   required: false,
-    //   default() {
-    //     return undefined;
-    //   }
-    // }
+  },
+  methods: {
+    navigateToRecipe(recipeId) {
+      this.card.viewed = true;
+      localStorage.setItem(`viewed_${recipeId}`, true);
+      this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
+    },
+    updateFavorite(recipeId, isFavorite) {
+      localStorage.setItem(`favorite_${recipeId}`, isFavorite);
+    }
   }
-};
+}
 </script>
 
 <style scoped>
-.recipe-preview {
-  display: inline-block;
-  width: 90%;
-  height: 100%;
-  position: relative;
-  margin: 10px 10px;
+.card img {
+  max-width: 100%;
+  max-height: 100%;
 }
-.recipe-preview > .recipe-body {
-  width: 100%;
-  height: 200px;
-  position: relative;
+.card {
+  flex: 1 0 calc(33.33% - 1em);
+  margin: 0 0.5em;
+  box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+  border: none;
+  border-radius: 0;
 }
-
-.recipe-preview .recipe-body .recipe-image {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-  display: block;
-  width: 98%;
-  height: auto;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
+.clickable-image {
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-
-.recipe-preview .recipe-footer {
-  width: 100%;
-  height: 50%;
-  overflow: hidden;
-}
-
-.recipe-preview .recipe-footer .recipe-title {
-  padding: 10px 10px;
-  width: 100%;
-  font-size: 12pt;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-}
-
-.recipe-preview .recipe-footer ul.recipe-overview {
-  padding: 5px 10px;
-  width: 100%;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -o-box-flex: 1;
-  box-flex: 1;
-  -webkit-flex: 1 auto;
-  -ms-flex: 1 auto;
-  flex: 1 auto;
-  table-layout: fixed;
-  margin-bottom: 0px;
-}
-
-.recipe-preview .recipe-footer ul.recipe-overview li {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -o-box-flex: 1;
-  -ms-box-flex: 1;
-  box-flex: 1;
-  -webkit-flex-grow: 1;
-  flex-grow: 1;
-  width: 90px;
-  display: table-cell;
-  text-align: center;
+.clickable-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 </style>

@@ -3,19 +3,27 @@
     <div id="nav">
       <div class="nav-links"> 
         <router-link :to="{ name: 'main' }">All Recipes</router-link>
-        <router-link :to="{ name: 'search' }">Search</router-link>
-        <router-link :to="{ name: 'about' }">About</router-link>
+        <router-link :to="{ name: 'about' }">About</router-link>        
+        
       </div>
-
-        <span v-if="!$root.store.username">
-          Hello Guest
-          <router-link :to="{ name: 'register' }">Register</router-link>
-          <router-link :to="{ name: 'login' }" class="login">Login</router-link>
+      <b-nav-form>
+          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+          <b-button size="sm" class="my-2 my-sm-0" type="submit" >Search</b-button>
+      </b-nav-form>
+      
+        <span v-if="!$root.store.username" style="color: white;">
+          Hello Guest !
+          <router-link :to="{ name: 'register' }" class="register">
+            <b-button pill variant="outline-secondary" style="font-size: 1.25rem; padding: 10px 20px;">Register</b-button>
+          </router-link>
+          <router-link :to="{ name: 'login' }" class="login">
+            <b-button pill variant="outline-secondary" style="font-size: 1.25rem; padding: 10px 20px;">Login</b-button>
+          </router-link>
         </span>
         <span v-else style="color: gray; align-items: center;">
-          <router-link :to="{ name: 'newRecipe' }" class="create-new-link">Create New Recipe</router-link>
+          <router-link :to="{ name: 'newRecipe' }" class="create-new-link" style="font-size: 1.25rem; padding: 10px 0px;">Create New Recipe</router-link>
           <div class="dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Personal Area</a>
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" style="font-size: 1.25rem; padding: 10px 0px;">Personal Area</a>
 
             <div class="dropdown-content">
               <router-link :to="{ name: 'favoriteRecipes' }">My favorite recipes</router-link>
@@ -23,10 +31,8 @@
               <router-link :to="{ name: 'familyRecipes' }">My family recipes</router-link>
             </div>
           </div>
-          Hello {{ $root.store.username }}
-          <button @click="Logout" class="logout"> 
-            <a class="nav-link active" aria-current="page" href="#"> Logout</a>
-          </button>
+          Hello {{ $root.store.username }}  !   
+          <b-button variant="outline-secondary" style="font-size: 1.20rem; padding: 10px 20px;" @click="Logout">Logout</b-button>
         </span>
     </div>
     <router-view />
@@ -34,8 +40,12 @@
 </template>
 
 <script>
+import MainPage from './pages/MainPage.vue'
 export default {
   name: "App",
+  components: {
+    MainPage
+  },
   methods: {
     Logout() {
       this.$root.store.logout();
@@ -44,6 +54,9 @@ export default {
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
+    },
+    navigateToSearch() {
+      this.$router.push({ name: 'search', query: { q: this.searchQuery } });
     }
   }
 };
@@ -73,26 +86,26 @@ export default {
   justify-content: space-between;
   width: 100%;
   box-sizing: border-box;
-  // font-weight: bold;
+  backdrop-filter: blur(50px) brightness(90%);
 }
 
 #nav a{
   color: white;
-  margin: 0 25px
+  margin: 0 30px;
+  font-size: 1.80rem; 
+
 }
 
 .nav-links router-link {
-  padding: 5px; /* Adjust the padding around each navigation link */
+  padding: 5px; 
+  align-items: center;
 }
 
-.logout {
-  background-color: rgb(126, 128, 123);
-  border-radius: 100px;
+
+.custom-button .btn {
+  font-size: 1.80rem; /* Increase font size */
 }
 
-.login {
-  background-color: rgb(126, 128, 123);
-}
 
 .dropdown {
   display: inline-block;
@@ -119,6 +132,8 @@ export default {
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  font-size: 1.25rem;
+  padding: 10px 20px;
 }
 
 .dropdown-content a {
@@ -132,6 +147,7 @@ export default {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
 
 
 </style>
