@@ -14,7 +14,6 @@
 </template>
 
 <script>
-// import RecipePreview from "./RecipePreview.vue";
 import RecipeCarousel from "./RecipeCarousel.vue"
 import { mockGetRecipesPreview } from "../services/recipes.js";
 export default {
@@ -43,8 +42,9 @@ export default {
         //   this.$root.store.server_domain + "/recipes/random",
         // );
 
-        const amountToFetch = 1; // Set this to how many recipes you want to fetch
+        const amountToFetch = 1; // 1 row of recipes
         const response = mockGetRecipesPreview(amountToFetch);
+        this.recipes = response.data.recipes;
 
 
         console.log(response);

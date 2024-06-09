@@ -1,6 +1,6 @@
 <template>
     <div>
-      <button @click="toggleLike" class="btn btn-outline-primary">
+      <button @click="toggleLike" class="btn btn-outline-primary"  :class="{ 'liked': liked }">
         ❤️ {{ liked ? 'Unlike' : 'Like' }} {{ likes }}
       </button>
     </div>
@@ -63,10 +63,15 @@ export default {
 }
 
 .like-icon.liked {
-  color: red; /* Change this to your preferred color for liked state */
+  color: red; 
 }
 
 .like-icon i {
   margin-right: 5px;
+}
+
+.liked {
+  background-color: #1d612d;
+  color: white;
 }
 </style>

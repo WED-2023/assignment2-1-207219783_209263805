@@ -14,7 +14,7 @@
       },
       initiallyFavorited: {
         type: Boolean,
-        default: false
+        default: true
       }
     },
     data() {
@@ -25,16 +25,23 @@
     methods: {
       toggleFavorite() {
         this.isFavorite = !this.isFavorite;
+        localStorage.setItem(`favorite_${this.recipeId}`, JSON.stringify(this.isFavorite));
         this.$emit('updateFavorite', this.recipeId, this.isFavorite);
       }
+    },
+    created() {
+    const storedFavorite = localStorage.getItem(`favorite_${this.recipeId}`);
+    if (storedFavorite !== null) {
+      this.isFavorite = JSON.parse(storedFavorite);
     }
+  }
   };
   </script>
   
   <style scoped>
   .btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: #1d612d;
+    color: white;
   }
   </style>
   

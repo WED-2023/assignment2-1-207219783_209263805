@@ -24,9 +24,12 @@
         <ion-icon name="lock-closed-outline"></ion-icon>
 
         <input
-          type="password"
-          :state="validateState('password')" required>
-          <label>Password</label>
+        id="Password"
+        v-model="$v.form.password.$model"
+        type="password"
+        :state="validateState('password')"
+        required>
+        <label>Password</label>
       </div>
       
 
