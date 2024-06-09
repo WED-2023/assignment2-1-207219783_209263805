@@ -24,17 +24,17 @@
         <ion-icon name="lock-closed-outline"></ion-icon>
 
         <input
-        id="Password"
-        v-model="$v.form.password.$model"
-        type="password"
-        :state="validateState('password')"
-        required>
-        <label>Password</label>
+    id="Password"
+    v-model="$v.form.password.$model"
+    type="password"
+    :state="validateState('password')"
+    required>
+          <label>Password</label>
       </div>
       
 
 
-      <button type="submit">Login</button>
+      <button type="submit" >Login</button>
 
       <div class="mt-2">
         Do not have an account yet?
@@ -137,7 +137,7 @@ export default {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 .title {
-  color: black;
+  // color: black;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 section {
@@ -146,11 +146,11 @@ section {
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background-image: url("../assets/backVue.jpg");
-  background-size: cover ;
-  background-position: center;
-  background-position: center;
-  background-size: cover;
+  // // background-image: url("../assets/backVue.jpg");
+  // background-size: cover ;
+  // background-position: center;
+  // background-position: center;
+  // background-size: cover;
 
 }
 
