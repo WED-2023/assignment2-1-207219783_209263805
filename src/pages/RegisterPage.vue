@@ -181,7 +181,6 @@ section {
   width: 100%;
   
 }
-
 /* Container and Form Styling */
 .form-box {
   position: relative;

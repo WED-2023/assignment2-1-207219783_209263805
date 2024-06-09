@@ -6,9 +6,11 @@
         <router-link :to="{ name: 'about' }">About</router-link>        
         
       </div>
-      <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit" >Search</b-button>
+      <b-nav-form >
+        <b-form-input v-model="searchQuery" size="sm" placeholder="Search"></b-form-input>
+        <router-link :to="{ name: 'search' }">
+          <b-button size="sm" class="my-2 my-sm-0" type="submit" @click="navigateToSearch">Search</b-button>
+        </router-link> 
       </b-nav-form>
       
         <span v-if="!$root.store.username" style="color: white;">
@@ -20,11 +22,15 @@
             <b-button pill variant="outline-secondary" style="font-size: 1.25rem; padding: 10px 20px;">Login</b-button>
           </router-link>
         </span>
+
         <span v-else style="color: gray; align-items: center;">
+          <!-- <a href="#" class="btn btn-primary" @click.prevent="toggleModal" style="font-size: 1.25rem; padding: 5px 0px;">
+            Create New Recipe
+          </a> -->
           <router-link :to="{ name: 'newRecipe' }" class="create-new-link" style="font-size: 1.25rem; padding: 10px 0px;">Create New Recipe</router-link>
+
           <div class="dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" style="font-size: 1.25rem; padding: 10px 0px;">Personal Area</a>
-
             <div class="dropdown-content">
               <router-link :to="{ name: 'favoriteRecipes' }">My favorite recipes</router-link>
               <router-link :to="{ name: 'myRecipes' }">My recipes</router-link>
@@ -41,22 +47,30 @@
 
 <script>
 import MainPage from './pages/MainPage.vue'
+import Modal from './components/Modal.vue'
+
 export default {
   name: "App",
   components: {
-    MainPage
+    MainPage,
+    Modal
+  },
+  data() {
+    return {
+      searchQuery: ''
+    };
   },
   methods: {
     Logout() {
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
-
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
     },
     navigateToSearch() {
       this.$router.push({ name: 'search', query: { q: this.searchQuery } });
+      this.searchQuery = '';
     }
   }
 };
@@ -147,7 +161,5 @@ export default {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
-
 
 </style>
