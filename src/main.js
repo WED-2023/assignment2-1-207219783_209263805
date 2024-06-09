@@ -9,7 +9,6 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
 });
-
 import Vuelidate from "vuelidate";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
