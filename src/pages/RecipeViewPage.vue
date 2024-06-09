@@ -1,18 +1,19 @@
 <template>
-  <div class="container">
-    <div v-if="recipe">
-      <div class="recipe-header mt-3 mb-4">
-        <h1>{{ recipe.title }}</h1>
-        <img :src="recipe.image" class="center" />
+  <div class="container d-flex justify-content-center">
+    <div v-if="recipe" class="card">
+      <div class="card-header recipe-header text-center">
+        <h1 class="card-title">{{ recipe.title }}</h1>
       </div>
-      <div class="recipe-body">
+      
+      <div class="card-body recipe-body">
+        <img :src="recipe.image" class="center" />
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
-              <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              <div><b>Ready in {{ recipe.readyInMinutes }} minutes ⏱️</b></div>
+              <div><b>Likes: {{ recipe.aggregateLikes }} likes ❤️</b></div>
             </div>
-            Ingredients:
+            <b>Ingredients:</b>
             <ul>
               <li
                 v-for="(r, index) in recipe.extendedIngredients"
@@ -23,7 +24,7 @@
             </ul>
           </div>
           <div class="wrapped">
-            Instructions:
+            <b>Instructions:</b>
             <ol>
               <li v-for="s in recipe._instructions" :key="s.number">
                 {{ s.step }}
@@ -31,6 +32,7 @@
             </ol>
           </div>
         </div>
+        <b-button variant="primary" :to="{ name: 'main' }">Back to Home Page</b-button>
       </div>
       <!-- <pre>
       {{ $route.params }}
@@ -38,12 +40,14 @@
     </pre
       > -->
     </div>
+
   </div>
 </template>
 
 <script>
 import { mockGetRecipeFullDetails } from "../services/recipes.js";
 export default {
+  name: 'RecipeViewPage',
   data() {
     return {
       recipe: null
@@ -51,26 +55,30 @@ export default {
   },
   async created() {
     try {
-      let response;
+      // let response;
       // response = this.$route.params.response;
-
-      try {
-        // response = await this.axios.get(
-        //   this.$root.store.server_domain + "/recipes/" + this.$route.params.recipeId,
-        //   {
-        //     withCredentials: true
-        //   }
-        // );
-
-        response = mockGetRecipeFullDetails(this.$route.params.recipeId);
-
-        // console.log("response.status", response.status);
-        if (response.status !== 200) this.$router.replace("/NotFound");
-      } catch (error) {
-        console.log("error.response.status", error.response.status);
+      let  response = mockGetRecipeFullDetails(this.$route.params.recipeId);
+      if (!response.data.recipe) {
         this.$router.replace("/NotFound");
         return;
       }
+      // try {
+      //   response = await this.axios.get(
+      //     this.$root.store.server_domain + "/recipes/" + this.$route.params.recipeId,
+      //     {
+      //       withCredentials: true
+      //     }
+      //   );
+
+      //   response = mockGetRecipeFullDetails(this.$route.params.recipeId);
+
+      //   // console.log("response.status", response.status);
+      //   if (response.status !== 200) this.$router.replace("/NotFound");
+      // } catch (error) {
+      //   console.log("error.response.status", error.response.status);
+      //   this.$router.replace("/NotFound");
+      //   return;
+      // }
 
       let {
         analyzedInstructions,
@@ -103,14 +111,44 @@ export default {
       this.recipe = _recipe;
     } catch (error) {
       console.log(error);
+      this.$router.replace("/NotFound");
     }
   }
 };
 </script>
 
 <style scoped>
+.card {
+  margin-top: 130px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 20px;
+  width: 70%;
+}
+/* .card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 15px;
+} */
+.card-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 15px;
+}
+.card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  height: auto;
+}
+/* .card-body {
+  padding: 15px;
+} */
 .wrapper {
   display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
 }
 .wrapped {
   width: 50%;
@@ -119,7 +157,7 @@ export default {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 40%;
 }
 /* .recipe-header{
 

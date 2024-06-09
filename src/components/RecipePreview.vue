@@ -1,22 +1,19 @@
 <template>
   <div class="card">
-    <img :src="card.image" class="card-img-top clickable-image" :alt="card.title" @click="navigateToRecipe(card.id)">
+    <!-- <img :src="`${require('@/assets/pizza.jpg')}`"> -->
+    <img :src="card.image" class="card-img-top clickable-image" @click="navigateToRecipe(card.id)">
     <div class="card-body">
       <h5 class="card-title" style="font-weight: bold;">{{ card.title }}</h5>
-      <p class="card-text">{{ card.text }}</p>
-      <p class="card-text"><small class="text-muted">⏱️ Prep time: {{ card.prepTime }}</small></p>
-      <p class="card-text"><small class="text-muted">Likes: {{ card.likes }}</small></p>
-      <p v-if="card.isVegan" class="badge badge-success">🌿 Vegan</p>
-      <p v-if="card.isVegetarian" class="badge badge-warning">🥕 Vegetarian</p>
-      <p v-if="card.isGlutenFree" class="badge badge-info">🚫 Gluten-Free</p>
+      <!-- <p class="card-text">{{ card.text }}</p> -->
+      <p class="card-text"><small class="text-muted">⏱️ Prep time: {{ card.readyInMinutes }}</small></p>
+      <p v-if="card.vegan" class="badge badge-success">🌿 Vegan</p>
+      <p v-if="card.vegetarian" class="badge badge-warning">🥕 Vegetarian</p>
+      <p v-if="card.glutenFree" class="badge badge-info">🚫 Gluten-Free</p>
       <p v-if="card.viewed" class="badge badge-secondary">👁️ Viewed</p>
-      <LikeButton :recipeId="card.id" :initialLikes="card.likes" :initiallyLiked="card.liked"></LikeButton>
-      <FavoriteButton :recipeId="card.id" :initiallyFavorited="isFavorite" @updateFavorite="updateFavorite"></FavoriteButton>
-
-      
-      <!-- <button @click="addToFavorites(card.id)" class="btn btn-outline-primary" :class="{ 'btn-success': card.isFavorite }">
-        ⭐ {{ card.isFavorite ? 'Added to Favorites' : 'Add to Favorites' }}
-      </button> -->
+    </div>
+    <div class="card-footer bg-white">
+      <LikeButton :recipeId="card.id" :initialLikes="card.aggregateLikes" :initiallyLiked="card.aggregateLikes"></LikeButton> <br>
+      <FavoriteButton :recipeId="card.id" :initiallyFavorited="isFavorite(card.recipeId)"></FavoriteButton>
     </div>
   </div>
 </template>
@@ -43,9 +40,15 @@ export default {
       localStorage.setItem(`viewed_${recipeId}`, true);
       this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
     },
+    isFavorite(recipeId) {
+      // Example: Check if the recipe is favorited in localStorage
+      return JSON.parse(localStorage.getItem(`favorite_${recipeId}`)) || false;
+    },
+
     updateFavorite(recipeId, isFavorite) {
       localStorage.setItem(`favorite_${recipeId}`, isFavorite);
-    }
+    },
+    
   }
 }
 </script>
