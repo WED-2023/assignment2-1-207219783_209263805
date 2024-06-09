@@ -13,7 +13,7 @@
     </div>
     <div class="card-footer bg-white">
       <LikeButton :recipeId="card.id" :initialLikes="card.aggregateLikes" :initiallyLiked="card.aggregateLikes"></LikeButton> <br>
-      <FavoriteButton :recipeId="card.id" :initiallyFavorited="isFavorite"></FavoriteButton>
+      <FavoriteButton :recipeId="card.id" :initiallyFavorited="isFavorite(card.recipeId)"></FavoriteButton>
     </div>
   </div>
 </template>
@@ -40,7 +40,10 @@ export default {
       localStorage.setItem(`viewed_${recipeId}`, true);
       this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
     },
-
+    isFavorite(recipeId) {
+      // Example: Check if the recipe is favorited in localStorage
+      return JSON.parse(localStorage.getItem(`favorite_${recipeId}`)) || false;
+    },
 
     updateFavorite(recipeId, isFavorite) {
       localStorage.setItem(`favorite_${recipeId}`, isFavorite);

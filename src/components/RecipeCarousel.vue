@@ -19,12 +19,8 @@
   </template>
   
   <script>
-  import pastaImage from '@/assets/pasta.jpg';
-  import ravioliImage from '@/assets/ravioli.jpg';
-  import pizzaImage from '@/assets/pizza.jpg';
   import RecipePreview from '@/components/RecipePreview.vue';
   import { mockGetRecipesPreview } from "../services/recipes.js";
-
   
   export default {
     name: 'RecipeCarousel',
@@ -32,107 +28,13 @@
       RecipePreview
     },
     props: {
-      recipes: {
-        type: Array,
-        required: true
-      }
+      // recipes: {
+      //   type: Array,
+      //   required: true
+      // }
     },
     data() {
       return {
-        // carouselItems: [
-        //   {
-        //     cards: [
-        //       {
-        //         id: 1,
-        //         image: pastaImage,
-        //         title: 'pasta',
-        //         text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-        //         prepTime: '30 mins',
-        //         likes: 100,
-        //         isVegan: true,
-        //         isVegetarian: true,
-        //         isGlutenFree: false,
-        //         viewed: false,
-        //         isFavorite: false,
-        //         liked: false
-        //       },
-        //       {
-        //         id: 1001,
-        //         image: ravioliImage,
-        //         title: 'ravioli',
-        //         text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-        //         prepTime: '45 mins',
-        //         likes: 200,
-        //         isVegan: false,
-        //         isVegetarian: true,
-        //         isGlutenFree: true,
-        //         viewed: false,
-        //         isFavorite: false,
-        //         liked: false
-        //       },
-        //       {
-        //         id: 3,
-        //         image: pizzaImage,
-        //         title: 'pizza',
-        //         text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-        //         prepTime: '20 mins',
-        //         likes: 150,
-        //         isVegan: false,
-        //         isVegetarian: false,
-        //         isGlutenFree: false,
-        //         viewed: false,
-        //         isFavorite: false,
-        //         liked: false
-        //       },
-        //     ]
-        //   },
-        //   {
-        //     cards: [
-        //       {
-        //         id: 4,
-        //         image: pastaImage,
-        //         title: 'Salad',
-        //         text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-        //         prepTime: '15 mins',
-        //         likes: 120,
-        //         isVegan: true,
-        //         isVegetarian: true,
-        //         isGlutenFree: true,
-        //         viewed: false,
-        //         isFavorite: false,
-        //         liked: false
-        //       },
-        //       {
-        //         id: 5,
-        //         image: pizzaImage,
-        //         title: 'Soup',
-        //         text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-        //         prepTime: '40 mins',
-        //         likes: 180,
-        //         isVegan: true,
-        //         isVegetarian: true,
-        //         isGlutenFree: true,
-        //         viewed: false,
-        //         isFavorite: false,
-        //         liked: false
-        //       },
-        //       {
-        //         id: 6,
-        //         image: pizzaImage,
-        //         title: 'Soup',
-        //         text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-        //         prepTime: '40 mins',
-        //         likes: 180,
-        //         isVegan: true,
-        //         isVegetarian: true,
-        //         isGlutenFree: true,
-        //         viewed: false,
-        //         isFavorite: false,
-        //         liked: false
-        //       }
-        //     ]
-        //   }
-        // ]
         carouselItems: []
       }
     },

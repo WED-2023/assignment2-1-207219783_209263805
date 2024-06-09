@@ -119,7 +119,7 @@ export default {
 
 <style scoped>
 .card {
-  margin-top: 0px;
+  margin-top: 130px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 20px;

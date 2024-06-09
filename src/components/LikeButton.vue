@@ -19,7 +19,7 @@ export default {
       required: true
     },
     initiallyLiked: {
-      type: Boolean,
+      type: Number,
       required: true
     }
   },
