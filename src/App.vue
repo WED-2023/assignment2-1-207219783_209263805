@@ -24,10 +24,11 @@
         </span>
 
         <span v-else style="color: gray; align-items: center;">
-          <!-- <a href="#" class="btn btn-primary" @click.prevent="toggleModal" style="font-size: 1.25rem; padding: 5px 0px;">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
             Create New Recipe
-          </a> -->
-          <router-link :to="{ name: 'newRecipe' }" class="create-new-link" style="font-size: 1.25rem; padding: 10px 0px;">Create New Recipe</router-link>
+          </button>
+
+          
 
           <div class="dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" style="font-size: 1.25rem; padding: 10px 0px;">Personal Area</a>
@@ -42,12 +43,14 @@
         </span>
     </div>
     <router-view />
+    <Modal />
   </div>
 </template>
 
 <script>
 import MainPage from './pages/MainPage.vue'
 import Modal from './components/Modal.vue'
+
 
 export default {
   name: "App",
@@ -57,7 +60,7 @@ export default {
   },
   data() {
     return {
-      searchQuery: ''
+      searchQuery: '',
     };
   },
   methods: {
@@ -71,7 +74,10 @@ export default {
     navigateToSearch() {
       this.$router.push({ name: 'search', query: { q: this.searchQuery } });
       this.searchQuery = '';
-    }
+    },
+    // openModal() {
+    //   // this.$refs.recipeModal.show();
+    // }
   }
 };
 </script>

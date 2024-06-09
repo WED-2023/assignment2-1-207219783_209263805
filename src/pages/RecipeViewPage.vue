@@ -114,6 +114,11 @@ export default {
       this.$router.replace("/NotFound");
     }
   }
+  // methods: {
+  //   openModal(recipe) {
+  //     this.$emit('open-modal', recipe);
+  //   }
+  // }
 };
 </script>
 

@@ -5,7 +5,6 @@
     <router-link v-if="!$root.store.username" to="/login">
       <b-button pill variant="outline-secondary" style="color: white;">You need to Login to view the last viewed recipes</b-button>
     </router-link>
-    <!-- {{ !$root.store.username }}  -->
     <RecipePreviewList
       title="Last Viewed Recipes"
       style="color: white"

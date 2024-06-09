@@ -24,6 +24,7 @@ import {
   FormSelectPlugin,
   AlertPlugin,
   ToastPlugin,
+  BootstrapVue,
   LayoutPlugin,
 } from "bootstrap-vue";
 [
@@ -36,6 +37,7 @@ import {
   FormSelectPlugin,
   AlertPlugin,
   ToastPlugin,
+  BootstrapVue,
   LayoutPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
