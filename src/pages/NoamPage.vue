@@ -49,4 +49,6 @@ export default {
   cursor: pointer;
   transition: top 0.3s ease, left 0.3s ease; /* Smooth transition for movement */
 }
+
+
 </style>

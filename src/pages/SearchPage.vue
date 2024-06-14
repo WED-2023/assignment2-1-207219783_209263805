@@ -15,8 +15,8 @@
     <!-- Sorting Options -->
     <div class="sorting-options">
       Sort by:
-      <button @click="sortKey = 'readyInMinutes'">Preparation Time</button>
-      <button @click="sortKey = 'popularity'">Popularity</button>
+      <button class="filter-button" @click="sortKey = 'readyInMinutes'">Preparation Time</button>
+      <button  class="filter-button" @click="sortKey = 'popularity'">Popularity</button>
     </div>
 
     <div v-if="recipes.length" class="recipes-grid">
@@ -89,16 +89,88 @@ export default {
   }
 }
 </script>
-<style scoped>
-/* Container and other styles... */
 
+
+
+<!-- 
+<style scoped>
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px;
+  text-align: center;
+  /* max-height: calc(100vh - 140px);  */
+  display: flex;
+  flex-direction: column;
+  /* position: relative;  */
+  z-index: 1; /* Bring container to front */
+}
+
+.search-form {
+  display: flex;
+  max-height: calc(100vh - 140px); 
+
+  position: relative; /* Ensure container is positioned contextually */
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  z-index: 1000; /* Ensure form stays on top */
+}
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  perspective: 1000px; /* Needed for 3D transformations */
+}
+
+.recipe-card {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  transform: translateZ(0); /* GPU acceleration for smoother animations */
+  transition: transform 0.3s ease-out;
+}
+
+.recipe-card:hover {
+  transform: scale(1.05) rotateZ(-3deg); /* Slight zoom and 3D rotation effect */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.recipe-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.recipe-image:hover {
+  transform: scale(1.1); /* Slightly enlarge the image on hover */
+}
+
+.recipe-info {
+  padding: 10px;
+  text-align: left;
+  transition: background-color 0.3s linear;
+}
+
+.recipe-info:hover {
+  background-color: #eaeaea; /* Light background transition on hover */
+}
+</style> -->
+
+<style scoped>
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
-  position: relative; /* Ensure container is positioned contextually */
-  z-index: 1; /* Bring container to front */
+  padding: 100px;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
 .search-form {
@@ -106,7 +178,101 @@ export default {
   justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
-  z-index: 1000; /* Ensure form stays on top */
+  max-height: calc(100vh - 140px); 
+
+  position: relative; /* Ensure container is positioned contextually */
+}
+
+.search-input {
+  width: 60%;
+  padding: 8px 15px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Sorting Options Styling */
+.sorting-options {
+  margin: 20px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.filter-button {
+  padding: 8px 15px;
+  margin: 0 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  font-weight: bold;
+}
+
+.filter-button:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-button:active {
+  background-color: #53488d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.result-count {
+  width: 100px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.search-button {
+  padding: 8px 20px;
+  background-color: #3688f4; /* Red color matching the category icons */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  
+}
+
+.search-button:hover {
+  background-color: #315dad;
+}
+
+/* Category tabs styling */
+.category-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.category-tab {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.category-tab:hover {
+  background-color: #e0e0e0;
+}
+
+
+
+
+/* Cards for results */
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
 }
 .recipes-grid {
   display: grid;

@@ -63,7 +63,7 @@ export default {
   margin: 0 0.5em;
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   border: none;
-  border-radius: 0;
+  border-radius: 70px;
 }
 .clickable-image {
   cursor: pointer;
