@@ -28,11 +28,11 @@
             </p>
 
         <h1 class="display-8">Responsibility Areas:</h1>
-            <p><b>Tomer -</b> code Structure and Implementation</p>
-            <p><b>Noam -</b> Design and fixing bugs</p>
+            <p><b>Tomer -</b> Full Stack</p>
+            <p><b>Noam -</b> Full Stack</p>
   
         <b-button variant="primary" :to="{ name: 'main' }">Back to Home Page</b-button>
-        <NoamPage/>
+
       </b-jumbotron>
       
     </div>
@@ -48,32 +48,54 @@ import NoamPage from './NoamPage.vue';
     }
   }
   </script>
-  
   <style scoped>
   .custom-jumbotron {
-    background-color: #f8f9fa; /* Set your desired background color */
-    padding: 40px; /* Adjust padding as needed */
-    border-radius: 10px; /* Add border radius for rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-    
+      background-color: #f8f9fa; /* Set your desired background color */
+      padding: 40px; /* Adjust padding to provide internal spacing */
+      border-radius: 10px; /* Add border radius for rounded corners */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+      margin-top: 100px; /* Adjusted margin to avoid overlap with the navbar */
+      margin-bottom: 40px; /* Add margin at the bottom */
+      overflow-y: auto; /* Enable vertical scrolling if content is too tall */
+      position: relative; 
+      max-height: calc(100vh - 140px); 
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* Start aligning items from the top */
+      align-items: center; /* Center items horizontally */
   }
   
-  .custom-jumbotron .lead {
-    font-size: 20px; /* Adjust lead font size */
-    color: #495057; /* Adjust lead text color */
+  /* Custom scrollbar styles */
+  .custom-jumbotron::-webkit-scrollbar {
+      width: 10px; /* Adjust width for better usability */
+  }
+  
+  .custom-jumbotron::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+  }
+  
+  .custom-jumbotron::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+  }
+  
+  .custom-jumbotron::-webkit-scrollbar-thumb:hover {
+      background: #555;
+  }
+  
+  .custom-jumbotron h1, .custom-jumbotron p, .custom-jumbotron .lead {
+      text-align: center; /* Center align text for better readability */
   }
   
   .custom-jumbotron hr {
-    border-top: 2px solid #131313; /* Customize HR color */
-  }
-  
-  .custom-jumbotron p {
-    font-size: 18px; /* Adjust paragraph font size */
-    color: #343a40; /* Adjust paragraph text color */
+      margin-top: 20px;
+      margin-bottom: 20px;
   }
   
   .custom-jumbotron .btn {
-    margin-right: 10px; /* Add margin between buttons */
+      margin-top: 20px;
+      padding: 10px 20px; /* Adequate padding for clickable area */
   }
   </style>
   
