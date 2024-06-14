@@ -32,13 +32,20 @@
             <p><b>Noam -</b> Design and fixing bugs</p>
   
         <b-button variant="primary" :to="{ name: 'main' }">Back to Home Page</b-button>
+        <NoamPage/>
       </b-jumbotron>
+      
     </div>
   </template>
   
   <script>
+import NoamPage from './NoamPage.vue';
+
   export default {
-    name: 'AboutPage'
+    name: 'AboutPage',
+    components: {
+      NoamPage,
+    }
   }
   </script>
   

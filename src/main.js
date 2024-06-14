@@ -14,6 +14,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+
 import {
   FormGroupPlugin,
   FormPlugin,
@@ -25,6 +27,7 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -37,6 +40,9 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  BootstrapVue,
+  IconsPlugin
+
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

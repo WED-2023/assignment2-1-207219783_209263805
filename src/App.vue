@@ -7,7 +7,6 @@
         
       </div>
       <b-nav-form >
-        <b-form-input v-model="searchQuery" size="sm" placeholder="Search"></b-form-input>
         <router-link :to="{ name: 'search' }">
           <b-button size="sm" class="my-2 my-sm-0" type="submit" @click="navigateToSearch">Search</b-button>
         </router-link> 
@@ -24,9 +23,7 @@
         </span>
 
         <span v-else style="color: gray; align-items: center;">
-          <!-- <a href="#" class="btn btn-primary" @click.prevent="toggleModal" style="font-size: 1.25rem; padding: 5px 0px;">
-            Create New Recipe
-          </a> -->
+         
           <router-link :to="{ name: 'newRecipe' }" class="create-new-link" style="font-size: 1.25rem; padding: 10px 0px;">Create New Recipe</router-link>
 
           <div class="dropdown">

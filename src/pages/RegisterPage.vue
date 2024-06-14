@@ -18,11 +18,12 @@
         </div>
 
         <div  class="inputbox">
+          
   <label style="color: white;" v-if="!form.country" for="country">Country</label> <!-- Only shows if no country is selected -->
   <div >
     <select id="country" v-model="form.country">
       <option disabled value="">Select a country</option>  <!-- Disabled option as placeholder -->
-      <option class="opt" v-for="country in countries" :value="country.value">{{ country.text }}</option>
+      <option v-for="country in countries" :value="country.value" >{{ country.text }}</option>
     </select>
   </div>
 </div>
@@ -42,7 +43,7 @@
         <!-- Confirm Password Input -->
         <div class="inputbox">
           <ion-icon name="lock-closed-outline"></ion-icon>
-          <input id="confirmedPassword" type="password" v-model="$v.form.confirmedPassword.$model" :state="validateState('confirmedPassword')" required>
+          <input id="confirmedPassword" @input="checkFields" type="password" v-model="$v.form.confirmedPassword.$model" :state="validateState('confirmedPassword')" required>
           <label>Confirm Password</label>
           <b-form-invalid-feedback :state="validateState('confirmedPassword')">
             <span v-if="!$v.form.confirmedPassword.required">Confirming the password is required.</span>
@@ -51,7 +52,13 @@
         </div>
         
         <button @mouseover="handleMouseOver" 
-        ref="registerButton"  class="button-reg" type="submit">Register</button>
+        ref="registerButton"  class="button-reg" type="submit">Register
+      </button>
+        
+        <button @mouseover="handleMouseOver" 
+        ref="button" class="but"  type="submit" :style="buttonStyle">Register
+      </button>
+
         <div class="mt-2">
           Already have an account?
           <router-link class="login-link" to="login"> Log in here</router-link>
@@ -62,7 +69,7 @@
 </template>
 
 
-``<script>
+<script>
 import countries from "../assets/countries";
 import {
   required,
@@ -86,6 +93,11 @@ export default {
         confirmedPassword: "",
         email: "",
         submitError: undefined
+      },
+      buttonStyle: {
+        position: 'absolute',
+        top: '100px', // Initial position
+        left: '100px' // Initial position
       },
       countries: [{ value: null, text: "", disabled: true }],
       errors: [],
@@ -123,9 +135,28 @@ export default {
       return $dirty ? !$error : null;
     },
     handleMouseOver() {
-        // Event handling code here
+      if (!this.allFieldsFilled) {
+        const newX = Math.random() * (300 - 50); // Container width - button width
+        const newY = Math.random() * (200 - 20); // Container height - button height
+        this.buttonStyle.top = `${newY}px`;
+        this.buttonStyle.left = `${newX}px`;
+      }
     },
-    
+    checkFields() {
+      // Check if all fields are filled
+      this.allFieldsFilled =  this.form.password;
+      if (this.allFieldsFilled) {
+        // Return button to its original position
+        this.buttonStyle.top = '100px';
+        this.buttonStyle.left = '100px';
+      }
+    },
+    computed: {
+    allFieldsFilled() {
+      return this.form.username && this.form.email && this.form.password;
+    }
+    },
+
     async Register() {
       try {
 
@@ -179,7 +210,10 @@ section {
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  
+}
+button {
+  padding: 10px 20px;
+  transition: top 0.3s ease, left 0.3s ease;
 }
 /* Container and Form Styling */
 .form-box {
@@ -303,6 +337,9 @@ button {
   color: black; /* Ensures dropdown options are black */
 }
 
+.opt{
+  color: black;
+}
 .button-reg {
   overflow: hidden; /* Prevents overflow of child elements */
   position: relative; /* Needed for absolute positioning of the ripple */
