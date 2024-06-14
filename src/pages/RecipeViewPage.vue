@@ -3,6 +3,7 @@
     <div v-if="recipe" class="card">
       <div class="card-header recipe-header text-center">
         <h1 class="card-title">{{ recipe.title }}</h1>
+         <b>Recipe ID : {{ recipe.id }}</b>
       </div>
       
       <div class="card-body recipe-body">
@@ -12,8 +13,11 @@
             <div class="mb-3">
               <div><b>Ready in {{ recipe.readyInMinutes }} minutes ⏱️</b></div>
               <div><b>Likes: {{ recipe.aggregateLikes }} likes ❤️</b></div>
+              <p v-if="recipe.vegan" class="badge badge-success">Vegan 🌿</p>
+              <p v-if="recipe.vegetarian" class="badge badge-warning">Vegetarian 🥕</p>
+              <p v-if="recipe.glutenFree" class="badge badge-info">Gluten-Free 🚫</p>
             </div>
-            <b>Ingredients:</b>
+            <b>Ingredients:  ({{ recipe.servings }} servings)</b>
             <ul>
               <li
                 v-for="(r, index) in recipe.extendedIngredients"
@@ -86,8 +90,13 @@ export default {
         extendedIngredients,
         aggregateLikes,
         readyInMinutes,
+        vegetarian,
+        vegan,
+        glutenFree,
+        servings,
         image,
-        title
+        title,
+        id
       } = response.data.recipe;
 
       let _instructions = analyzedInstructions
@@ -104,8 +113,13 @@ export default {
         extendedIngredients,
         aggregateLikes,
         readyInMinutes,
+        vegetarian,
+        vegan,
+        glutenFree,
+        servings,
         image,
-        title
+        title,
+        id
       };
 
       this.recipe = _recipe;
@@ -114,11 +128,6 @@ export default {
       this.$router.replace("/NotFound");
     }
   }
-  // methods: {
-  //   openModal(recipe) {
-  //     this.$emit('open-modal', recipe);
-  //   }
-  // }
 };
 </script>
 

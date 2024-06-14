@@ -24,9 +24,9 @@
         </span>
 
         <span v-else style="color: gray; align-items: center;">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          <b-button variant="outline-secondary" style="font-size: 1.20rem; padding: 8px 10px;" data-toggle="modal" data-target="#exampleModal">
             Create New Recipe
-          </button>
+          </b-button>
 
           
 
@@ -39,7 +39,7 @@
             </div>
           </div>
           Hello {{ $root.store.username }}  !   
-          <b-button variant="outline-secondary" style="font-size: 1.20rem; padding: 10px 20px;" @click="Logout">Logout</b-button>
+          <b-button variant="outline-secondary" style="font-size: 1.20rem; padding: 8px 10px;" @click="Logout">Logout</b-button>
         </span>
     </div>
     <router-view />

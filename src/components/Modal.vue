@@ -20,6 +20,12 @@
               <label for="recipient-readyInMinutes" class="col-form-label">Preparation Time (minutes):</label>
               <input type="number" class="form-control" id="recipient-readyInMinutes" v-model="recipeDetails.readyInMinutes" min="1" step="1" required>
 
+              <label for="recipient-Instructions" class="col-form-label">Instructions:</label>
+              <input type="text" class="form-control" id="recipient-Instructions" v-model="recipeDetails.Instructions">
+
+              <label for="recipient-servings" class="col-form-label">Amount of Servings:</label>
+              <input type="number" class="form-control" id="recipient-servings" v-model="recipeDetails.servings" min="1" step="1" required>
+
               <div class="check-group">
                 <label class="form-check-label">
                   <input type="checkbox" class="form-check-input" v-model="recipeDetails.vegetarian"> Vegetarian
@@ -57,6 +63,9 @@ export default {
         title: '',
         image: '',
         readyInMinutes: '',
+        aggregateLikes: 0,
+        instructions: '',
+        servings: '',
         vegetarian: false,
         vegan: false,
         glutenFree: false
@@ -65,7 +74,7 @@ export default {
   },
   methods: {
     saveChanges() {
-      if (!this.recipeDetails.title || !this.recipeDetails.image || !this.recipeDetails.readyInMinutes) {
+      if (!this.recipeDetails.title || !this.recipeDetails.image || !this.recipeDetails.readyInMinutes || !this.recipeDetails.servings) {
         alert("All fields must be filled out.");
         return;
       }
