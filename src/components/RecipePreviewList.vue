@@ -71,6 +71,7 @@ export default {
       background-color: rgba(239,247,246, 0.75); 
       border-radius:  12px; 
       border: 1px solid rgba(209, 213, 219, 0.18); 
+      padding: 20px;
       }
                 
 .title{

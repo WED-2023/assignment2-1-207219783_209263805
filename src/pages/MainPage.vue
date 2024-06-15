@@ -38,7 +38,7 @@
       <div class="right-column">
         <h2>Last Watched Recipes</h2>
         <div v-if="$root.store.username">
-          <RecipePreviewList title="Last Watched Recipes" class="LastWatchedRecipes" />
+          <RecipePreviewList class="LastWatchedRecipes" />
         </div>
         <div v-else>
           <router-link to="/login">
@@ -112,7 +112,7 @@ export default {
   padding: 10px 20px;
   text-decoration: none;
   color: white;
-  background-color: #f44336;
+  // background-color: #f44336;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -120,8 +120,13 @@ export default {
   margin-top: 20px;
 }
 
-.refresh-button:hover, .login-button:hover {
-  background-color: #c3372d;
+.refresh-button:hover {
+  transform: scale(1.2); /* Correctly applies scaling */
+  transition: transform 0.3s ease; /* Smoothly transitions the transform property */
+}
+.login-button:hover {
+  background-color: #8d0815;
+
 }
 
 .blur {

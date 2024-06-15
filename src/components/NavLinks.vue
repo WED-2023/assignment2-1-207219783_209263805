@@ -1,8 +1,8 @@
 <template>
     <div class="nav-links">
-      <router-link :to="{ name: 'main' }">All Recipes</router-link>
-      <router-link :to="{ name: 'about' }">About</router-link>
-      <router-link :to="{ name: 'search' }">Search</router-link>
+      <router-link :to="{ name: 'main' }"  active-class="active-link">All Recipes</router-link>
+      <router-link :to="{ name: 'about' }"  active-class="active-link">About</router-link>
+      <router-link :to="{ name: 'search' }"  active-class="active-link">Search</router-link>
 
     </div>
   </template>
@@ -18,18 +18,26 @@
   display: flex;
   align-items: center;
   gap: 30px;
+  color: black;
 }
 
-.nav-links router-link {
-  color: white;
+.nav-links a.router-link-active, 
+.nav-links a.router-link-exact-active, 
+.nav-links a.active-link {
+  font-weight: bold; /* Bold the active link */
+  transform: scale(1.2); /* Apply scale transformation */
+}
+
+.nav-links a {
   font-size: 1.25rem;
   padding: 5px 10px;
   text-decoration: none;
-  transition: color 0.3s;
+  color: black; /* Uniform black text for all links */
+  transition: color 0.3s, transform 0.3s ease; /* Apply transition to both color and transform */
 }
 
-.nav-links router-link:hover {
-  color: #f44336; /* Change color on hover */
-}
+// .router-link:hover {
+//   color: #f44336; /* Change color on hover */
+// }
   </style>
   
