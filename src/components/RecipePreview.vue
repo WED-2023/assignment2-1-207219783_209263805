@@ -41,13 +41,11 @@ export default {
       this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
     },
     isFavorite(recipeId) {
-      // Example: Check if the recipe is favorited in localStorage
       return JSON.parse(localStorage.getItem(`favorite_${recipeId}`)) || false;
     },
-
-    updateFavorite(recipeId, isFavorite) {
-      localStorage.setItem(`favorite_${recipeId}`, isFavorite);
-    },
+    // updateFavorite(recipeId, isFavorite) {
+    //   localStorage.setItem(`favorite_${recipeId}`, isFavorite);
+    // },
     
   }
 }

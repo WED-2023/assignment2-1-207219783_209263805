@@ -11,7 +11,7 @@
       :class="{
         RandomRecipes: true,
         blur: !$root.store.username,
-        center: true
+        center: true,
       }"
       disabled
     ></RecipePreviewList>

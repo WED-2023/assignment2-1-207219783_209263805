@@ -5,6 +5,7 @@
       <UserControls />
     </header>
     <router-view />
+    <Modal />
   </div>
 </template>
 

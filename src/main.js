@@ -26,6 +26,7 @@ import {
   FormSelectPlugin,
   AlertPlugin,
   ToastPlugin,
+  BootstrapVue,
   LayoutPlugin,
 
 } from "bootstrap-vue";
@@ -39,6 +40,7 @@ import {
   FormSelectPlugin,
   AlertPlugin,
   ToastPlugin,
+  BootstrapVue,
   LayoutPlugin,
   BootstrapVue,
   IconsPlugin
