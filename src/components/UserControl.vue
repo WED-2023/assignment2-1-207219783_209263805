@@ -9,7 +9,10 @@
       </router-link>
     </span>
     <span v-else class="user-logged-in">
-      <router-link :to="{ name: 'newRecipe' }" class="nav-button">Create New Recipe</router-link>
+      <!-- <router-link :to="{ name: 'newRecipe' }" class="nav-button">Create New Recipe</router-link> -->
+      <button class="nav-button" data-toggle="modal" data-target="#exampleModal">
+            Create New Recipe
+          </button>
       <div class="dropdown">
         <a class="dropdown-toggle" href="#" role="button">Personal Area</a>
         <div class="dropdown-content">
@@ -63,6 +66,7 @@ export default {
   color: black;
   // background-color: #f44336;
   border: none;
+  background-color: white;
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s ease;

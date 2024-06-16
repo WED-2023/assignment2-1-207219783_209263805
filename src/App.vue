@@ -12,12 +12,15 @@
 <script>
 import NavLinks from './components/NavLinks.vue'
 import UserControls from './components/UserControl.vue'
+import Modal from './components/Modal.vue'
+
 
 export default {
   name: "App",
   components: {
     NavLinks,
-    UserControls
+    UserControls,
+    Modal
   }
 };
 </script>
