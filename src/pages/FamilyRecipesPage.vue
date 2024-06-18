@@ -15,7 +15,7 @@
     </div>
 
 
-    <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="d-flex justify-content-center align-items-center">
       <div class="card" v-for="card in cards" :key="card.id"
         @mouseover="handleMouseover(card)"
         @Mouseleave="handleMouseleave(card)">
