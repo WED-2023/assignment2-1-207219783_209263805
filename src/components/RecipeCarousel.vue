@@ -76,5 +76,9 @@
     top: 50%;
     transform: translateY(-50%);
   }
+
+  .carousel {
+    z-index: 1; /* Adjust z-index as needed */
+  }
   </style>
   

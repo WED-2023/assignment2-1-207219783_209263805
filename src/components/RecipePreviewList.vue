@@ -1,6 +1,6 @@
 <template>
-  <b-container>
-    <h3>
+  <b-container class="card">
+    <h3 class="title">
       {{ title }}:
       <slot></slot>
     </h3>
@@ -63,5 +63,18 @@ export default {
 <style lang="scss" scoped>
 .container {
   min-height: 400px;
+}
+
+.card{
+      backdrop-filter: blur(14px) saturate(179%); 
+      -webkit-backdrop-filter: blur(14px) saturate(179%); 
+      background-color: rgba(239,247,246, 0.75); 
+      border-radius:  12px; 
+      border: 1px solid rgba(209, 213, 219, 0.18); 
+      padding: 20px;
+      }
+                
+.title{
+  color: azure;
 }
 </style>

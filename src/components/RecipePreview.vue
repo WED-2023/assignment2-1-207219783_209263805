@@ -41,13 +41,11 @@ export default {
       this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
     },
     isFavorite(recipeId) {
-      // Example: Check if the recipe is favorited in localStorage
       return JSON.parse(localStorage.getItem(`favorite_${recipeId}`)) || false;
     },
-
-    updateFavorite(recipeId, isFavorite) {
-      localStorage.setItem(`favorite_${recipeId}`, isFavorite);
-    },
+    // updateFavorite(recipeId, isFavorite) {
+    //   localStorage.setItem(`favorite_${recipeId}`, isFavorite);
+    // },
     
   }
 }
@@ -63,7 +61,7 @@ export default {
   margin: 0 0.5em;
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   border: none;
-  border-radius: 0;
+  border-radius: 70px;
 }
 .clickable-image {
   cursor: pointer;
@@ -72,5 +70,10 @@ export default {
 .clickable-image:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.card-footer{
+  /* display: flex;
+  flex-direction: row;
+  padding: 20px; */
 }
 </style>
