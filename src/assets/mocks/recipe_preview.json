@@ -42,5 +42,93 @@
         "vegan": true,
         "glutenFree": false,
         "summary": "Tomer meal!!!!!!!!!!"
+    },
+    {
+        "id": 22222,
+        "image": "https://img.spoonacular.com/recipes/22222-556x370.jpg",
+        "title": "Spicy Avocado Toast",
+        "readyInMinutes": 15,
+        "aggregateLikes": 300,
+        "vegetarian": true,
+        "vegan": false,
+        "glutenFree": false,
+        "summary": "A quick and nutritious snack perfect for breakfast or a midday meal."
+    },
+    {
+        "id": 33333,
+        "image": "https://img.spoonacular.com/recipes/33333-556x370.jpg",
+        "title": "Classic Tomato Soup",
+        "readyInMinutes": 30,
+        "aggregateLikes": 150,
+        "vegetarian": true,
+        "vegan": true,
+        "glutenFree": true,
+        "summary": "Warm and comforting, this soup is a great starter or a meal on its own."
+    },
+    {
+        "id": 44444,
+        "image": "https://img.spoonacular.com/recipes/44444-556x370.jpg",
+        "title": "Lemon Herb Chicken",
+        "readyInMinutes": 45,
+        "aggregateLikes": 425,
+        "vegetarian": false,
+        "vegan": false,
+        "glutenFree": true,
+        "summary": "Seasoned with fresh herbs and a squeeze of lemon, this chicken dish is both healthy and flavorful."
+    },
+    {
+        "id": 55555,
+        "image": "https://img.spoonacular.com/recipes/55555-556x370.jpg",
+        "title": "Chocolate Chip Pancakes",
+        "readyInMinutes": 20,
+        "aggregateLikes": 315,
+        "vegetarian": true,
+        "vegan": false,
+        "glutenFree": false,
+        "summary": "Fluffy pancakes loaded with chocolate chips, perfect for a Sunday brunch."
+    },
+    {
+        "id": 66666,
+        "image": "https://img.spoonacular.com/recipes/66666-556x370.jpg",
+        "title": "Garlic Butter Shrimp Pasta",
+        "readyInMinutes": 30,
+        "aggregateLikes": 280,
+        "vegetarian": false,
+        "vegan": false,
+        "glutenFree": false,
+        "summary": "A quick and easy pasta dish that uses simple ingredients like shrimp, garlic, butter, and parsley."
+    },
+    {
+        "id": 77777,
+        "image": "https://img.spoonacular.com/recipes/77777-556x370.jpg",
+        "title": "Vegetarian Chili",
+        "readyInMinutes": 55,
+        "aggregateLikes": 200,
+        "vegetarian": true,
+        "vegan": true,
+        "glutenFree": true,
+        "summary": "A hearty chili made with a variety of beans, vegetables, and spices."
+    },
+    {
+        "id": 88888,
+        "image": "https://img.spoonacular.com/recipes/88888-556x370.jpg",
+        "title": "Beef Stroganoff",
+        "readyInMinutes": 60,
+        "aggregateLikes": 175,
+        "vegetarian": false,
+        "vegan": false,
+        "glutenFree": false,
+        "summary": "Creamy and savory, this classic Russian dish uses pieces of beef cooked in a rich sour cream sauce."
+    },
+    {
+        "id": 99999,
+        "image": "https://img.spoonacular.com/recipes/99999-556x370.jpg",
+        "title": "Spinach and Feta Stuffed Chicken",
+        "readyInMinutes": 40,
+        "aggregateLikes": 250,
+        "vegetarian": false,
+        "vegan": false,
+        "glutenFree": true,
+        "summary": "Juicy chicken breasts stuffed with creamy feta cheese and spinach make this a delicious meal that's surprisingly easy to prepare."
     }
 ]
