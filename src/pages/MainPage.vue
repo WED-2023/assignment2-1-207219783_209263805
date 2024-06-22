@@ -1,26 +1,4 @@
-<!-- <template>
-  <div class="container">
-    <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" />
-    <router-link v-if="!$root.store.username" to="/login">
-      <b-button pill variant="outline-secondary" class="login-button">You need to Login to view the last viewed recipes</b-button>
-    </router-link>
-    <RecipePreviewList
-      title="Last Viewed Recipes"
-      style="color: white"
-      :class="{
-        RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true,
-      }"
-      disabled
-    ></RecipePreviewList>
-    <div
-      style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
-    >
-    </div>
-  </div> 
-</template> -->
+
 
 <template>
   <div class="main-container">
@@ -161,13 +139,10 @@ export default {
   color: #333; /* Default text color for the container */
 }
 
-.title {
-  font-size: clamp(3rem, 15vmin, 8rem);
-  font-family: sans-serif;
-  color: hsl(0 0% 98%);
-}
+
 h2{
   color: white;
+  font-size: 2rem;
 }
 
 .columns {
@@ -196,15 +171,17 @@ h2{
   text-decoration: none;
   color: white;
   // background-color: #f44336;
-  border: none;
+  // border: none;
+  background-color: darkgray;
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s;
   margin-top: 20px;
+
 }
 
 .refresh-button:hover {
-  transform: scale(1.2); /* Correctly applies scaling */
+  transform: scale(1.1); /* Correctly applies scaling */
   transition: transform 0.3s ease; /* Smoothly transitions the transform property */
 }
 .login-button:hover {
@@ -223,7 +200,7 @@ h2{
 }
 
 h1 {
-  font-size: clamp(3rem, 15vmin, 8rem);
+  font-size: clamp(3rem, 15vmin, 5rem);
   font-family: sans-serif;
   color: hsl(0 0% 98%);
 }

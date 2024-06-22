@@ -7,6 +7,7 @@
     </header>
     <router-view />
     <Modal />
+    
   </div>
 </template>
 
@@ -31,6 +32,8 @@ export default {
 // @import "@/scss/variables.scss"; // Assume this contains your color, font, etc.
 
 .backgroundApp {
+  position: relative; // Ensuring that positioning context is set for the overlay
+
   background-image: url('./assets/wood.jpg');
   background-size: cover;  /* Cover the entire page */
     background-position: center; /* Center the background image */
@@ -45,7 +48,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent overlay */
   z-index: 0; /* Positioned under content but above the background */
 }
 #app {
