@@ -1,60 +1,42 @@
 <template>
     <section>
+      <div class="form-box">
+        <div class="form-value">
+        <form @submit.prevent="onLogin">
+          <h2 class="title">Login</h2>
 
-  <div class="form-box">
-    <div class="form-value">
-    <form @submit.prevent="onLogin">
-      <h2 class="title">Login</h2>
+          <div class="inputbox">
+            <ion-icon name="person-outline"></ion-icon>
+              <input id="Username" v-model="$v.form.username.$model" type="text" :state="validateState('username')" required >
+              <label>Username</label>
+          </div>
 
-      <div class="inputbox">
-     
-      <ion-icon name="mail-outline"></ion-icon>
+          <div class="inputbox">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <input id="Password" v-model="$v.form.password.$model" type="password" :state="validateState('password')" required>
+            <label>Password</label>
+          </div>
 
-        <input
-          id="Username"
-          v-model="$v.form.username.$model"
-          type="text"
-          :state="validateState('username')"        
-             required >
-        
-             <label>Email</label>
-
+          <button type="submit" >Login</button>
+          <div class="mt-2">
+            Do not have an account yet?
+            <router-link to="register"> Register in here</router-link>
+          </div>
+        </form>
+        <!-- <b-alert
+          class="mt-2"
+          v-if="form.submitError"
+          variant="warning"
+          dismissible
+          show
+        >
+          Login failed: {{ form.submitError }}
+        </b-alert> -->
+        <!-- <b-card class="mt-3" header="Form Data Result">
+          <pre class="m-0">{{ form }}</pre>
+        </b-card> -->
       </div>
-      <div class="inputbox">
-        <ion-icon name="lock-closed-outline"></ion-icon>
-
-        <input
-    id="Password"
-    v-model="$v.form.password.$model"
-    type="password"
-    :state="validateState('password')"
-    required>
-          <label>Password</label>
-      </div>
-      
-
-
-      <button type="submit" >Login</button>
-
-      <div class="mt-2">
-        Do not have an account yet?
-        <router-link to="register"> Register in here</router-link>
-      </div>
-    </form>
-    <!-- <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Login failed: {{ form.submitError }}
-    </b-alert> -->
-    <!-- <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card> -->
-  </div>
-  </div>
+    </div>
   </section>
 </template>
 
@@ -128,6 +110,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 
 * {
@@ -155,16 +138,18 @@ section {
 }
 
 .form-box {
-    position: relative;
-    width: 400px;
-    height: 450px;
-    background: transparent;
-    border: none;
-    border-radius: 20px;
-    backdrop-filter: blur(15px) brightness(80%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  width: 400px;
+  height: auto; /* Adjust height based on content */
+  background: rgba(255, 255, 255, 0.1); /* Slight transparency */
+  border: none;
+  border-radius: 20px;
+  backdrop-filter: blur(15px) brightness(80%);
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h2 {
@@ -248,6 +233,7 @@ button {
     font-size: 1em;
     font-weight: 600;
 }
+
 .register {
     font-size: 0.9em;
     color: #fff;
@@ -264,6 +250,7 @@ button {
 .register p a:hover {
     text-decoration: underline;
 }
+
 
 @media screen and (max-width: 480px) {
     .form-box {
