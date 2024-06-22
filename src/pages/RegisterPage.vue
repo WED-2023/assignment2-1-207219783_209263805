@@ -55,9 +55,7 @@
         ref="registerButton"  class="button-reg" type="submit">Register
       </button>
         
-        <button @mouseover="handleMouseOver" 
-        ref="button" class="but"  type="submit" :style="buttonStyle">Register
-      </button>
+
 
         <div class="mt-2">
           Already have an account?
