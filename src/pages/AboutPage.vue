@@ -37,13 +37,9 @@
   </template>
   
   <script>
-import NoamPage from './NoamPage.vue';
 
   export default {
     name: 'AboutPage',
-    components: {
-      NoamPage,
-    }
   }
   </script>
   <style scoped>
