@@ -29,7 +29,10 @@
       <!-- Left Column: Random Recipes -->
       <div class="left-column">
         <h2>Explore This Recipe</h2>
-        <RecipePreviewList class="RandomRecipes recipe-preview-list" />
+        <RecipePreviewList class="RandomRecipes recipe-preview-list" :recipes="recipes" />
+        <!-- <b-button pill variant="outline-secondary" class="refresh-button" @click="fetchRandomRecipes">
+          Show New Random Recipes
+        </b-button> -->
         <b-button pill variant="outline-secondary" class="refresh-button" @click="fetchRandomRecipes">
           Show New Random Recipes
         </b-button>
@@ -38,7 +41,7 @@
       <div class="right-column">
         <h2>Last Watched Recipes</h2>
         <div v-if="$root.store.username">
-          <RecipePreviewList class="LastWatchedRecipes" />
+          <RecipePreviewList class="LastWatchedRecipes" :recipes="lastRecipes"/>
         </div>
         <div v-else>
           <router-link to="/login">
@@ -56,10 +59,87 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList.vue";
+import { mockGetRecipesPreview } from "../services/recipes.js";
+
 export default {
   components: {
     RecipePreviewList
-  }
+  },
+  data() {
+    return {
+      recipes: [],
+      lastRecipes: []
+    };
+  },
+  mounted() {
+    this.updateRecipes();
+    this.updateLastRecipes();
+    // this.fetchRandomRecipes();
+  },
+  methods: {
+    async updateRecipes() {
+      try {
+        // const response = await this.axios.get(
+        //   this.$root.store.server_domain + "/recipes/random",
+        // );
+
+        const amountToFetch = 3; // 1 row of recipes
+        const response = mockGetRecipesPreview(amountToFetch);
+        this.recipes = response.data.recipes;
+        const recipes = response.data.recipes;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateLastRecipes() {
+      try {
+        // const response = await this.axios.get(
+        //   this.$root.store.server_domain + "/recipes/random",
+        // );
+
+        const amountToFetch = 3; // 1 row of recipes
+        const response = mockGetRecipesPreview(amountToFetch);
+        this.lastRecipes = response.data.recipes;
+        const recipes = response.data.recipes;
+
+        this.lastRecipes = [];
+        this.lastRecipes.push(...recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async fetchRandomRecipes() {
+      try {
+        const amountToFetch = 3; // Number of recipes to display
+        const response = mockGetRecipesPreview(3); // Fetch a larger set of recipes
+        this.recipes = this.getRandomSubset(response.data.recipes, amountToFetch);
+        console.log(recipes)
+      } catch (error) {
+        console.error("Failed to fetch random recipes", error);
+      }
+    },
+    getRandomSubset(arr, n) {
+      const result = new Array(n);
+      let len = arr.length;
+      const taken = new Array(len);
+
+      if (n > len) {
+        throw new RangeError("getRandomSubset: more elements taken than available");
+      }
+
+      while (n--) {
+        const x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len in taken ? taken[len] : len;
+      }
+
+      return result;
+    },
+  },
+
 };
 </script>
 
