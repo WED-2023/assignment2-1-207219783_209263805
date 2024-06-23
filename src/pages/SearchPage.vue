@@ -3,6 +3,7 @@
   <div class="container">
     <h1 class="title">Search Page</h1>
     <form @submit.prevent="fetchRecipes" class="search-form">
+      <div>
       <input v-model="searchQuery" type="text" placeholder="Search recipes..." class="search-input">
       <select v-model="selectedCount" class="result-count">
         <option value="5">5</option>
@@ -10,14 +11,17 @@
         <option value="15">15</option>
       </select>
       <button type="submit" class="search-button">Search</button>
-    </form>
-
-    <!-- Sorting Options -->
-    <div class="sorting-options">
+    </div>
+      <div class="sorting-options">
       Sort by:
       <button class="filter-button" @click="sortKey = 'readyInMinutes'">Preparation Time</button>
       <button  class="filter-button" @click="sortKey = 'popularity'">Popularity</button>
     </div>
+    </form>
+
+    <!-- Sorting Options -->
+    
+    <!-- <button class="filter-button" @click="sortKey = 'readyInMinutes'">Preparation Time</button> -->
 
     <div v-if="recipes.length" class="recipes-grid">
       <div v-for="recipe in sortedRecipes" :key="recipe.id" class="recipe-card">
@@ -61,6 +65,10 @@ export default {
   },
   methods: {
     fetchRecipes() {
+      if (!this.searchQuery) {
+      console.log('Search query is empty.');
+      return;
+    }
   const apiKey = '286e5a606e124fbe8cf4e627c135ab92'; // Use your actual API key
   // Enabling addRecipeInformation and possibly addRecipeInstructions if necessary
   const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${this.searchQuery}&number=${this.selectedCount}&addRecipeInformation=true&addRecipeInstructions=true`;
@@ -175,10 +183,12 @@ export default {
 
 .search-form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
   max-height: calc(100vh - 140px); 
+  /* z-index: 1000;  */
 
   position: relative; /* Ensure container is positioned contextually */
 }
@@ -205,7 +215,7 @@ export default {
   background-color: #f1f1f1;
   border: 1px solid #ccc;
   border-radius: 20px;
-  cursor: pointer;
+  cursor: pointer !important;;
   transition: background-color 0.3s, box-shadow 0.3s;
   font-weight: bold;
 }

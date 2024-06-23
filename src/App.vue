@@ -34,8 +34,8 @@ export default {
 .backgroundApp {
   position: relative; // Ensuring that positioning context is set for the overlay
 
-  background-image: url('./assets/wood.jpg');
-  background-size: cover;  /* Cover the entire page */
+    background-image: url('./assets/wood.jpg');
+    background-size: cover;  /* Cover the entire page */
     background-position: center; /* Center the background image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-attachment: fixed; /* Optional: fixes the background image during scroll */
