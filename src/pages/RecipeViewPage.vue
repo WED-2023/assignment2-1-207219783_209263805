@@ -36,7 +36,11 @@
             </ol>
           </div>
         </div>
-        <b-button variant="primary" :to="{ name: 'main' }">Back to Home Page</b-button>
+        <div class="button-container">
+          <b-button variant="primary" :to="{ name: 'main' }">Back to Home Page</b-button>
+          <FavoriteButton></FavoriteButton>
+        </div>
+        
       </div>
       <!-- <pre>
       {{ $route.params }}
@@ -48,10 +52,15 @@
   </div>
 </template>
 
+
 <script>
 import { mockGetRecipeFullDetails } from "../services/recipes.js";
+import FavoriteButton from '@/components/FavoriteButton.vue';
 export default {
   name: 'RecipeViewPage',
+  components: {
+    FavoriteButton
+  },
   data() {
     return {
       recipe: null
@@ -173,7 +182,19 @@ export default {
   margin-right: auto;
   width: 40%;
 }
-/* .recipe-header{
+/* Button Container Styling */
+.button-container {
+  display: flex;
+  align-items: center; /* Vertically centers the buttons */
+  width: 100%;
+  margin-top: 10px; /* Add some spacing above the buttons */
+}
 
-} */
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 13px 18px; 
+  font-size: 1.25rem; 
+}
 </style>

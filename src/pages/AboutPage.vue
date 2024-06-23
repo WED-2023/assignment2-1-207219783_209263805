@@ -50,9 +50,9 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
       margin-top: 100px; /* Adjusted margin to avoid overlap with the navbar */
       margin-bottom: 40px; /* Add margin at the bottom */
-      overflow-y: auto; /* Enable vertical scrolling if content is too tall */
+      overflow-y: hidden; /* Enable vertical scrolling if content is too tall */
       position: relative; 
-      max-height: calc(100vh - 140px); 
+      max-height: 90vh; 
       display: flex;
       flex-direction: column;
       justify-content: flex-start; /* Start aligning items from the top */

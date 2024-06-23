@@ -257,7 +257,7 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 110vh;
   width: 100%;
 }
 
@@ -309,7 +309,7 @@ h2 {
 
 input:focus ~ label,
 input:valid ~ label {
-  top: -5px; /* Move up when focused or filled */
+  top: -5px; 
   // font-size: 0.8em;
 }
 
@@ -322,7 +322,8 @@ input:valid ~ label {
   outline: none;
   font-size: 1em;
   padding: 0 35px 0 5px;
-  color: #fff ;
+  color: #0a0a0a ;
+  font-weight: bold
 }
 
 .custom-select {
@@ -424,33 +425,22 @@ button {
   box-shadow: 0 0 0 3px rgba(255,255,255,0.5); /* Custom focus style with outer glow */
 }
 
-
-/* Style for the link that acts like a button */
-.login-link {
-  display: inline-block;
-  color: #fff; /* White text color */
-  background-color: #007BFF; /* Bootstrap primary color for example */
-  padding: 8px 16px; /* Padding for better touch area */
-  text-decoration: none; /* Remove underline from link */
-  border-radius: 5px; /* Rounded corners for aesthetics */
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; /* Smooth transition for hover effects */
+a {
+    color: #0223f5;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: transparent;
 }
 
-.login-link:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+a:hover {
   text-decoration: underline; /* Underline on hover */
   transform: translateY(-2px); /* Slight lift effect */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for 3D effect */
-}
-.login-link:focus {
-  outline: none; /* Removes default focus outline */
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Custom focus glow */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.login-link:active {
-  background-color: #004085; /* Even darker shade when clicked */
-  transform: translateY(1px); /* Resets position giving a pressed effect */
-  box-shadow: 0 2px 3px rgba(0,0,0,0.15); /* Smaller shadow to simulate pressing down */
+a:focus {
+  outline: none; /* Removes default focus outline */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 </style>
