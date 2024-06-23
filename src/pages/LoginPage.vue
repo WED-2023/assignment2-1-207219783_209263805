@@ -153,9 +153,13 @@ section {
 }
 
 h2 {
-    font-size: 2em;
+    font-size: 2.2em;
     color: #fff;
     text-align: center;
+}
+
+.mt-2 {
+  font-size: 1em;
 }
 
 .inputbox {
@@ -191,7 +195,8 @@ input:valid~label {
     outline: none;
     font-size: 1em;
     padding: 0 35px 0 5px;
-    color: #fff ;
+    color: #0a0a0a ;
+    font-weight: bold;
 }
 
 .inputbox ion-icon {
@@ -202,26 +207,6 @@ input:valid~label {
     top: 20px;
 }
 
-.forget {
-    margin: -10px 0 17px;
-    font-size: 0.9em;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-}
-
-.forget label input {
-    margin-right: 3px;
-}
-
-.forget a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.forget a:hover {
-    text-decoration: underline;
-}
 button {
     width: 100%;
     height: 40px;
@@ -234,21 +219,22 @@ button {
     font-weight: 600;
 }
 
-.register {
-    font-size: 0.9em;
-    color: #fff;
-    text-align: center;
-    margin: 25px 0 10px;
-}
-
-.register p a {
+a {
+    color: #0223f5;
+    font-weight: bold;
     text-decoration: none;
-    color: #fff;
-    font-weight: 600;
+    background-color: transparent;
 }
 
-.register p a:hover {
-    text-decoration: underline;
+a:hover {
+  text-decoration: underline; /* Underline on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+a:focus {
+  outline: none; /* Removes default focus outline */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 
