@@ -1,8 +1,8 @@
 <template>
     <div class="nav-links">
-      <router-link :to="{ name: 'main' }"  active-class="active-link">All Recipes</router-link>
-      <router-link :to="{ name: 'about' }"  active-class="active-link">About</router-link>
-      <router-link :to="{ name: 'search' }"  active-class="active-link">Search</router-link>
+      <router-link :to="{ name: 'main' }" class="nav-button" active-class="active-link">All Recipes</router-link>
+      <router-link :to="{ name: 'about' }" class="nav-button" active-class="active-link">About</router-link>
+      <router-link :to="{ name: 'search' }" class="nav-button" active-class="active-link">Search</router-link>
 
     </div>
   </template>
@@ -34,6 +34,9 @@
   text-decoration: none;
   color: black; /* Uniform black text for all links */
   transition: color 0.3s, transform 0.3s ease; /* Apply transition to both color and transform */
+}
+.nav-button:hover, .active-nav-button {
+  transform: scale(1.1); /* Scale the button on hover and when active */
 }
 
 // .router-link:hover {
