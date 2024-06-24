@@ -1,60 +1,42 @@
 <template>
     <section>
+      <div class="form-box">
+        <div class="form-value">
+        <form @submit.prevent="onLogin">
+          <h2 class="title">Login</h2>
 
-  <div class="form-box">
-    <div class="form-value">
-    <form @submit.prevent="onLogin">
-      <h2 class="title">Login</h2>
+          <div class="inputbox">
+            <ion-icon name="person-outline"></ion-icon>
+              <input id="Username" v-model="$v.form.username.$model" type="text" :state="validateState('username')" required >
+              <label>Username</label>
+          </div>
 
-      <div class="inputbox">
-     
-      <ion-icon name="mail-outline"></ion-icon>
+          <div class="inputbox">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <input id="Password" v-model="$v.form.password.$model" type="password" :state="validateState('password')" required>
+            <label>Password</label>
+          </div>
 
-        <input
-          id="Username"
-          v-model="$v.form.username.$model"
-          type="text"
-          :state="validateState('username')"        
-             required >
-        
-             <label>Email</label>
-
+          <button type="submit" >Login</button>
+          <div class="mt-2">
+            Do not have an account yet?
+            <router-link to="register"> Register in here</router-link>
+          </div>
+        </form>
+        <!-- <b-alert
+          class="mt-2"
+          v-if="form.submitError"
+          variant="warning"
+          dismissible
+          show
+        >
+          Login failed: {{ form.submitError }}
+        </b-alert> -->
+        <!-- <b-card class="mt-3" header="Form Data Result">
+          <pre class="m-0">{{ form }}</pre>
+        </b-card> -->
       </div>
-      <div class="inputbox">
-        <ion-icon name="lock-closed-outline"></ion-icon>
-
-        <input
-    id="Password"
-    v-model="$v.form.password.$model"
-    type="password"
-    :state="validateState('password')"
-    required>
-          <label>Password</label>
-      </div>
-      
-
-
-      <button type="submit" >Login</button>
-
-      <div class="mt-2">
-        Do not have an account yet?
-        <router-link to="register"> Register in here</router-link>
-      </div>
-    </form>
-    <!-- <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Login failed: {{ form.submitError }}
-    </b-alert> -->
-    <!-- <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card> -->
-  </div>
-  </div>
+    </div>
   </section>
 </template>
 
@@ -128,6 +110,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 
 * {
@@ -155,22 +138,28 @@ section {
 }
 
 .form-box {
-    position: relative;
-    width: 400px;
-    height: 450px;
-    background: transparent;
-    border: none;
-    border-radius: 20px;
-    backdrop-filter: blur(15px) brightness(80%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  width: 400px;
+  height: auto; /* Adjust height based on content */
+  background: rgba(255, 255, 255, 0.1); /* Slight transparency */
+  border: none;
+  border-radius: 20px;
+  backdrop-filter: blur(15px) brightness(80%);
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h2 {
-    font-size: 2em;
+    font-size: 2.2em;
     color: #fff;
     text-align: center;
+}
+
+.mt-2 {
+  font-size: 1em;
 }
 
 .inputbox {
@@ -206,7 +195,8 @@ input:valid~label {
     outline: none;
     font-size: 1em;
     padding: 0 35px 0 5px;
-    color: #fff ;
+    color: #0a0a0a ;
+    font-weight: bold;
 }
 
 .inputbox ion-icon {
@@ -217,26 +207,6 @@ input:valid~label {
     top: 20px;
 }
 
-.forget {
-    margin: -10px 0 17px;
-    font-size: 0.9em;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-}
-
-.forget label input {
-    margin-right: 3px;
-}
-
-.forget a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.forget a:hover {
-    text-decoration: underline;
-}
 button {
     width: 100%;
     height: 40px;
@@ -248,22 +218,25 @@ button {
     font-size: 1em;
     font-weight: 600;
 }
-.register {
-    font-size: 0.9em;
-    color: #fff;
-    text-align: center;
-    margin: 25px 0 10px;
-}
 
-.register p a {
+a {
+    color: #0223f5;
+    font-weight: bold;
     text-decoration: none;
-    color: #fff;
-    font-weight: 600;
+    background-color: transparent;
 }
 
-.register p a:hover {
-    text-decoration: underline;
+a:hover {
+  text-decoration: underline; /* Underline on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
+a:focus {
+  outline: none; /* Removes default focus outline */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
 
 @media screen and (max-width: 480px) {
     .form-box {

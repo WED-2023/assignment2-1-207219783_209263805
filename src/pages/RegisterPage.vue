@@ -17,16 +17,40 @@
           </b-form-invalid-feedback>
         </div>
 
+        <!-- First name Input -->
+        <div class="inputbox">
+          <input id="firstName" v-model="$v.form.firstName.$model" type="text" :state="validateState('firstName')" required>
+          <label>First Name</label>
+          <b-form-invalid-feedback :state="validateState('firstName')">
+            <span v-if="!$v.form.firstName.required">FirstName is required.</span>
+            <span v-if="!$v.form.firstName.minLength">FirstName must be at least 3 characters long.</span>
+            <span v-if="!$v.form.firstName.maxLength">FirstName must be less than 8 characters.</span>
+            <span v-if="!$v.form.firstName.alpha">FirstName must contain only letters.</span>
+          </b-form-invalid-feedback>
+        </div>
+
+        <!-- Last name Input -->
+        <div class="inputbox">
+          <input id="lastName" v-model="$v.form.lastName.$model" type="text" :state="validateState('lastName')" required>
+          <label>last Name</label>
+          <b-form-invalid-feedback :state="validateState('lastName')">
+            <span v-if="!$v.form.lastName.required">LastName is required.</span>
+            <span v-if="!$v.form.lastName.minLength">LastName must be at least 3 characters long.</span>
+            <span v-if="!$v.form.lastName.maxLength">LastName must be less than 8 characters.</span>
+            <span v-if="!$v.form.lastName.alpha">LastName must contain only letters.</span>
+          </b-form-invalid-feedback>
+        </div>
+
+        <!-- Country Input -->
         <div  class="inputbox">
-          
-  <label style="color: white;" v-if="!form.country" for="country">Country</label> <!-- Only shows if no country is selected -->
-  <div >
-    <select id="country" v-model="form.country">
-      <option disabled value="">Select a country</option>  <!-- Disabled option as placeholder -->
-      <option v-for="country in countries" :value="country.value" >{{ country.text }}</option>
-    </select>
-  </div>
-</div>
+          <label style="color: white;" v-if="!form.country" for="country">Country</label> 
+          <div>
+              <b-form-select id="country" v-model="$v.form.country.$model" :options="countries" :state="validateState('country')" required class="custom-select"></b-form-select>
+              <b-form-invalid-feedback :state="validateState('country')">
+                <span v-if="!$v.form.country.required">Country is required.</span>
+              </b-form-invalid-feedback>
+          </div>
+        </div>
 
         <!-- Password Input -->
         <div class="inputbox">
@@ -50,16 +74,22 @@
             <span v-if="!$v.form.confirmedPassword.sameAsPassword">Passwords must match.</span>
           </b-form-invalid-feedback>
         </div>
-        
-        <button @mouseover="handleMouseOver" 
-        ref="registerButton"  class="button-reg" type="submit">Register
-      </button>
-        
 
-
+        <!-- Email Input -->
+        <div class="inputbox">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input id="email" v-model="$v.form.email.$model" type="email" :state="validateState('email')" required>
+          <label>Email</label>
+          <b-form-invalid-feedback :state="validateState('email')">
+            <span v-if="!$v.form.email.required">Email is required.</span>
+            <span v-if="!$v.form.email.email">Email must be valid.</span>
+          </b-form-invalid-feedback>
+        </div>
+        
+        <button type="submit" >Register</button>
         <div class="mt-2">
           Already have an account?
-          <router-link class="login-link" to="login"> Log in here</router-link>
+          <router-link to="login"> Log in here</router-link>
         </div>
       </form>
     </div>
@@ -109,6 +139,16 @@ export default {
         length: (u) => minLength(3)(u) && maxLength(8)(u),
         alpha
       },
+      firstName: {
+        required,
+        length: (u) => minLength(3)(u) && maxLength(8)(u),
+        alpha
+      },
+      lastName: {
+        required,
+        length: (u) => minLength(3)(u) && maxLength(8)(u),
+        alpha
+      },
       country: {
         required
       },
@@ -119,6 +159,10 @@ export default {
       confirmedPassword: {
         required,
         sameAsPassword: sameAs("password")
+      },
+      email: {
+        required,
+        email
       }
     }
   },
@@ -151,17 +195,19 @@ export default {
     },
     computed: {
     allFieldsFilled() {
-      return this.form.username && this.form.email && this.form.password;
+      return this.form.username && this.form.firstname && this.form.lastName && this.form.email && this.form.password && this.form.confirmedPassword;
     }
     },
 
     async Register() {
       try {
-
-
         const userDetails = {
           username: this.form.username,
-          password: this.form.password
+          firstname: this.form.firstName,
+          lastName: this.form.lastName,
+          country: this.form.country,
+          password: this.form.password,
+          email: this.form.email,
         };
 
         const response = mockRegister(userDetails);
@@ -199,20 +245,22 @@ export default {
     }
   }
 };
+
+
 </script>
+
+
 <style lang="scss" scoped>
+
 /* General Styles for the Section */
 section {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 110vh;
   width: 100%;
 }
-button {
-  padding: 10px 20px;
-  transition: top 0.3s ease, left 0.3s ease;
-}
+
 /* Container and Form Styling */
 .form-box {
   position: relative;
@@ -237,13 +285,12 @@ h2 {
   font-size: 2em;
   color: #fff;
   text-align: center;
-  margin-bottom: 20px; /* Space below the title */
 }
 
 /* Input Box Styling */
 .inputbox {
   position: relative;
-  margin: 10px 0;
+  margin: 10px 0 22px;
   width: 100%;
   border-bottom: 2px solid #fff;
 }
@@ -261,9 +308,9 @@ h2 {
 }
 
 input:focus ~ label,
-input, .input:valid ~ label {
-  top: -20px; /* Move up when focused or filled */
-  font-size: 0.8em;
+input:valid ~ label {
+  top: -5px; 
+  // font-size: 0.8em;
 }
 
 /* Input Field Styling */
@@ -275,8 +322,14 @@ input, .input:valid ~ label {
   outline: none;
   font-size: 1em;
   padding: 0 35px 0 5px;
-  color: #fff ;
+  color: #0a0a0a ;
+  font-weight: bold
 }
+
+.custom-select {
+  color: black !important; /* Important to override any existing styles */
+}
+
 
 /* Icon Styling */
 .inputbox ion-icon {
@@ -289,7 +342,7 @@ input, .input:valid ~ label {
 
 /* Button Styling */
 button {
-  width: 250px;
+  width: 100%;
   height: 40px;
   border-radius: 20px;
   background-color: #fff;
@@ -371,32 +424,24 @@ button {
   outline: none; /* Remove default focus outline */
   box-shadow: 0 0 0 3px rgba(255,255,255,0.5); /* Custom focus style with outer glow */
 }
-/* Style for the link that acts like a button */
-.login-link {
-  display: inline-block;
-  color: #fff; /* White text color */
-  background-color: #007BFF; /* Bootstrap primary color for example */
-  padding: 8px 16px; /* Padding for better touch area */
-  text-decoration: none; /* Remove underline from link */
-  border-radius: 5px; /* Rounded corners for aesthetics */
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; /* Smooth transition for hover effects */
+
+a {
+    color: #0223f5;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: transparent;
 }
 
-.login-link:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+a:hover {
   text-decoration: underline; /* Underline on hover */
   transform: translateY(-2px); /* Slight lift effect */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for 3D effect */
-}
-.login-link:focus {
-  outline: none; /* Removes default focus outline */
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Custom focus glow */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.login-link:active {
-  background-color: #004085; /* Even darker shade when clicked */
-  transform: translateY(1px); /* Resets position giving a pressed effect */
-  box-shadow: 0 2px 3px rgba(0,0,0,0.15); /* Smaller shadow to simulate pressing down */
+a:focus {
+  outline: none; /* Removes default focus outline */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 </style>
+

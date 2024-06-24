@@ -27,7 +27,12 @@
           <h2>{{ card.title }}</h2>
         </div> -->
         <div class="content" v-show="card.hovered">
-          <p class="description-text">{{ card.description }}</p>
+          <p class="description-text">
+            <b><u>Who prepares:</u></b> {{ card.whose }}<br>
+            <b><u>When:</u></b> {{ card.time }}<br>
+            <b><u>Ingredients:</u></b> {{ card.ingredients }}<br>
+            <b><u>preparation method:</u></b> {{ card.prep }}
+          </p>
         </div>
       </div>
     </div>
@@ -39,9 +44,9 @@ export default {
   data() {
     return {
       cards: [
-        { id: 1, title: 'Ford Mustang', description: 'A powerful and stylish car.', imageUrl: require('@/assets/pizza.jpg'), hovered: false },
-        { id: 2, title: 'Another Title', description: 'Some description for card 2', imageUrl: require('@/assets/ravioli.jpg'), hovered: false },
-        { id: 3, title: 'Yet another title', description: 'Some description for card 3', imageUrl: require('@/assets/pasta.jpg'), hovered: false },
+        { id: 1, title: 'Ford Mustang', whose: 'Mom', time: 'holiday', ingredients: 'tomato sauce, cheese, basil, dough',prep: 'Roll out pizza dough, spread with tomato sauce, add toppings like cheese and pepperoni, then bake in a hot oven until crust is crispy.',imageUrl: require('@/assets/pizza.jpg'), hovered: false },
+        { id: 2, title: 'Another Title', whose: 'Grandmother', time: 'weekend',ingredients: 'ravioli, cheese, oregano, milk',prep: 'Prepare pasta dough, roll it thin, place dollops of filling (usually ricotta and spinach) at intervals, cover with another layer of dough, seal edges, then boil until pasta is tender.',imageUrl: require('@/assets/ravioli.jpg'), hovered: false },
+        { id: 3, title: 'Yet another title', whose: 'Grandfather', time: 'daily',ingredients: 'pasta, cheese, onion, parmesan',prep: 'Cook pasta in boiling water until al dente, then toss with sauce made from tomatoes, garlic, olive oil, and herbs until coated and serve hot.',imageUrl: require('@/assets/pasta.jpg'), hovered: false },
       ],
     };
   },
@@ -120,9 +125,11 @@ export default {
     transition: opacity 0.4s ease-in-out;
 }
 .description-text {
-  font-size: 2em; 
+  font-size: 1.3em; 
   line-height: 1.5; 
+  text-align: left; 
 }
+
 .card:hover .content {
   opacity: 1; /* Show on hover */
 }
