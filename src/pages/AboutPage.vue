@@ -7,7 +7,7 @@
             Intuitive navigation and powerful features, users can easily discover new culinary delights, personalize their cooking experiences.<br>
             Add recipes to favorites, mark their love for a recipe and share cherished recipes with loved ones.
         </p>
-        <hr class="my-6">
+        <!-- <hr class="my-6"> -->
         <h1 class="display-6">Authors: Tomer Katzav & Noam Cohen</h1>
             <p>
                 Software & Information System Engineers 3rd in BGU
@@ -25,8 +25,8 @@
             </p>
 
         <h1 class="display-8">Responsibility Areas:</h1>
-            <p><b>Tomer -</b> Full Stack</p>
-            <p><b>Noam -</b> Full Stack</p>
+            <p><b>Tomer -</b> Full Stack  <b>| Noam -</b> Full Stack</p>
+            <!-- <p><b>Noam -</b> Full Stack</p> -->
   
         <b-button variant="primary" :to="{ name: 'main' }">Back to Home Page</b-button>
 
@@ -37,13 +37,9 @@
   </template>
   
   <script>
-import NoamPage from './NoamPage.vue';
 
   export default {
     name: 'AboutPage',
-    components: {
-      NoamPage,
-    }
   }
   </script>
   <style scoped>
