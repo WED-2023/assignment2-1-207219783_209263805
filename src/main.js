@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
+import Toast, { POSITION } from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 
 import routes from "./routes";
 import VueRouter from "vue-router";
@@ -46,6 +48,9 @@ import {
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
+Vue.use(Toast, {
+  position: POSITION.TOP_RIGHT,
+});
 axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
@@ -70,6 +75,7 @@ axios.interceptors.response.use(
 );
 
 Vue.use(VueAxios, axios);
+
 
 Vue.config.productionTip = false;
 

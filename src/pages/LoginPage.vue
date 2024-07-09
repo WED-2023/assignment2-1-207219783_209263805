@@ -23,7 +23,8 @@
             <router-link to="register"> Register in here</router-link>
           </div>
         </form>
-        <b-alert
+
+        <!-- <b-alert
           class="mt-2"
           v-if="form.submitError"
           variant="warning"
@@ -31,7 +32,7 @@
           show
         >
           Login failed: {{ form.submitError }}
-        </b-alert>
+        </b-alert> -->
         <!-- <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
         </b-card> -->
@@ -44,8 +45,12 @@
 import { required } from "vuelidate/lib/validators";
 import {mockLogin} from "../services/auth.js"
 import axios from 'axios';
+// import { useToast } from "vue-toastification";
+
 export default {
+  
   name: "Login",
+  
   data() {
     return {
       form: {
@@ -72,6 +77,8 @@ export default {
     },
 
     async Login() {
+      // const toast = useToast();
+
       try {
         const response = await axios.post("http://localhost:3000/auth/Login", {
           username: this.form.username,
@@ -80,14 +87,25 @@ export default {
 
         if (response.data.success) {
           this.$root.store.login(this.form.username);
+          this.$toast.success("Login succeeded", {
+            timeout: 4000,
+          });
+
           this.$router.push("/");
         }
       } catch (err) {
         console.log(err.message);
         if (err.response && err.response.data && err.response.data.message) {
           this.form.submitError = err.response.data.message;
+          this.$toast.error(err.response.data.message, {
+            timeout: 4000,
+          });
+
         } else {
           this.form.submitError = "An error occurred during login.";
+          this.$toast.error("An error occurred during login.", {
+            timeout: 4000,
+          });
         }   
          }
     },
@@ -102,7 +120,21 @@ export default {
       // console.log("login method go");
 
       this.Login();
-    }
+    },
+    async onLogout() {
+      try {
+        const response = await axios.post("http://localhost:3000/Logout");
+
+        if (response.data.success) {
+          this.$root.store.logout();
+          this.$router.push("/login");
+        } else {
+          console.error("Logout failed: ", response.data.message);
+        }
+      } catch (err) {
+        console.error("An error occurred during logout: ", err);
+      }
+    },
   }
 };
 </script>

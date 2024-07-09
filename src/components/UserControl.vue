@@ -22,22 +22,46 @@
         </div>
       </div>
       <button  class="log-button" @click="logout">Logout</button>
+      <!-- <div v-if="logoutMessage" class="logout-message">{{ logoutMessage }}</div> -->
+
     </span>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+// import { useToast } from 'vue-toastification';
+
 export default {
   name: "UserControls",
+  data() {
+    return {
+      logoutMessage: "",
+    };
+  },
   methods: {
-    logout() {
-      this.$root.store.logout();
-      this.$root.toast("Logout", "User logged out successfully", "success");
-      this.$router.push("/").catch(err => {
-        console.error(err);
-        this.$forceUpdate();
-      });
-    }
+
+    async logout() {
+
+      try {
+        const response = await axios.post("http://localhost:3000/auth/Logout");
+
+        if (response.data.success) {
+          this.$root.store.logout();
+          this.$toast.success(response.data.message, {
+            timeout: 5000,
+          });
+
+        setTimeout(() => {
+            this.$router.push("/login");
+          }, 2000);
+        } else {
+          console.error("Logout failed: ", response.data.message);
+        }
+      } catch (err) {
+        console.error("An error occurred during logout: ", err);
+      }
+    },
   }
 };
 </script>
