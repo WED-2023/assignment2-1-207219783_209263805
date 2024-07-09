@@ -23,7 +23,7 @@
             <router-link to="register"> Register in here</router-link>
           </div>
         </form>
-        <!-- <b-alert
+        <b-alert
           class="mt-2"
           v-if="form.submitError"
           variant="warning"
@@ -31,7 +31,7 @@
           show
         >
           Login failed: {{ form.submitError }}
-        </b-alert> -->
+        </b-alert>
         <!-- <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
         </b-card> -->
@@ -43,6 +43,7 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 import {mockLogin} from "../services/auth.js"
+import axios from 'axios';
 export default {
   name: "Login",
   data() {
@@ -69,31 +70,26 @@ export default {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
     },
+
     async Login() {
       try {
-        
-        // const response = await this.axios.post(
-        //   this.$root.store.server_domain +"/Login",
+        const response = await axios.post("http://localhost:3000/auth/Login", {
+          username: this.form.username,
+          password: this.form.password,
+        });
 
-
-        //   {
-        //     username: this.form.username,
-        //     password: this.form.password
-        //   }
-        // );
-
-        const success = true; // modify this to test the error handling
-        const response = mockLogin(this.form.username, this.form.password, success);
-
-        // console.log(response);
-        // this.$root.loggedIn = true;
-        console.log(this.$root.store.login);
-        this.$root.store.login(this.form.username);
-        this.$router.push("/");
+        if (response.data.success) {
+          this.$root.store.login(this.form.username);
+          this.$router.push("/");
+        }
       } catch (err) {
-        console.log(err.response);
-        this.form.submitError = err.response.data.message;
-      }
+        console.log(err.message);
+        if (err.response && err.response.data && err.response.data.message) {
+          this.form.submitError = err.response.data.message;
+        } else {
+          this.form.submitError = "An error occurred during login.";
+        }   
+         }
     },
 
     onLogin() {
