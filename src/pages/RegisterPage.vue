@@ -99,6 +99,8 @@
 
 <script>
 import countries from "../assets/countries";
+import axios from 'axios';
+
 import {
   required,
   minLength,
@@ -166,6 +168,11 @@ export default {
       }
     }
   },
+  computed: {
+    allFieldsFilled() {
+      return this.form.username && this.form.firstname && this.form.lastName && this.form.email && this.form.password && this.form.confirmedPassword;
+    }
+    },
   mounted() {
     // console.log("mounted");
     this.countries.push(...countries);
@@ -193,32 +200,31 @@ export default {
         this.buttonStyle.left = '100px';
       }
     },
-    computed: {
-    allFieldsFilled() {
-      return this.form.username && this.form.firstname && this.form.lastName && this.form.email && this.form.password && this.form.confirmedPassword;
-    }
-    },
+
 
     async Register() {
-      try {
-        const userDetails = {
-          username: this.form.username,
-          firstname: this.form.firstName,
-          lastName: this.form.lastName,
-          country: this.form.country,
-          password: this.form.password,
-          email: this.form.email,
-        };
+    try {
+      const userDetails = {
+        username: this.form.username,
+        firstName: this.form.firstName,
+        lastName: this.form.lastName,
+        country: this.form.country,
+        password: this.form.password,
+        email: this.form.email
+      };
 
-        const response = mockRegister(userDetails);
+      const api = axios.create({
+        baseURL: 'http://localhost:3000', // Ensure this is your backend base URL
+        withCredentials: true, // Include this to enable sending cookies with requests
+      });
 
-        this.$router.push("/login");
-        // console.log(response);
-      } catch (err) {
-        console.log(err.response);
-        this.form.submitError = err.response.data.message;
-      }
-    },
+      const response = await api.post('auth/Register', userDetails);
+      this.$router.push("/login");
+    } catch (err) {
+      console.log(err.response);
+      this.form.submitError = err.response.data.message;
+    }
+  },
 
     onRegister() {
       // console.log("register method called");
