@@ -15,6 +15,7 @@
   
   <script>
   import { mockAddFavorite } from "../services/user.js";
+  import axios from 'axios';
 
   export default {
     name: 'FavoriteButton',
@@ -35,21 +36,26 @@
     },
     methods: {
       async toggleFavorite() {
-        this.isFavorite = !this.isFavorite;
-        try {
-          const response = await mockAddFavorite(this.recipeId);
-          if (response.status === 200 && response.response.data.success) {
-            localStorage.setItem(`favorite_${this.recipeId}`, JSON.stringify(this.isFavorite));
-            this.$emit('updateFavorite', this.recipeId, this.isFavorite);
-          } else {
-            console.error('Failed to update favorite status');
-          }
-        } catch (error) {
-          // Handle the exception case
-          console.error('An error occurred while updating favorite status:', error);
-          this.isFavorite = !this.isFavorite; // Revert the favorite status on error
+      try {
+        if (this.isFavorited) {
+          this.isFavorited = false;
+
+          // handle unfavorite logic if needed
+        } else {
+          const response = await axios.post('http://localhost:3000/users/favorites', { recipeId: this.recipeId });
+          this.isFavorited = true;
+          this.$toast.success(response.data.message || "The Recipe successfully saved as favorite", {
+            timeout: 5000,
+          });
         }
+      } catch (error) {
+        console.log(error);
+        this.$toast.error("An error occurred while saving the recipe as favorite.", {
+          timeout: 5000,
+        });
+        console.error("Error marking recipe as favorite:", error);
       }
+    }
     },
     created() {
       const storedFavorite = localStorage.getItem(`favorite_${this.recipeId}`);

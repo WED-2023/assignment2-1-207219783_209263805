@@ -49,12 +49,12 @@ export default {
         if (response.data.success) {
           this.$root.store.logout();
           this.$toast.success(response.data.message, {
-            timeout: 5000,
+            timeout: 4000,
           });
 
-        setTimeout(() => {
-            this.$router.push("/login");
-          }, 2000);
+       
+          this.$router.push("/login");
+
         } else {
           console.error("Logout failed: ", response.data.message);
         }
