@@ -71,7 +71,9 @@ export default {
     }
   const apiKey = '286e5a606e124fbe8cf4e627c135ab92'; // Use your actual API key
   // Enabling addRecipeInformation and possibly addRecipeInstructions if necessary
-  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${this.searchQuery}&number=${this.selectedCount}&addRecipeInformation=true&addRecipeInstructions=true`;
+  // const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${this.searchQuery}&number=${this.selectedCount}&addRecipeInformation=true&addRecipeInstructions=true`;
+  const url = `http://localhost:3000/recipes/search?query=${this.searchQuery}&number=${this.selectedCount}`;
+
   axios.get(url)
     .then(response => {
       this.recipes = response.data.results.map(recipe => ({
