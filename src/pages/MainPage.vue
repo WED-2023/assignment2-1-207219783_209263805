@@ -61,7 +61,7 @@ export default {
     async fetchRandomRecipes() {
       try {
         const response = await axios.get('http://localhost:3000/recipes/random');
-        this.randomRecipes = response.data.recipes;
+        this.randomRecipes = response.data;
         console.log(this.randomRecipes);
       } catch (error) {
         console.error("Failed to fetch random recipes", error);
