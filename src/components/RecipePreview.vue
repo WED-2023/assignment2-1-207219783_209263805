@@ -38,6 +38,7 @@ export default {
     navigateToRecipe(recipeId) {
       this.card.viewed = true;
       localStorage.setItem(`viewed_${recipeId}`, true);
+      console.log(recipeId);
       this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
     },
     isFavorite(recipeId) {

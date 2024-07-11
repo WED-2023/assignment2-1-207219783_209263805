@@ -56,6 +56,7 @@ export default {
     this.updateRecipes();
     this.updateLastRecipes();
     this.fetchRandomRecipes();
+    this.fetchLastRecipes();
   },
   methods: {
     async fetchRandomRecipes() {
@@ -65,6 +66,15 @@ export default {
         console.log(this.randomRecipes);
       } catch (error) {
         console.error("Failed to fetch random recipes", error);
+      }
+    },
+    async fetchLastRecipes() {
+      try {
+        // Make sure to handle authentication and session management correctly
+        const response = await axios.get('http://localhost:3000/recipes/last-viewed', { withCredentials: true });
+        this.lastRecipes = response.data; // Assuming the response data format is directly usable
+      } catch (error) {
+        console.error("Failed to fetch last viewed recipes", error);
       }
     },
     async updateRecipes() {

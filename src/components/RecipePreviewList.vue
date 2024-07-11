@@ -38,26 +38,26 @@ export default {
   },
   
   methods: {
-    async updateRecipes() {
-      try {
-        // const response = await this.axios.get(
-        //   this.$root.store.server_domain + "/recipes/random",
-        // );
+    // async updateRecipes() {
+    //   try {
+    //     // const response = await this.axios.get(
+    //     //   this.$root.store.server_domain + "/recipes/random",
+    //     // );
 
-        const amountToFetch = 3; // 1 row of recipes
-        const response = mockGetRecipesPreview(amountToFetch);
-        this.recipes = response.data.recipes;
+    //     const amountToFetch = 3; // 1 row of recipes
+    //     const response = mockGetRecipesPreview(amountToFetch);
+    //     this.recipes = response.data.recipes;
 
 
-        console.log(response);
-        const recipes = response.data.recipes;
-        console.log(recipes);
-        this.recipes = [];
-        this.recipes.push(...recipes);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    //     console.log(response);
+    //     const recipes = response.data.recipes;
+    //     console.log(recipes);
+    //     this.recipes = [];
+    //     this.recipes.push(...recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
   
 
     async fetchRandomRecipes() {
