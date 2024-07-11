@@ -170,7 +170,7 @@ export default {
   },
   computed: {
     allFieldsFilled() {
-      return this.form.username && this.form.firstname && this.form.lastName && this.form.email && this.form.password && this.form.confirmedPassword;
+      return this.form.username && this.form.firstName && this.form.lastName && this.form.email && this.form.password && this.form.confirmedPassword;
     }
     },
   mounted() {

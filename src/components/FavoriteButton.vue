@@ -42,7 +42,7 @@
 
           // handle unfavorite logic if needed
         } else {
-          const response = await axios.post('http://localhost:3000/users/favorites', { recipeId: this.recipeId });
+          const response = await axios.post('http://localhost:3000/users/favorites', { recipeId: this.recipeId }, { withCredentials: true });
           this.isFavorited = true;
           this.$toast.success(response.data.message || "The Recipe successfully saved as favorite", {
             timeout: 5000,
