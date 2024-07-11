@@ -9,7 +9,7 @@
       <!-- Left Column: Random Recipes -->
       <div class="left-column">
         <h2>Explore This Recipe</h2>
-        <RecipePreviewList class="RandomRecipes recipe-preview-list" :recipes="recipes" />
+        <RecipePreviewList class="RandomRecipes recipe-preview-list" :recipes="randomRecipes" />
         <!-- <b-button pill variant="outline-secondary" class="refresh-button" @click="fetchRandomRecipes">
           Show New Random Recipes
         </b-button> -->
@@ -40,13 +40,15 @@
 <script>
 import RecipePreviewList from "../components/RecipePreviewList.vue";
 import { mockGetRecipesPreview } from "../services/recipes.js";
-
+import axios  from "axios";
 export default {
   components: {
     RecipePreviewList
   },
   data() {
     return {
+      randomRecipes: [],
+
       recipes: [],
       lastRecipes: []
     };
@@ -54,9 +56,18 @@ export default {
   mounted() {
     this.updateRecipes();
     this.updateLastRecipes();
-    // this.fetchRandomRecipes();
+    this.fetchRandomRecipes();
   },
   methods: {
+    async fetchRandomRecipes() {
+      try {
+        const response = await axios.get('http://localhost:3000/recipes/random');
+        this.randomRecipes = response.data.recipes;
+        console.log(this.randomRecipes);
+      } catch (error) {
+        console.error("Failed to fetch random recipes", error);
+      }
+    },
     async updateRecipes() {
       try {
         // const response = await this.axios.get(
@@ -91,16 +102,16 @@ export default {
       }
     },
 
-    async fetchRandomRecipes() {
-      try {
-        const amountToFetch = 3; // Number of recipes to display
-        const response = mockGetRecipesPreview(10); // Fetch a larger set of recipes
-        this.recipes = this.getRandomSubset(response.data.recipes, amountToFetch);
-        console.log(recipes)
-      } catch (error) {
-        console.error("Failed to fetch random recipes", error);
-      }
-    },
+    // async fetchRandomRecipes() {
+    //   try {
+    //     const amountToFetch = 3; // Number of recipes to display
+    //     const response = mockGetRecipesPreview(10); // Fetch a larger set of recipes
+    //     this.recipes = this.getRandomSubset(response.data.recipes, amountToFetch);
+    //     console.log(recipes)
+    //   } catch (error) {
+    //     console.error("Failed to fetch random recipes", error);
+    //   }
+    // },
     getRandomSubset(arr, n) {
       const result = new Array(n);
       let len = arr.length;
