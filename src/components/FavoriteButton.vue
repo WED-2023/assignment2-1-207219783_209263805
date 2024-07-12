@@ -36,24 +36,20 @@
     },
     methods: {
       async toggleFavorite() {
-      try {
-        if (this.isFavorited) {
-          this.isFavorited = false;
-
-          // handle unfavorite logic if needed
-        } else {
+      if (!this.isFavorite) {
+        try {
           const response = await axios.post('http://localhost:3000/users/favorites', { recipeId: this.recipeId }, { withCredentials: true });
-          this.isFavorited = true;
+          this.isFavorite = true; // Update favorite status
+          localStorage.setItem(`favorite_${this.recipeId}`, JSON.stringify(this.isFavorite)); // Update local storage
           this.$toast.success(response.data.message || "The Recipe successfully saved as favorite", {
             timeout: 5000,
           });
+        } catch (error) {
+          console.error("Error marking recipe as favorite:", error);
+          this.$toast.error("An error occurred while saving the recipe as favorite.", {
+            timeout: 5000,
+          });
         }
-      } catch (error) {
-        console.log(error);
-        this.$toast.error("An error occurred while saving the recipe as favorite.", {
-          timeout: 5000,
-        });
-        console.error("Error marking recipe as favorite:", error);
       }
     }
     },
@@ -92,8 +88,6 @@
   color: white;
 }
 
-.material-icons {
-}
 
 .fav-text{
   text-align: center; /* Center the text below the button */

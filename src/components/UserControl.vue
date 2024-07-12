@@ -16,7 +16,7 @@
       <div class="dropdown">
         <a class="dropdown-toggle" href="#" role="button">Personal Area</a>
         <div class="dropdown-content">
-          <router-link :to="{ name: 'favoriteRecipes' }">My favorite recipes</router-link>
+          <router-link :to="{ name: 'favorites' }">My favorite recipes</router-link>
           <router-link :to="{ name: 'myRecipes' }">My recipes</router-link>
           <router-link :to="{ name: 'familyRecipes' }">My family recipes</router-link>
         </div>

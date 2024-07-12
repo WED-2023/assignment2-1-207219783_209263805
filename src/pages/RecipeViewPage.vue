@@ -1,11 +1,11 @@
 <template>
-  <div class="container d-flex justify-content-center">
-    <div v-if="recipe" class="card">
+  <div class="container d-flex justify-content-center" v-if="recipe.title">
+    <div class="card">
       <div class="card-header recipe-header text-center">
         <h1 class="card-title">{{ recipe.title }}</h1>
-         <b>Recipe ID : {{ recipe.id }}</b>
+        <b>Recipe ID: {{ $route.params.recipeId }}</b>
       </div>
-      
+
       <div class="card-body recipe-body">
         <img :src="recipe.image" class="center" />
         <div class="wrapper">
@@ -19,19 +19,16 @@
             </div>
             <b>Ingredients:  ({{ recipe.servings }} servings)</b>
             <ul>
-              <li
-                v-for="(r, index) in recipe.extendedIngredients"
-                :key="index + '_' + r.id"
-              >
-                {{ r.original }}
+              <li v-for="(ingredient, index) in recipe.extendedIngredients" :key="index">
+                {{ ingredient.original }}
               </li>
             </ul>
           </div>
           <div class="wrapped">
             <b>Instructions:</b>
             <ol>
-              <li v-for="s in recipe._instructions" :key="s.number">
-                {{ s.step }}
+              <li v-for="step in recipe.instructions" :key="step.number">
+                {{ step.step }}
               </li>
             </ol>
           </div>
@@ -56,6 +53,8 @@
 <script>
 import { mockGetRecipeFullDetails } from "../services/recipes.js";
 import FavoriteButton from '@/components/FavoriteButton.vue';
+import axios from 'axios';
+
 export default {
   name: 'RecipeViewPage',
   components: {
@@ -67,75 +66,83 @@ export default {
     };
   },
   async created() {
-    try {
       // let response;
       // response = this.$route.params.response;
-      let  response = mockGetRecipeFullDetails(this.$route.params.recipeId);
-      if (!response.data.recipe) {
-        this.$router.replace("/NotFound");
-        return;
-      }
-      // try {
-      //   response = await this.axios.get(
-      //     this.$root.store.server_domain + "/recipes/" + this.$route.params.recipeId,
+      // let  response = mockGetRecipeFullDetails(this.$route.params.recipeId);
+      // if (!response.data.recipe) {
+      //   this.$router.replace("/NotFound");
+      //   return;
+      // }
+      try {
+        const response = await axios.get(`http://localhost:3000/recipes/recipeId/${this.$route.params.recipeId}`);
+        
+        //     this.$root.store.server_domain + "/recipes/" + this.$route.params.recipeId,
       //     {
       //       withCredentials: true
       //     }
       //   );
-
       //   response = mockGetRecipeFullDetails(this.$route.params.recipeId);
 
       //   // console.log("response.status", response.status);
-      //   if (response.status !== 200) this.$router.replace("/NotFound");
-      // } catch (error) {
-      //   console.log("error.response.status", error.response.status);
-      //   this.$router.replace("/NotFound");
-      //   return;
-      // }
+        // if (response.status !== 200) this.$router.replace("/NotFound");
+        if (response) {
+          this.recipe = {
+            ...response,
+            instructions: response.analyzedInstructions.map(instruction => instruction.steps).flat()
+          };
+        } else {
+          this.error = "Failed to load recipe details.";
+          this.$router.replace("/NotFound");
+        }
+        } catch (error) {
+          console.log("error.response.status", error.response.status);
+          this.$router.replace("/NotFound");
+          return;
+        }
 
-      let {
-        analyzedInstructions,
-        instructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        vegetarian,
-        vegan,
-        glutenFree,
-        servings,
-        image,
-        title,
-        id
-      } = response.data.recipe;
+    //   let {
+    //     analyzedInstructions,
+    //     instructions,
+    //     extendedIngredients,
+    //     aggregateLikes,
+    //     readyInMinutes,
+    //     vegetarian,
+    //     vegan,
+    //     glutenFree,
+    //     servings,
+    //     image,
+    //     title,
+    //     id
+    //   } = response.data.recipe;
 
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
+    //   let _instructions = analyzedInstructions
+    //     .map((fstep) => {
+    //       fstep.steps[0].step = fstep.name + fstep.steps[0].step;
+    //       return fstep.steps;
+    //     })
+    //     .reduce((a, b) => [...a, ...b], []);
 
-      let _recipe = {
-        instructions,
-        _instructions,
-        analyzedInstructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        vegetarian,
-        vegan,
-        glutenFree,
-        servings,
-        image,
-        title,
-        id
-      };
+    //   let _recipe = {
+    //     instructions,
+    //     _instructions,
+    //     analyzedInstructions,
+    //     extendedIngredients,
+    //     aggregateLikes,
+    //     readyInMinutes,
+    //     vegetarian,
+    //     vegan,
+    //     glutenFree,
+    //     servings,
+    //     image,
+    //     title,
+    //     id
+    //   };
 
-      this.recipe = _recipe;
-    } catch (error) {
-      console.log(error);
-      this.$router.replace("/NotFound");
-    }
+    //   this.recipe = _recipe;
+    // } catch (error) {
+    //   console.log(error);
+    //   this.$router.replace("/NotFound");
+    // }
   }
 };
 </script>

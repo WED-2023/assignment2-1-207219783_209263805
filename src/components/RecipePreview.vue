@@ -71,9 +71,9 @@ export default {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
-.card-footer{
+/* .card-footer{ */
   /* display: flex;
   flex-direction: row;
   padding: 20px; */
-}
+/* } */
 </style>

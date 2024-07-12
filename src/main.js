@@ -75,6 +75,7 @@ axios.interceptors.response.use(
 );
 
 Vue.use(VueAxios, axios);
+axios.defaults.withCredentials = true;
 
 
 Vue.config.productionTip = false;
