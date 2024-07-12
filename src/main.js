@@ -16,7 +16,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import { BootstrapVue, IconsPlugin, BModal } from 'bootstrap-vue';
+Vue.use(BootstrapVue);
 
 import {
   FormGroupPlugin,

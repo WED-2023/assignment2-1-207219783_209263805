@@ -11,38 +11,46 @@
         <div class="modal-body">
           <form @submit.prevent="saveChanges">
             <div class="form-group">
-              <label for="recipient-title" class="col-form-label">Recipe's Name:</label>
+              <label for="recipient-title">Recipe's Name:</label>
               <input type="text" class="form-control" id="recipient-title" v-model="recipeDetails.title" required>
 
-              <label for="recipient-image" class="col-form-label">Image URL:</label>
-              <input type="text" class="form-control" id="recipient-image" placeholder="https://example.example.com.jpg" v-model="recipeDetails.image" required>
+              <label for="recipient-image">Image URL:</label>
+              <input type="text" class="form-control" id="recipient-image" v-model="recipeDetails.image" required>
 
-              <label for="recipient-readyInMinutes" class="col-form-label">Preparation Time (minutes):</label>
-              <input type="number" class="form-control" id="recipient-readyInMinutes" v-model="recipeDetails.readyInMinutes" min="1" step="1" required>
+              <label for="recipient-readyInMinutes">Preparation Time (minutes):</label>
+              <input type="number" class="form-control" id="recipient-readyInMinutes" v-model="recipeDetails.readyInMinutes" min="1" required>
 
-              <label for="recipient-Instructions" class="col-form-label">Instructions:</label>
-              <input type="text" class="form-control" id="recipient-Instructions" v-model="recipeDetails.Instructions">
+              <label for="recipient-instructions">Instructions:</label>
+              <textarea class="form-control" id="recipient-instructions" v-model="recipeDetails.instructions"></textarea>
 
-              <label for="recipient-servings" class="col-form-label">Amount of Servings:</label>
-              <input type="number" class="form-control" id="recipient-servings" v-model="recipeDetails.servings" min="1" step="1" required>
+              <label>Ingredients:</label>
+              <div class="ingredient-list">
+                <div class="ingredient-row" v-for="(ingredient, index) in recipeDetails.ingredients" :key="index">
+                  <input type="text" v-model="ingredient.name" placeholder="Ingredient name" required>
+                  <input type="text" v-model="ingredient.amount" placeholder="Amount">
+                  <button type="button" @click="removeIngredient(index)" v-if="recipeDetails.ingredients.length > 1">-</button>
+                </div>
+                <button type="button" @click="addIngredient" class=" btn-info add-button">+ add more ingredient</button>
+              </div>
+
+              <label for="recipient-servings">Amount of Servings:</label>
+              <input type="number" class="form-control" id="recipient-servings" v-model="recipeDetails.servings" min="1" required>
 
               <div class="check-group">
                 <label class="form-check-label">
                   <input type="checkbox" class="form-check-input" v-model="recipeDetails.vegetarian"> Vegetarian
                 </label>
-
                 <label class="form-check-label">
                   <input type="checkbox" class="form-check-input" v-model="recipeDetails.vegan"> Vegan
                 </label>
-
                 <label class="form-check-label">
                   <input type="checkbox" class="form-check-input" v-model="recipeDetails.glutenFree"> Gluten Free
                 </label>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" ref="Close" data-dismiss="modal" @click="closeModal">Close</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
           </form>
         </div>
@@ -51,21 +59,19 @@
   </div>
 </template>
 
-
 <script>
-import { mockAddUserRecipe } from "../services/user.js";
+import axios from "axios";
 
 export default {
   data() {
     return {
       recipeDetails: {
-        id: null,
         title: '',
         image: '',
-        readyInMinutes: '',
-        aggregateLikes: 0,
+        readyInMinutes: 0,
+        ingredients: [{ name: '', amount: '' }],
         instructions: '',
-        servings: '',
+        servings: 1,
         vegetarian: false,
         vegan: false,
         glutenFree: false
@@ -74,34 +80,47 @@ export default {
   },
   methods: {
     saveChanges() {
-      if (!this.recipeDetails.title || !this.recipeDetails.image || !this.recipeDetails.readyInMinutes || !this.recipeDetails.servings) {
-        alert("All fields must be filled out.");
+      if (!this.allFieldsValid()) {
+        alert("Please ensure all required fields are filled.");
         return;
       }
-      const response = mockAddUserRecipe(this.recipeDetails);
-
-      if (response && response.data && response.data.success) {
-        console.log(response.data.message);
-        this.closeModal();
-      } else {
-        console.error('Failed to add recipe');
-      }
+      axios.post('http://localhost:3000/users/myRecipes', this.recipeDetails)
+        .then(response => {
+          alert("Recipe saved successfully!");
+          this.closeModal();
+        })
+        .catch(error => {
+          alert(`Failed to save the recipe: ${error.message}`);
+          console.error("Error:", error);
+        });
+    },
+    allFieldsValid() {
+      return this.recipeDetails.title && this.recipeDetails.image && this.recipeDetails.readyInMinutes && this.recipeDetails.instructions && this.recipeDetails.servings && this.recipeDetails.ingredients.every(i => i.name && i.amount);
     },
     closeModal() {
-      this.recipeDetails = { id: null, title: '', image: '', readyInMinutes: '', vegetarian: false, vegan: false, glutenFree: false }; // Clear form
-      this.$refs.recipeModal.hide(); // Close the modal
+      this.recipeDetails = {
+        title: '', image: '', readyInMinutes: 0, ingredients: [{ name: '', amount: '' }],
+        instructions: '', servings: 1, vegetarian: false, vegan: false, glutenFree: false
+      };
+      this.$refs.Close.click();
+    },
+    addIngredient() {
+      this.recipeDetails.ingredients.push({ name: '', amount: '' });
+    },
+    removeIngredient(index) {
+      if (this.recipeDetails.ingredients.length > 1) {
+        this.recipeDetails.ingredients.splice(index, 1);
+      }
     }
   }
 };
 </script>
 
 <style>
-  .check-group {
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-    justify-content: space-between;
-    margin-left: 50px;
-    margin-right: 50px;
-  }
+.check-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
 </style>
