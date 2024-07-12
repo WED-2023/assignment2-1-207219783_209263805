@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="main-container">
     <h1>Explore, <span class="underlined underline-clip">Create</span>
@@ -9,10 +7,7 @@
       <!-- Left Column: Random Recipes -->
       <div class="left-column">
         <h2>Explore This Recipe</h2>
-        <RecipePreviewList class="RandomRecipes recipe-preview-list" :recipes="randomRecipes" />
-        <!-- <b-button pill variant="outline-secondary" class="refresh-button" @click="fetchRandomRecipes">
-          Show New Random Recipes
-        </b-button> -->
+        <RecipePreviewList class="RandomRecipes recipe-preview-list" :recipes="randomRecipes" title="Random Recipes"/>
         <b-button pill variant="outline-secondary" class="refresh-button" @click="fetchRandomRecipes">
           Show New Random Recipes
         </b-button>
@@ -21,7 +16,7 @@
       <div class="right-column">
         <h2>Last Watched Recipes</h2>
         <div v-if="$root.store.username">
-          <RecipePreviewList class="LastWatchedRecipes" :recipes="lastRecipes"/>
+          <RecipePreviewList class="LastWatchedRecipes" :recipes="lastRecipes" title="Last Watched Recipes"/>
         </div>
         <div v-else>
           <router-link to="/login">
@@ -61,7 +56,7 @@ export default {
     async fetchRandomRecipes() {
       try {
         const response = await axios.get('http://localhost:3000/recipes/random');
-        this.randomRecipes = response.data.recipes;
+        this.randomRecipes = response.data;
         console.log(this.randomRecipes);
       } catch (error) {
         console.error("Failed to fetch random recipes", error);

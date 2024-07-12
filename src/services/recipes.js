@@ -1,7 +1,7 @@
 // src/services/recipes.js
 import recipe_full_view from "../assets/mocks/recipe_full_view.json";
 import recipe_preview from "../assets/mocks/recipe_preview.json";
-
+import axios  from "axios";
 
 export function mockGetRecipesPreview(amount = 1) {
   let recipes = [];
@@ -18,7 +18,19 @@ export function mockGetRecipesPreview(amount = 1) {
   return { data: { recipes: recipes } };
 }
 
+// export function mockGetRecipeFullDetails(recipeId) {
+//   return { data: { recipe: recipe_full_view } };
+// }
 export function mockGetRecipeFullDetails(recipeId) {
-  return { data: { recipe: recipe_full_view } };
+  return axios.get(`http://localhost:3000/recipes/recipeId/${recipeId}`)  // Update the base URL as needed
+  .then(response => {
+    const recipeDetails = response.data;
+    console.log('Recipe details fetched successfully:', recipeDetails);
+    return recipeDetails;
+  })
+  .catch(error => {
+    this.error = "Failed to fetch recipe details: " + error.message;
+    console.error(this.error);
+    return null;
+  });
 }
-

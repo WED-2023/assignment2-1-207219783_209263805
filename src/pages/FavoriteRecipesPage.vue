@@ -11,8 +11,10 @@
   </template>
   
   <script>
-  import RecipePreview from './components/RecipePreview.vue'; 
-  
+  import RecipePreview from '@/components/RecipePreview.vue'; 
+  import axios from 'axios';
+
+
   export default {
     components: {
       RecipePreview
@@ -22,29 +24,29 @@
         favoriteRecipes: []
       };
     },
+    mounted(){
+      this.fetchFavoriteRecipes();
+    },
     // async created() {
-    //   // Fetch user's favorite recipes from the backend
     //   try {
-    //     // Assuming you have a method to fetch favorite recipes from the server
     //     const favoriteRecipes = await this.fetchFavoriteRecipes();
     //     this.favoriteRecipes = favoriteRecipes;
     //   } catch (error) {
     //     console.error('Error fetching favorite recipes:', error);
     //   }
     // },
-    // methods: {
-    //     async fetchFavoriteRecipes() {
-    //         try {
-    //         // Make a request to your backend API to fetch favorite recipes
-    //         const response = await this.axios.get('/api/favoriteRecipes'); // Adjust the endpoint as needed
-    //         // Assuming the response contains an array of favorite recipes
-    //         return response.data.favoriteRecipes; // Update this according to your API response structure
-    //         } catch (error) {
-    //         console.error('Error fetching favorite recipes:', error);
-    //         throw error;
-    //         }
-    //     }
-    // }
+    methods: {
+        async fetchFavoriteRecipes() {
+            try {
+              const response = await axios.get('http://localhost:3000/users/favorites'); 
+              this.favoriteRecipes = response.data;
+              console.log(this.favoriteRecipes);
+              } catch (error) {
+              console.error('Error fetching favorite recipes:', error);
+              throw error;
+              }
+        }
+    }
   };
   </script>
   
