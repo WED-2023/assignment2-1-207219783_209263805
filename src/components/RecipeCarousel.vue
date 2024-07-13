@@ -1,132 +1,89 @@
 <template>
-    <div :id="carouselId" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner">
-        
-
-        <div class="carousel-item" v-for="(card, index) in recipes" :class="{ active: index === 0 }" :key="card.id">
-          <div class="cards-wrapper">
-            <RecipePreview v-for="card in recipes" :key="card.id" :card="card"></RecipePreview>
-          </div>
+  <div :id="carouselId" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div
+        class="carousel-item"
+        v-for="(chunk, index) in chunkedRecipes"
+        :class="{ active: index === 0 }"
+        :key="index"
+      >
+        <div class="cards-wrapper">
+          <RecipePreview v-for="card in chunk" :key="card.id" :card="card" />
         </div>
-
-
       </div>
-      <a class="carousel-control-prev" :href="'#' + carouselId" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" :href="'#' + carouselId" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
     </div>
-    <!-- <div class="carousel-container">
-    <div class="recipe-carousel">
-      <RecipePreview v-for="recipe in recipes" :key="recipe.id" :card="recipe" />
-    </div>
-    <button class="scroll-button left" @click="scroll(-250)">‹</button>
-    <button class="scroll-button right" @click="scroll(250)">›</button>
-  </div> -->
-  </template>
-  
-  <script>
-  import RecipePreview from '@/components/RecipePreview.vue';
-  import { mockGetRecipesPreview } from "../services/recipes.js";
-  
-  export default {
-    name: 'RecipeCarousel',
-    components: {
-      RecipePreview
-    },
-    props: {
-      recipes: {
-        type: Array,
-        required: true
+    <a
+      class="carousel-control-prev"
+      :href="'#' + carouselId"
+      role="button"
+      data-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a
+      class="carousel-control-next"
+      :href="'#' + carouselId"
+      role="button"
+      data-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</template>
+
+<script>
+import RecipePreview from '@/components/RecipePreview.vue';
+
+export default {
+  name: 'RecipeCarousel',
+  components: {
+    RecipePreview
+  },
+  props: {
+    recipes: {
+      type: Array,
+      required: true
+    }
+  },
+  data() {
+    return {
+      carouselId: 'carousel-' + Math.random().toString(36).substr(2, 9)
+    };
+  },
+  computed: {
+    chunkedRecipes() {
+      const chunkSize = 3; // Adjust the number of items per slide here
+      const chunks = [];
+      for (let i = 0; i < this.recipes.length; i += chunkSize) {
+        chunks.push(this.recipes.slice(i, i + chunkSize));
       }
-    },
-    data() {
-      return {
-        carouselItems: [],
-        carouselId: 'carousel-' + Math.random().toString(36).substr(2, 9)
-
-      }
-    },
-    async mounted() {
-
-      // await this.loadRecipes();
-    },
-    methods: {
-      // async loadRecipes() {
-      //   const amountToFetch = 6; 
-      //   const response = mockGetRecipesPreview(amountToFetch);
-      //   const recipes = response.data.recipes;
-
-      //   const itemsPerSlide = 3;  
-      //   this.carouselItems = [];
-      //   for (let i = 0; i < recipes.length; i += itemsPerSlide) {
-      //     this.carouselItems.push({
-      //       cards: recipes.slice(i, i + itemsPerSlide)
-      //     });
-      //   }
-      // }
+      return chunks;
     }
   }
-  </script>
-  
-  <style scoped>
-  .cards-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-  .carousel-inner {
-    padding: 1em;
-  }
-  .carousel-control-prev,
-  .carousel-control-next {
-    background-color: #e1e1e1;
-    width: 5vh;
-    height: 5vh;
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+};
+</script>
 
-  .carousel {
-    z-index: 1; 
-  }
-
-  /* .carousel-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.recipe-carousel {
+<style scoped>
+.cards-wrapper {
   display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  justify-content: center;
 }
-
-.recipe-preview {
-  scroll-snap-align: start;
+.carousel-inner {
+  padding: 1em;
 }
-
-.scroll-button {
-  position: absolute;
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: #e1e1e1;
+  width: 5vh;
+  height: 5vh;
+  border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #fff;
-  border: none;
-  cursor: pointer;
 }
 
-.left {
-  left: 10px;
+.carousel {
+  z-index: 1; 
 }
-
-.right {
-  right: 10px;
-} */
-
-  </style>
-  
+</style>

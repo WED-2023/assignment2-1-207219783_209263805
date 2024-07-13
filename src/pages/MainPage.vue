@@ -43,12 +43,12 @@ export default {
     return {
       randomRecipes: [],
 
-      recipes: [],
+      // recipes: [],
       lastRecipes: []
     };
   },
   mounted() {
-    this.updateRecipes();
+    // this.updateRecipes();
     this.updateLastRecipes();
     this.fetchRandomRecipes();
   },

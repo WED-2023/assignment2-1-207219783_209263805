@@ -3,15 +3,13 @@
       ⭐ {{ isFavorite ? 'Added to Favorites' : 'Add to Favorites' }}
     </button> -->
     <div>
-    <button @click="toggleFavorite" class="btn" :class="{'btn-success': isFavorite}">
-    <i class="material-icons">{{ isFavorite ? 'star' : 'star_border' }}</i>
-    <span class="like-overlay"></span>
-    </button>
-
+      <button @click="toggleFavorite" class="btn" :class="{'btn-success': isFavorite}">
+        <i class="material-icons">{{ isFavorite ? 'star' : 'star_border' }}</i>
+        <span class="like-overlay"></span>
+      </button>
     <span class="fav-text">{{ isFavorite ? 'Added to Favorites' : 'Add to Favorites' }}</span>
-    
   </div>
-  </template>
+</template>
   
   <script>
   import { mockAddFavorite } from "../services/user.js";
@@ -26,7 +24,7 @@
       },
       initiallyFavorited: {
         type: Boolean,
-        default: true
+        default: false
       }
     },
     data() {

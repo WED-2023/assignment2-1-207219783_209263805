@@ -4,7 +4,7 @@
         <div class="left-column">
           <br>
           <h2>My Recipes</h2>
-          <RecipePreviewList class="Recipes recipe-preview-list" :recipes="recipes" />
+          <RecipePreviewList class="Recipes recipe-preview-list" :recipes="recipes"  title="My Recipes"/>
         </div>
       </div>
     </div>

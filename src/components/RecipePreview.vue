@@ -1,10 +1,8 @@
 <template>
   <div class="card">
-    <!-- <img :src="`${require('@/assets/pizza.jpg')}`"> -->
     <img :src="card.image" class="card-img-top clickable-image" @click="navigateToRecipe(card.id)">
     <div class="card-body">
       <h5 class="card-title" style="font-weight: bold;">{{ card.title }}</h5>
-      <!-- <p class="card-text">{{ card.text }}</p> -->
       <p class="card-text"><small class="text-muted">⏱️ Prep time: {{ card.readyInMinutes }}</small></p>
       <p v-if="card.vegan" class="badge badge-success">🌿 Vegan</p>
       <p v-if="card.vegetarian" class="badge badge-warning">🥕 Vegetarian</p>
@@ -12,8 +10,9 @@
       <p v-if="card.viewed" class="badge badge-secondary">👁️ Viewed</p>
     </div>
     <div class="card-footer bg-white">
-      <LikeButton :recipeId="card.id" :initialLikes="card.aggregateLikes" :initiallyLiked="card.aggregateLikes"></LikeButton> <br>
-      <FavoriteButton :recipeId="card.id" :initiallyFavorited="isFavorite(card.recipeId)"></FavoriteButton>
+      <!-- <FavoriteButton :recipeId="recipe.id" :initiallyFavorited="recipe.isFavorited" /> -->
+
+      <FavoriteButton :recipeId="card.id" :initiallyFavorited="isFavorite(card.id)"></FavoriteButton>
     </div>
   </div>
 </template>
@@ -25,7 +24,6 @@ import FavoriteButton from '@/components/FavoriteButton.vue';
 export default {
   name: 'RecipePreview',
   components: {
-    LikeButton,
     FavoriteButton
   },
   props: {
@@ -43,10 +41,6 @@ export default {
     isFavorite(recipeId) {
       return JSON.parse(localStorage.getItem(`favorite_${recipeId}`)) || false;
     },
-    // updateFavorite(recipeId, isFavorite) {
-    //   localStorage.setItem(`favorite_${recipeId}`, isFavorite);
-    // },
-    
   }
 }
 </script>
@@ -71,9 +65,4 @@ export default {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
-/* .card-footer{ */
-  /* display: flex;
-  flex-direction: row;
-  padding: 20px; */
-/* } */
 </style>
