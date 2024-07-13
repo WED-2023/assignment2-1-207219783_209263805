@@ -12,9 +12,8 @@
 </template>
   
   <script>
-  import { mockAddFavorite } from "../services/user.js";
   import axios from 'axios';
-
+  
   export default {
     name: 'FavoriteButton',
     props: {
@@ -34,28 +33,40 @@
     },
     methods: {
       async toggleFavorite() {
-      if (!this.isFavorite) {
         try {
-          const response = await axios.post('http://localhost:3000/users/favorites', { recipeId: this.recipeId }, { withCredentials: true });
-          this.isFavorite = true; // Update favorite status
-          localStorage.setItem(`favorite_${this.recipeId}`, JSON.stringify(this.isFavorite)); // Update local storage
-          this.$toast.success(response.data.message || "The Recipe successfully saved as favorite", {
-            timeout: 5000,
-          });
+          if (this.isFavorite) {
+            // Remove from favorites
+            const response = await axios.delete(`http://localhost:3000/users/favorites/${this.recipeId}`, { withCredentials: true });
+            this.isFavorite = false;
+            localStorage.removeItem(`favorite_${this.recipeId}`);
+            this.$toast.info(response.data.message || "Removed from Favorites", {
+              timeout: 5000,
+            });
+          } else {
+            // Add to favorites
+            const response = await axios.post('http://localhost:3000/users/favorites', { recipeId: this.recipeId }, { withCredentials: true });
+            this.isFavorite = true;
+            localStorage.setItem(`favorite_${this.recipeId}`, JSON.stringify(this.isFavorite));
+            this.$toast.success(response.data.message || "Added to Favorites", {
+              timeout: 5000,
+            });
+          }
         } catch (error) {
-          console.error("Error marking recipe as favorite:", error);
-          this.$toast.error("An error occurred while saving the recipe as favorite.", {
+          console.error("Error toggling recipe as favorite:", error);
+          this.$toast.error("An error occurred while toggling the recipe as favorite.", {
             timeout: 5000,
           });
         }
+      },
+      loadFavoriteStatus() {
+        const storedFavorite = localStorage.getItem(`favorite_${this.recipeId}`);
+        if (storedFavorite !== null) {
+          this.isFavorite = JSON.parse(storedFavorite);
+        }
       }
-    }
     },
     created() {
-      const storedFavorite = localStorage.getItem(`favorite_${this.recipeId}`);
-      if (storedFavorite !== null) {
-        this.isFavorite = JSON.parse(storedFavorite);
-      }
+      this.loadFavoriteStatus();
     }
   };
   </script>
