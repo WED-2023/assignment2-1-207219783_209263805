@@ -6,7 +6,6 @@
     <div class="columns">
       <!-- Left Column: Random Recipes -->
       <div class="left-column">
-        <h2>Explore This Recipe</h2>
         <RecipePreviewList class="RandomRecipes recipe-preview-list" :recipes="randomRecipes" title="Random Recipes"/>
         <b-button pill variant="outline-secondary" class="refresh-button" @click="fetchRandomRecipes">
           Show New Random Recipes
@@ -14,7 +13,6 @@
       </div>
       <!-- Right Column: Last Viewed Recipes or Login Prompt -->
       <div class="right-column">
-        <h2>Last Watched Recipes</h2>
         <div v-if="$root.store.username">
           <RecipePreviewList class="LastWatchedRecipes" :recipes="lastRecipes" title="Last Watched Recipes"/>
         </div>

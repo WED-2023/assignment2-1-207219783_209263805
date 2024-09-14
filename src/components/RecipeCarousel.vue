@@ -20,13 +20,7 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
-    <!-- <div class="carousel-container">
-    <div class="recipe-carousel">
-      <RecipePreview v-for="recipe in recipes" :key="recipe.id" :card="recipe" />
-    </div>
-    <button class="scroll-button left" @click="scroll(-250)">‹</button>
-    <button class="scroll-button right" @click="scroll(250)">›</button>
-  </div> -->
+
   </template>
   
   <script>

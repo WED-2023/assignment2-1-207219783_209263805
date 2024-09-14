@@ -62,6 +62,9 @@ export default {
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   border: none;
   border-radius: 70px;
+  overflow: hidden; /* Ensures no content spills out */
+  height: 40rem;
+
 }
 .clickable-image {
   cursor: pointer;

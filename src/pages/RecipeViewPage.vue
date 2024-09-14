@@ -66,29 +66,15 @@ export default {
     };
   },
   async created() {
-      // let response;
-      // response = this.$route.params.response;
-      // let  response = mockGetRecipeFullDetails(this.$route.params.recipeId);
-      // if (!response.data.recipe) {
-      //   this.$router.replace("/NotFound");
-      //   return;
-      // }
+
       try {
         const response = await axios.get(`http://localhost:3000/recipes/recipeId/${this.$route.params.recipeId}`);
-        
-        //     this.$root.store.server_domain + "/recipes/" + this.$route.params.recipeId,
-      //     {
-      //       withCredentials: true
-      //     }
-      //   );
-      //   response = mockGetRecipeFullDetails(this.$route.params.recipeId);
 
-      //   // console.log("response.status", response.status);
-        // if (response.status !== 200) this.$router.replace("/NotFound");
         if (response) {
+          console.log(response);
           this.recipe = {
-            ...response,
-            instructions: response.analyzedInstructions.map(instruction => instruction.steps).flat()
+            ...response.data,
+            instructions: response.data.analyzedInstructions.map(instruction => instruction.steps).flat()
           };
         } else {
           this.error = "Failed to load recipe details.";
@@ -154,6 +140,7 @@ export default {
   border: none;
   border-radius: 20px;
   width: 70%;
+
 }
 /* .card-header {
   background-color: #f8f9fa;
