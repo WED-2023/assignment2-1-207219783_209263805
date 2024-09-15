@@ -76,6 +76,8 @@ export default {
             ...response.data,
             instructions: response.data.analyzedInstructions.map(instruction => instruction.steps).flat()
           };
+          this.saveRecipeView(this.recipe);
+
         } else {
           this.error = "Failed to load recipe details.";
           this.$router.replace("/NotFound");
@@ -86,49 +88,26 @@ export default {
           return;
         }
 
-    //   let {
-    //     analyzedInstructions,
-    //     instructions,
-    //     extendedIngredients,
-    //     aggregateLikes,
-    //     readyInMinutes,
-    //     vegetarian,
-    //     vegan,
-    //     glutenFree,
-    //     servings,
-    //     image,
-    //     title,
-    //     id
-    //   } = response.data.recipe;
-
-    //   let _instructions = analyzedInstructions
-    //     .map((fstep) => {
-    //       fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-    //       return fstep.steps;
-    //     })
-    //     .reduce((a, b) => [...a, ...b], []);
-
-    //   let _recipe = {
-    //     instructions,
-    //     _instructions,
-    //     analyzedInstructions,
-    //     extendedIngredients,
-    //     aggregateLikes,
-    //     readyInMinutes,
-    //     vegetarian,
-    //     vegan,
-    //     glutenFree,
-    //     servings,
-    //     image,
-    //     title,
-    //     id
-    //   };
-
-    //   this.recipe = _recipe;
-    // } catch (error) {
-    //   console.log(error);
-    //   this.$router.replace("/NotFound");
-    // }
+  }, 
+  methods:{
+    saveRecipeView(recipe) {
+        const userId = 1; // Replace with actual user ID if you have it
+        axios.post('http://localhost:3000/recipes/save-recipe', {
+            recipeId: this.$route.params.recipeId,
+            title: recipe.title,
+            vegan: recipe.vegan,
+            vegetarian: recipe.vegetarian,
+            glutenFree: recipe.glutenFree,
+            readyInMinutes: recipe.readyInMinutes,
+            aggregateLikes: recipe.aggregateLikes
+        })
+        .then(() => {
+            console.log('Recipe saved to the database! 🎉');
+        })
+        .catch(error => {
+            console.error('Error saving recipe to the database:', error);
+        });
+    }
   }
 };
 </script>

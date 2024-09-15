@@ -16,7 +16,11 @@
       Sort by:
       <button class="filter-button" @click="sortKey = 'readyInMinutes'">Preparation Time</button>
       <button  class="filter-button" @click="sortKey = 'popularity'">Popularity</button>
+      
     </div>
+    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div> <!-- Error message display -->
+    <div v-if="isLoading" class="loading">Loading...</div> <!-- Loading indicator -->
+
     </form>
 
     <!-- Sorting Options -->
@@ -51,6 +55,8 @@ export default {
       recipes: [],
       selectedCount: '5',
       sortKey: 'popularity', // Default sorting key
+      isLoading: false, // Track loading state
+      errorMessage: null, // Store error messages
     };
   },
   computed: {
@@ -69,7 +75,10 @@ export default {
       console.log('Search query is empty.');
       return;
     }
+  // this.isLoading = true; // Set loading to true when the fetch starts
+  this.errorMessage = null; // Clear previous errors
   const apiKey = '286e5a606e124fbe8cf4e627c135ab92'; // Use your actual API key
+  console.log(this.searchQuery);
   // Enabling addRecipeInformation and possibly addRecipeInstructions if necessary
   const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${this.searchQuery}&number=${this.selectedCount}&addRecipeInformation=true&addRecipeInstructions=true`;
   axios.get(url)
@@ -81,10 +90,16 @@ export default {
         instructions: recipe.instructions || 'No instructions provided.'
       }));
       console.log(this.recipes); // Logging to check the structure
+      console.log(this.searchQuery); // Logging to check the structure
+
     })
     .catch(error => {
+      this.errorMessage = 'Error fetching recipes: ' + error.message; // Set error message
       console.error('Error fetching recipes:', error);
-    });
+      })
+      .finally(() => {
+        this.isLoading = false; // Reset loading state
+      });
 }
 
 
@@ -92,7 +107,7 @@ export default {
   mounted() {
     if (localStorage.getItem('lastSearch')) {
       this.searchQuery = localStorage.getItem('lastSearch');
-      this.fetchRecipes();
+      this.fetchRecipes(this.searchQuery);
     }
   }
 }
@@ -323,5 +338,14 @@ export default {
 
 .recipe-info:hover {
   background-color: #eaeaea; /* Light background transition on hover */
+}
+.loading {
+  color: #007BFF;
+  font-size: 1.2rem;
+}
+
+.error-message {
+  color: #DC3545;
+  font-size: 1.2rem;
 }
 </style>

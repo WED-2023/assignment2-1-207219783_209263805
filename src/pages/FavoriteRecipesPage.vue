@@ -5,26 +5,32 @@
         <p>No favorite recipes yet.</p>
       </div>
       <div v-else>
-        <RecipePreview v-for="recipe in favoriteRecipes" :key="recipe.id" :recipe="recipe" />
+        <!-- <RecipePreview v-for="recipe in favoriteRecipes" :key="recipe.id" :card="recipe" /> -->
+        <RecipePreviewList class="recipeCarousel" :recipes="favoriteRecipes" />
+
       </div>
     </div>
   </template>
   
   <script>
-  import RecipePreview from '@/components/RecipePreview.vue'; 
+  import RecipePreview from '@/components/RecipePreview.vue';
+  import RecipeCarousel from '../components/RecipeCarousel.vue';
+  import RecipePreviewList from '../components/RecipePreviewList.vue'; 
   import axios from 'axios';
 
 
   export default {
     components: {
-      RecipePreview
+      RecipePreview,
+      RecipeCarousel,
+      RecipePreviewList
     },
     data() {
       return {
         favoriteRecipes: []
       };
     },
-    mounted(){
+    created(){
       this.fetchFavoriteRecipes();
     },
     // async created() {
@@ -39,6 +45,8 @@
         async fetchFavoriteRecipes() {
             try {
               const response = await axios.get('http://localhost:3000/users/favorites'); 
+              console.log('API Response:', response.data);
+
               this.favoriteRecipes = response.data;
               console.log(this.favoriteRecipes);
               } catch (error) {

@@ -4,7 +4,7 @@
       {{ title }}
       <slot></slot>
     </h3>
-        <RecipeCarousel class="recipeCarousel" :recipes="recipes" />
+        <RecipeCarousel class="recipe-preview-list" :recipes="recipes" />
 
   </div>
 </template>
