@@ -20,8 +20,14 @@
               <label for="recipient-readyInMinutes">Preparation Time (minutes):</label>
               <input type="number" class="form-control" id="recipient-readyInMinutes" v-model="recipeDetails.readyInMinutes" min="1" required>
 
+              <!-- <label for="recipient-instructions">Instructions:</label>
+              <textarea class="form-control" id="recipient-instructions" v-model="recipeDetails.instructions"></textarea> -->
               <label for="recipient-instructions">Instructions:</label>
-              <textarea class="form-control" id="recipient-instructions" v-model="recipeDetails.instructions"></textarea>
+              <div v-for="(instruction, index) in recipeDetails.instructions" :key="index" class="instruction-row">
+                <input type="text" v-model="recipeDetails.instructions[index]" placeholder="Instruction step" class="form-control" required>
+                <button type="button" @click="removeInstruction(index)" v-if="recipeDetails.instructions.length > 1">-</button>
+              </div>
+              <button type="button" @click="addInstruction" class="btn-info add-button">+ Add more instruction</button>
 
               <label>Ingredients:</label>
               <div class="ingredient-list">
@@ -70,12 +76,11 @@ export default {
         image: '',
         readyInMinutes: 0,
         ingredients: [{ name: '', amount: '' }],
-        instructions: '',
+        instructions: [''],
         servings: 1,
         vegetarian: false,
         vegan: false,
-        glutenFree: false,
-        isMyRecipe: true
+        glutenFree: false
       }
     };
   },
@@ -96,14 +101,22 @@ export default {
         });
     },
     allFieldsValid() {
-      return this.recipeDetails.title && this.recipeDetails.image && this.recipeDetails.readyInMinutes && this.recipeDetails.instructions && this.recipeDetails.servings && this.recipeDetails.ingredients.every(i => i.name && i.amount);
+      return this.recipeDetails.title && this.recipeDetails.image && this.recipeDetails.readyInMinutes && this.recipeDetails.instructions.every(i => i) && this.recipeDetails.servings && this.recipeDetails.ingredients.every(i => i.name && i.amount);
     },
     closeModal() {
       this.recipeDetails = {
         title: '', image: '', readyInMinutes: 0, ingredients: [{ name: '', amount: '' }],
-        instructions: '', servings: 1, vegetarian: false, vegan: false, glutenFree: false
+        instructions: [''], servings: 1, vegetarian: false, vegan: false, glutenFree: false
       };
       this.$refs.Close.click();
+    },
+    addInstruction() {
+      this.recipeDetails.instructions.push('');
+    },
+    removeInstruction(index) {
+      if (this.recipeDetails.instructions.length > 1) {
+        this.recipeDetails.instructions.splice(index, 1);
+      }
     },
     addIngredient() {
       this.recipeDetails.ingredients.push({ name: '', amount: '' });

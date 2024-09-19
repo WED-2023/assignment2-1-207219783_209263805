@@ -5,8 +5,7 @@
 
         <div class="carousel-item" v-for="(recipe, index) in recipes" :class="{ active: index === 0 }" :key="recipe.recipe_id">
           <div class="cards-wrapper">
-            <RecipePreview :card="recipe" :isMyRecipe="isMyRecipe" v-for="recipe in recipes" :key="recipe.recipe_id" />
-            <!-- <RecipePreview :card="recipe" :isMyRecipe="true"/> -->
+            <RecipePreview :card="recipe" v-for="recipe in recipes" :key="recipe.recipe_id" />
           </div>
         </div>
 
@@ -36,12 +35,7 @@
       recipes: {
         type: Array,
         required: true
-      },
-      isMyRecipe: {
-        type: Boolean,
-        required: false,
-        default: false
-    }
+      }
     },
     data() {
       return {

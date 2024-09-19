@@ -1,5 +1,4 @@
 <template>
-<!-- v-if="recipe && recipe.title" -->
   <div class="container d-flex justify-content-center" v-if="recipe"> 
     <div class="card">
       <div class="card-header recipe-header text-center">
@@ -47,7 +46,6 @@
 
 
 <script>
-import { mockGetRecipeFullDetails } from "../services/recipes.js";
 import FavoriteButton from '@/components/FavoriteButton.vue';
 import axios from 'axios';
 
@@ -59,21 +57,12 @@ export default {
   data() {
     return {
       recipe: null,
-      isMyRecipe: this.$route.params.isMyRecipe
     };
   },
   async mounted() {
-    const isMyRecipe = this.$route.params.isMyRecipe === 'true' || this.$route.params.isMyRecipe === true;
-    console.log("isMyRecipe", isMyRecipe);
       try {
         let response;
-        if (!isMyRecipe){
-          // Fetch recipe from spoonColar
-          response = await axios.get(`http://localhost:3000/recipes/recipeId/${this.$route.params.recipeId}`);
-        }else{
-          // Fetch recipe from local database 
-          response = await axios.get(`http://localhost:3000/recipes/MyRecipe/${this.$route.params.recipeId}`);
-        }
+        response = await axios.get(`http://localhost:3000/recipes/recipeId/${this.$route.params.recipeId}`);
         
         if (response && response.data) {
           console.log(response);
@@ -83,10 +72,8 @@ export default {
                 ? response.data.analyzedInstructions.map(instruction => instruction.steps).flat() : []
 
           };
-          if (!isMyRecipe){
             await this.addLastViewRecipe(this.$route.params.recipeId);
-          }
-          // this.saveRecipeView(this.recipe);
+          
         } else {
           this.error = "Failed to load recipe details.";
           this.$router.replace("/NotFound");
@@ -104,7 +91,6 @@ export default {
           console.error('User not logged in.');
           return;
         }
-        // console.log('Sending POST request to add last viewed recipe:', recipeId);
 
         const response = await axios.post('http://localhost:3000/users/lastViewed', {
           user_id: localStorage.username,
@@ -117,21 +103,6 @@ export default {
         console.error('Error saving recipe to the database:', error);
       }
     }
-        // axios.post('http://localhost:3000/recipes/save-recipe', {
-        //     recipeId: this.$route.params.recipeId,
-        //     title: recipe.title,
-        //     vegan: recipe.vegan,
-        //     vegetarian: recipe.vegetarian,
-        //     glutenFree: recipe.glutenFree,
-        //     readyInMinutes: recipe.readyInMinutes,
-        //     aggregateLikes: recipe.aggregateLikes
-        // })
-        // .then(() => {
-        //     console.log('Recipe saved to the database! 🎉');
-        // })
-        // .catch(error => {
-        //     console.error('Error saving recipe to the database:', error);
-        // });
   }
 };
 </script>

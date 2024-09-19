@@ -32,10 +32,8 @@ export default {
         async fetchRecipes() {
         try {
             const response = await axios.get('http://localhost:3000/users/myRecipes');
-            console.log("Fetched recipes:", response.data);  // Debug: Check if recipes contain valid IDs
-
             this.recipes = response.data; // Store response data in recipes
-            console.log("Recipes fetched:", this.recipes);
+            // console.log("Recipes fetched:", this.recipes);
         } catch (error) {
             console.error("Failed to fetch recipes:", error);
         }
@@ -48,14 +46,12 @@ export default {
   <style lang="scss" scoped>
 
   .main-container {
-    // background-color: aliceblue;
     min-height: 100vh; /* Ensure it takes at least the full viewport height */
     min-width: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // max-width: 1200px;
     margin: 0 auto;
     padding: 80px 20px 20px; /* Add top padding to account for navbar height */
     color: #333; /* Default text color for the container */
