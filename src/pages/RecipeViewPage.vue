@@ -1,5 +1,6 @@
 <template>
-  <div class="container d-flex justify-content-center" v-if="recipe.title">
+<!-- v-if="recipe && recipe.title" -->
+  <div class="container d-flex justify-content-center" v-if="recipe"> 
     <div class="card">
       <div class="card-header recipe-header text-center">
         <h1 class="card-title">{{ recipe.title }}</h1>
@@ -7,7 +8,7 @@
       </div>
 
       <div class="card-body recipe-body">
-        <img :src="recipe.image" class="center" />
+        <img :src="recipe.image || '/path-to-default-image.jpg'" class="center" />
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
@@ -26,24 +27,19 @@
           </div>
           <div class="wrapped">
             <b>Instructions:</b>
-            <ol>
+            <ol v-if="recipe.instructions && recipe.instructions.length > 0">
               <li v-for="step in recipe.instructions" :key="step.number">
                 {{ step.step }}
               </li>
             </ol>
+            <p v-else>No instructions available for this recipe.</p>
           </div>
         </div>
         <div class="button-container">
           <b-button variant="primary" :to="{ name: 'main' }">Back to Home Page</b-button>
-          <FavoriteButton></FavoriteButton>
+          <FavoriteButton :recipeId="$route.params.recipeId.toString()"></FavoriteButton>
         </div>
-        
       </div>
-      <!-- <pre>
-      {{ $route.params }}
-      {{ recipe }}
-    </pre
-      > -->
     </div>
 
   </div>
@@ -62,52 +58,80 @@ export default {
   },
   data() {
     return {
-      recipe: null
+      recipe: null,
+      isMyRecipe: this.$route.params.isMyRecipe
     };
   },
-  async created() {
-
+  async mounted() {
+    const isMyRecipe = this.$route.params.isMyRecipe === 'true' || this.$route.params.isMyRecipe === true;
+    console.log("isMyRecipe", isMyRecipe);
       try {
-        const response = await axios.get(`http://localhost:3000/recipes/recipeId/${this.$route.params.recipeId}`);
-
-        if (response) {
+        let response;
+        if (!isMyRecipe){
+          // Fetch recipe from spoonColar
+          response = await axios.get(`http://localhost:3000/recipes/recipeId/${this.$route.params.recipeId}`);
+        }else{
+          // Fetch recipe from local database 
+          response = await axios.get(`http://localhost:3000/recipes/MyRecipe/${this.$route.params.recipeId}`);
+        }
+        
+        if (response && response.data) {
           console.log(response);
           this.recipe = {
             ...response.data,
-            instructions: response.data.analyzedInstructions.map(instruction => instruction.steps).flat()
-          };
-          this.saveRecipeView(this.recipe);
+              instructions: Array.isArray(response.data.analyzedInstructions) && response.data.analyzedInstructions.length > 0
+                ? response.data.analyzedInstructions.map(instruction => instruction.steps).flat() : []
 
+          };
+          if (!isMyRecipe){
+            await this.addLastViewRecipe(this.$route.params.recipeId);
+          }
+          // this.saveRecipeView(this.recipe);
         } else {
           this.error = "Failed to load recipe details.";
           this.$router.replace("/NotFound");
         }
-        } catch (error) {
-          console.log("error.response.status", error.response.status);
-          this.$router.replace("/NotFound");
-          return;
-        }
-
+      } catch (error) {
+        console.log("error.response.status", error.response.status);
+        this.$router.replace("/NotFound");
+        return;
+      }
   }, 
   methods:{
-    saveRecipeView(recipe) {
-        const userId = 1; // Replace with actual user ID if you have it
-        axios.post('http://localhost:3000/recipes/save-recipe', {
-            recipeId: this.$route.params.recipeId,
-            title: recipe.title,
-            vegan: recipe.vegan,
-            vegetarian: recipe.vegetarian,
-            glutenFree: recipe.glutenFree,
-            readyInMinutes: recipe.readyInMinutes,
-            aggregateLikes: recipe.aggregateLikes
-        })
-        .then(() => {
-            console.log('Recipe saved to the database! 🎉');
-        })
-        .catch(error => {
-            console.error('Error saving recipe to the database:', error);
+    async addLastViewRecipe(recipeId) {
+      try {
+        if (!localStorage.username || localStorage.username === 'null' || localStorage.username === 'undefined') {
+          console.error('User not logged in.');
+          return;
+        }
+        // console.log('Sending POST request to add last viewed recipe:', recipeId);
+
+        const response = await axios.post('http://localhost:3000/users/lastViewed', {
+          user_id: localStorage.username,
+          recipeId: recipeId,
         });
+        if (response.data.status !== 200) {
+          console.error('Error saving recipe to the database:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error saving recipe to the database:', error);
+      }
     }
+        // axios.post('http://localhost:3000/recipes/save-recipe', {
+        //     recipeId: this.$route.params.recipeId,
+        //     title: recipe.title,
+        //     vegan: recipe.vegan,
+        //     vegetarian: recipe.vegetarian,
+        //     glutenFree: recipe.glutenFree,
+        //     readyInMinutes: recipe.readyInMinutes,
+        //     aggregateLikes: recipe.aggregateLikes
+        // })
+        // .then(() => {
+        //     console.log('Recipe saved to the database! 🎉');
+        // })
+        // .catch(error => {
+        //     console.error('Error saving recipe to the database:', error);
+        // });
   }
 };
 </script>

@@ -1,8 +1,14 @@
 <template>
   <div class="main-container">
-    <h1>Explore, <span class="underlined underline-clip">Create</span>
-    <br>& Enjoy <span class="underlined underline-mask">Delicious</span><br>
-    <span class="underlined underline-overflow">Recipes</span></h1>
+    <h1><span class="underlined underline-mask">Explore,</span>
+      <span class="underlined underline-clip">Create</span>
+      <span class="underlined underline-overflow"> & Delicious Recipes</span>
+    </h1><br><br>
+
+    <!-- <h1>Explore, <span class="underlined underline-clip">Create</span>
+    & Enjoy <span class="underlined underline-mask">Delicious</span>
+    <span class="underlined underline-overflow">Recipes</span></h1> -->
+    
     <div class="columns">
       <!-- Left Column: Random Recipes -->
       <div class="left-column">
@@ -14,7 +20,11 @@
       <!-- Right Column: Last Viewed Recipes or Login Prompt -->
       <div class="right-column">
         <div v-if="$root.store.username">
-          <RecipePreviewList class="LastWatchedRecipes" :recipes="lastRecipes" title="Last Watched Recipes"/>
+          <!-- <RecipePreviewList class="LastWatchedRecipes" :recipes="lastRecipes" title="Last Watched Recipes"/> -->
+          <div v-if="lastRecipes && lastRecipes.length === 0">
+            <p>No recipes viewed recently</p>
+          </div>
+          <RecipePreviewList v-else :recipes="lastRecipes" title="Last Watched Recipes"/>
         </div>
         <div v-else>
           <router-link to="/login">
@@ -40,15 +50,18 @@ export default {
   data() {
     return {
       randomRecipes: [],
-
       recipes: [],
       lastRecipes: []
     };
   },
   mounted() {
-    this.updateRecipes();
-    this.updateLastRecipes();
+    //this.updateRecipes();
+    // this.updateLastRecipes();
+
     this.fetchRandomRecipes();
+    if (this.$root.store.username) {
+      this.fetchLastViewedRecipes();
+    }
   },
   methods: {
     async fetchRandomRecipes() {
@@ -60,70 +73,84 @@ export default {
         console.error("Failed to fetch random recipes", error);
       }
     },
-    async updateRecipes() {
+    async fetchLastViewedRecipes() {
       try {
-        // const response = await this.axios.get(
-        //   this.$root.store.server_domain + "/recipes/random",
-        // );
-
-        const amountToFetch = 3; // 1 row of recipes
-        const response = mockGetRecipesPreview(amountToFetch);
-        this.recipes = response.data.recipes;
-        const recipes = response.data.recipes;
-        this.recipes = [];
-        this.recipes.push(...recipes);
+        const response = await axios.get('http://localhost:3000/users/lastViewed');
+        if (response.data && Array.isArray(response.data)) {
+          this.lastRecipes = response.data;
+        } else {
+          console.error('No valid recipes returned');
+        }
+        console.log(this.lastRecipes);
       } catch (error) {
-        console.log(error);
-      }
-    },
-    async updateLastRecipes() {
-      try {
-        // const response = await this.axios.get(
-        //   this.$root.store.server_domain + "/recipes/random",
-        // );
-
-        const amountToFetch = 3; // 1 row of recipes
-        const response = mockGetRecipesPreview(amountToFetch);
-        this.lastRecipes = response.data.recipes;
-        const recipes = response.data.recipes;
-
-        this.lastRecipes = [];
-        this.lastRecipes.push(...recipes);
-      } catch (error) {
-        console.log(error);
+        console.error("Failed to fetch last viewed recipes", error);
       }
     },
 
-    // async fetchRandomRecipes() {
-    //   try {
-    //     const amountToFetch = 3; // Number of recipes to display
-    //     const response = mockGetRecipesPreview(10); // Fetch a larger set of recipes
-    //     this.recipes = this.getRandomSubset(response.data.recipes, amountToFetch);
-    //     console.log(recipes)
-    //   } catch (error) {
-    //     console.error("Failed to fetch random recipes", error);
-    //   }
-    // },
-    getRandomSubset(arr, n) {
-      const result = new Array(n);
-      let len = arr.length;
-      const taken = new Array(len);
+    // -------------------------- check noam! -------------
+  //   async updateRecipes() {
+  //     try {
+  //       // const response = await this.axios.get(
+  //       //   this.$root.store.server_domain + "/recipes/random",
+  //       // );
 
-      if (n > len) {
-        throw new RangeError("getRandomSubset: more elements taken than available");
-      }
+  //       const amountToFetch = 3; // 1 row of recipes
+  //       const response = mockGetRecipesPreview(amountToFetch);
+  //       this.recipes = response.data.recipes;
+  //       const recipes = response.data.recipes;
+  //       this.recipes = [];
+  //       this.recipes.push(...recipes);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+  //   async updateLastRecipes() {
+  //     try {
+  //       // const response = await this.axios.get(
+  //       //   this.$root.store.server_domain + "/recipes/random",
+  //       // );
 
-      while (n--) {
-        const x = Math.floor(Math.random() * len);
-        result[n] = arr[x in taken ? taken[x] : x];
-        taken[x] = --len in taken ? taken[len] : len;
-      }
+  //       const amountToFetch = 3; // 1 row of recipes
+  //       const response = mockGetRecipesPreview(amountToFetch);
+  //       this.lastRecipes = response.data.recipes;
+  //       const recipes = response.data.recipes;
 
-      return result;
-    },
-  },
+  //       this.lastRecipes = [];
+  //       this.lastRecipes.push(...recipes);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
 
-};
+  //   // async fetchRandomRecipes() {
+  //   //   try {
+  //   //     const amountToFetch = 3; // Number of recipes to display
+  //   //     const response = mockGetRecipesPreview(10); // Fetch a larger set of recipes
+  //   //     this.recipes = this.getRandomSubset(response.data.recipes, amountToFetch);
+  //   //     console.log(recipes)
+  //   //   } catch (error) {
+  //   //     console.error("Failed to fetch random recipes", error);
+  //   //   }
+  //   // },
+  //   getRandomSubset(arr, n) {
+  //     const result = new Array(n);
+  //     let len = arr.length;
+  //     const taken = new Array(len);
+
+  //     if (n > len) {
+  //       throw new RangeError("getRandomSubset: more elements taken than available");
+  //     }
+
+  //     while (n--) {
+  //       const x = Math.floor(Math.random() * len);
+  //       result[n] = arr[x in taken ? taken[x] : x];
+  //       taken[x] = --len in taken ? taken[len] : len;
+  //     }
+  //     return result;
+  //   },
+  // },
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -163,11 +190,6 @@ h2{
   align-items: center;
 }
 
-.RandomRecipes, .LastWatchedRecipes {
-  width: 100%;
-  
-}
-
 .refresh-button, .login-button {
   font-size: 1.25rem;
   padding: 10px 20px;
@@ -204,6 +226,9 @@ h2{
 
 h1 {
   font-size: clamp(3rem, 15vmin, 5rem);
+  line-height: 1.2;
+  white-space: nowrap; /* Prevent text from breaking into multiple lines */
+  text-align: center;
   font-family: sans-serif;
   color: hsl(0 0% 98%);
 }
@@ -211,6 +236,8 @@ h1 {
 .underlined {
 /*   background: red; */
   position: relative;
+  vertical-align: middle; /* Align text vertically in the middle */
+  margin-right: 20px; /* Add space between the underlined words */
 }
 
 .underline-mask:after {
@@ -239,9 +266,9 @@ h1 {
 .underline-overflow:after {
   content: '';
   position: absolute;
-  top: 100%;
+  top: 90%;
   height: 150%;
-  aspect-ratio: 2.5 / 1;
+  aspect-ratio: 7 / 2;
   left: 50%;
   transform: translate(-50%, -10%);
   border-radius: 50%;
@@ -262,56 +289,3 @@ h1 {
   clip-path: polygon(0 0, 50% 50%, 100% 0);
 }
 </style>
-
-
-<!-- <style lang="scss" scoped>
-
-
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 80px 20px 20px; /* Add top padding to account for navbar height */
-  position: relative;
-  text-align: center;
-  color: #333; /* Default text color for the container */
-}
-
-.title {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #222; /* Darker text color for the title */
-  font-weight: bold; /* Bold the title */
-}
-
-.RandomRecipes {
-  margin: 20px 0;
-}
-
-.blur {
-  -webkit-filter: blur(5px);
-  filter: blur(2px);
-}
-
-::v-deep .blur .recipe-preview {
-  pointer-events: none;
-  cursor: default;
-}
-
-.login-button {
-  font-size: 1.25rem;
-  padding: 10px 20px;
-  text-decoration: none;
-  color: white;
-  background-color: #f44336;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 20px;
-}
-
-.login-button:hover {
-  background-color: #c3372d;
-}
-</style> -->

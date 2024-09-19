@@ -16,17 +16,11 @@
       Sort by:
       <button class="filter-button" @click="sortKey = 'readyInMinutes'">Preparation Time</button>
       <button  class="filter-button" @click="sortKey = 'popularity'">Popularity</button>
-      
     </div>
-    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div> <!-- Error message display -->
-    <div v-if="isLoading" class="loading">Loading...</div> <!-- Loading indicator -->
-
     </form>
 
     <!-- Sorting Options -->
     
-    <!-- <button class="filter-button" @click="sortKey = 'readyInMinutes'">Preparation Time</button> -->
-
     <div v-if="recipes.length" class="recipes-grid">
       <div v-for="recipe in sortedRecipes" :key="recipe.id" class="recipe-card">
         <img :src="recipe.image" alt="recipe image" @click="goToRecipePage(recipe.id)" class="recipe-image">
@@ -55,8 +49,6 @@ export default {
       recipes: [],
       selectedCount: '5',
       sortKey: 'popularity', // Default sorting key
-      isLoading: false, // Track loading state
-      errorMessage: null, // Store error messages
     };
   },
   computed: {
@@ -75,12 +67,8 @@ export default {
       console.log('Search query is empty.');
       return;
     }
-  // this.isLoading = true; // Set loading to true when the fetch starts
-  this.errorMessage = null; // Clear previous errors
-  const apiKey = '286e5a606e124fbe8cf4e627c135ab92'; // Use your actual API key
-  console.log(this.searchQuery);
-  // Enabling addRecipeInformation and possibly addRecipeInstructions if necessary
-  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${this.searchQuery}&number=${this.selectedCount}&addRecipeInformation=true&addRecipeInstructions=true`;
+  const url = `http://localhost:3000/recipes/search?query=${this.searchQuery}&number=${this.selectedCount}`;
+
   axios.get(url)
     .then(response => {
       this.recipes = response.data.results.map(recipe => ({
@@ -90,16 +78,10 @@ export default {
         instructions: recipe.instructions || 'No instructions provided.'
       }));
       console.log(this.recipes); // Logging to check the structure
-      console.log(this.searchQuery); // Logging to check the structure
-
     })
     .catch(error => {
-      this.errorMessage = 'Error fetching recipes: ' + error.message; // Set error message
       console.error('Error fetching recipes:', error);
-      })
-      .finally(() => {
-        this.isLoading = false; // Reset loading state
-      });
+    });
 }
 
 
@@ -107,80 +89,11 @@ export default {
   mounted() {
     if (localStorage.getItem('lastSearch')) {
       this.searchQuery = localStorage.getItem('lastSearch');
-      this.fetchRecipes(this.searchQuery);
+      this.fetchRecipes();
     }
   }
 }
 </script>
-
-
-
-<!-- 
-<style scoped>
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 100px;
-  text-align: center;
-  /* max-height: calc(100vh - 140px);  */
-  display: flex;
-  flex-direction: column;
-  /* position: relative;  */
-  z-index: 1; /* Bring container to front */
-}
-
-.search-form {
-  display: flex;
-  max-height: calc(100vh - 140px); 
-
-  position: relative; /* Ensure container is positioned contextually */
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  z-index: 1000; /* Ensure form stays on top */
-}
-.recipes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  perspective: 1000px; /* Needed for 3D transformations */
-}
-
-.recipe-card {
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  overflow: hidden;
-  transform: translateZ(0); /* GPU acceleration for smoother animations */
-  transition: transform 0.3s ease-out;
-}
-
-.recipe-card:hover {
-  transform: scale(1.05) rotateZ(-3deg); /* Slight zoom and 3D rotation effect */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-.recipe-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  transition: transform 0.3s ease-in-out;
-}
-
-.recipe-image:hover {
-  transform: scale(1.1); /* Slightly enlarge the image on hover */
-}
-
-.recipe-info {
-  padding: 10px;
-  text-align: left;
-  transition: background-color 0.3s linear;
-}
-
-.recipe-info:hover {
-  background-color: #eaeaea; /* Light background transition on hover */
-}
-</style> -->
 
 <style scoped>
 .container {
@@ -338,14 +251,5 @@ export default {
 
 .recipe-info:hover {
   background-color: #eaeaea; /* Light background transition on hover */
-}
-.loading {
-  color: #007BFF;
-  font-size: 1.2rem;
-}
-
-.error-message {
-  color: #DC3545;
-  font-size: 1.2rem;
 }
 </style>

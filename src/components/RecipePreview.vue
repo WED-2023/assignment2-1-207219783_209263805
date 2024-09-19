@@ -1,54 +1,75 @@
 <template>
   <div class="card">
-    <!-- <img :src="`${require('@/assets/pizza.jpg')}`"> -->
-    <img :src="card.image" class="card-img-top clickable-image" @click="navigateToRecipe(card.id)">
+    <img :src="card.image" class="card-img-top clickable-image" @click="navigateToRecipe(card.id || card.recipe_id, isMyRecipe)">
     <div class="card-body">
       <h5 class="card-title" style="font-weight: bold;">{{ card.title }}</h5>
-      <!-- <p class="card-text">{{ card.text }}</p> -->
       <p class="card-text"><small class="text-muted">⏱️ Prep time: {{ card.readyInMinutes }}</small></p>
       <p v-if="card.vegan" class="badge badge-success">🌿 Vegan</p>
       <p v-if="card.vegetarian" class="badge badge-warning">🥕 Vegetarian</p>
       <p v-if="card.glutenFree" class="badge badge-info">🚫 Gluten-Free</p>
-      <p v-if="card.viewed" class="badge badge-secondary">👁️ Viewed</p>
+      <p v-if="viewed" class="badge badge-secondary">👁️ Viewed</p>
     </div>
     <div class="card-footer bg-white">
-      <LikeButton :recipeId="card.id" :initialLikes="card.aggregateLikes" :initiallyLiked="card.aggregateLikes"></LikeButton> <br>
-      <FavoriteButton :recipeId="card.id" :initiallyFavorited="isFavorite(card.recipeId)"></FavoriteButton>
+      <FavoriteButton :recipeId="String(card.id || card.recipe_id)" :initiallyFavorited="isFavorite(card.id)" @update-favorite-status="updateFavorite"></FavoriteButton>
     </div>
   </div>
 </template>
 
 <script>
-import LikeButton from '@/components/LikeButton.vue';
 import FavoriteButton from '@/components/FavoriteButton.vue';
 
 export default {
   name: 'RecipePreview',
   components: {
-    LikeButton,
     FavoriteButton
   },
   props: {
     card: {
       type: Object,
       required: true
+    },
+    isMyRecipe: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
+  data() {
+    return {
+      viewed: false
+    };
+  },
+  mounted() {
+    this.viewed = localStorage.getItem(`viewed_${this.card.id}`) === 'true';
+  },
   methods: {
-    navigateToRecipe(recipeId) {
+    navigateToRecipe(recipeId, isMyRecipe) {
+      if (!recipeId) {
+        console.error("recipeId is undefined! Check the source of the recipe object.");
+        return;
+      }
       this.card.viewed = true;
       localStorage.setItem(`viewed_${recipeId}`, true);
-      this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
+      console.log("Navigating to recipe with ID:", recipeId, "isMyRecipe:", isMyRecipe);
+
+      if (isMyRecipe) {
+        // Navigate to view page for personal recipe
+        console.log("Navigating to recipe with ID:", recipeId, "isMyRecipe:", isMyRecipe);
+
+        this.$router.push({ name: 'RecipeViewPage', params: { recipeId: recipeId, isMyRecipe: true } });
+      } else {
+        // Navigate to view page for Spoonacular recipe
+        this.$router.push({ name: 'RecipeViewPage', params: { recipeId: recipeId, isMyRecipe: false } });
+      }
     },
     isFavorite(recipeId) {
       return JSON.parse(localStorage.getItem(`favorite_${recipeId}`)) || false;
     },
-    // updateFavorite(recipeId, isFavorite) {
-    //   localStorage.setItem(`favorite_${recipeId}`, isFavorite);
-    // },
-    
+    updateFavorite(recipeId, isFavorite) {
+      localStorage.setItem(`favorite_${recipeId}`, JSON.stringify(isFavorite));
+    }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -61,9 +82,9 @@ export default {
   margin: 0 0.5em;
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   border: none;
-  border-radius: 70px;
-  overflow: hidden; /* Ensures no content spills out */
-  height: 40rem;
+  border-radius: 50px;
+  overflow: hidden; 
+  height: 30rem;
 
 }
 .clickable-image {
@@ -74,9 +95,9 @@ export default {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
-/* .card-footer{ */
-  /* display: flex;
+.card-footer{
+   display: flex;
   flex-direction: row;
-  padding: 20px; */
-/* } */
+  padding: 10px; 
+} 
 </style>

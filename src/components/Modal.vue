@@ -74,7 +74,8 @@ export default {
         servings: 1,
         vegetarian: false,
         vegan: false,
-        glutenFree: false
+        glutenFree: false,
+        isMyRecipe: true
       }
     };
   },

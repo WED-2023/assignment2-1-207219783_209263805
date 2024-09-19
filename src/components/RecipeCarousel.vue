@@ -3,9 +3,10 @@
       <div class="carousel-inner">
         
 
-        <div class="carousel-item" v-for="(card, index) in recipes" :class="{ active: index === 0 }" :key="card.id">
+        <div class="carousel-item" v-for="(recipe, index) in recipes" :class="{ active: index === 0 }" :key="recipe.recipe_id">
           <div class="cards-wrapper">
-            <RecipePreview v-for="card in recipes" :key="card.id" :card="card"></RecipePreview>
+            <RecipePreview :card="recipe" :isMyRecipe="isMyRecipe" v-for="recipe in recipes" :key="recipe.recipe_id" />
+            <!-- <RecipePreview :card="recipe" :isMyRecipe="true"/> -->
           </div>
         </div>
 
@@ -25,7 +26,6 @@
   
   <script>
   import RecipePreview from '@/components/RecipePreview.vue';
-  import { mockGetRecipesPreview } from "../services/recipes.js";
   
   export default {
     name: 'RecipeCarousel',
@@ -36,33 +36,18 @@
       recipes: {
         type: Array,
         required: true
-      }
+      },
+      isMyRecipe: {
+        type: Boolean,
+        required: false,
+        default: false
+    }
     },
     data() {
       return {
         carouselItems: [],
         carouselId: 'carousel-' + Math.random().toString(36).substr(2, 9)
-
-      }
-    },
-    async mounted() {
-
-      // await this.loadRecipes();
-    },
-    methods: {
-      // async loadRecipes() {
-      //   const amountToFetch = 6; 
-      //   const response = mockGetRecipesPreview(amountToFetch);
-      //   const recipes = response.data.recipes;
-
-      //   const itemsPerSlide = 3;  
-      //   this.carouselItems = [];
-      //   for (let i = 0; i < recipes.length; i += itemsPerSlide) {
-      //     this.carouselItems.push({
-      //       cards: recipes.slice(i, i + itemsPerSlide)
-      //     });
-      //   }
-      // }
+      };
     }
   }
   </script>

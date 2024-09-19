@@ -2,8 +2,7 @@
     <div class="main-container">
       <div class="columns">
         <div class="left-column">
-          <br>
-          <h2>My Recipes</h2>
+          <h1>My Recipes</h1>
           <RecipePreviewList class="Recipes recipe-preview-list" :recipes="recipes" />
         </div>
       </div>
@@ -33,6 +32,8 @@ export default {
         async fetchRecipes() {
         try {
             const response = await axios.get('http://localhost:3000/users/myRecipes');
+            console.log("Fetched recipes:", response.data);  // Debug: Check if recipes contain valid IDs
+
             this.recipes = response.data; // Store response data in recipes
             console.log("Recipes fetched:", this.recipes);
         } catch (error) {
@@ -61,19 +62,30 @@ export default {
   }
   
   
-  h2{
-    color: white;
-    font-size: 2rem;
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive title */
+    text-align: center;
+    color: #333; /* Text color */
+    margin-bottom: 40px;
   }
+  
+  // .columns {
+  //   display: flex;
+  //   position: relative;
+  //   flex-direction: row;
+  //   justify-content: space-between;
+  //   gap: 15px;
+  // }
   
   .columns {
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 15px;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center vertically */
+  gap: 15px;
+  width: 100%;
+}
+
   .left-column, .right-column {
     display: flex;
     flex: 1;
@@ -81,102 +93,117 @@ export default {
     align-items: center;
   }
   
-  .Recipes {
-    width: 100%;
+  // .Recipes {
+  //   width: 100%;
     
-  }
+  // }
   
-  .refresh-button, .login-button {
-    font-size: 1.25rem;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: white;
-    // background-color: #f44336;
-    // border: none;
-    background-color: darkgray;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 20px;
+.Recipes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px; /* Set a maximum width for the grid */
+  margin: 0 auto; /* Center the grid on the page */
+}
+.recipe-preview-list {
+  width: 100%;
+  max-width: 800px; /* Adjust the width of each card */
+  max-height: 500px;
+  margin: 0 15px; /* Add margin between the cards */
+}
+//   .refresh-button, .login-button {
+//     font-size: 1.25rem;
+//     padding: 10px 20px;
+//     text-decoration: none;
+//     color: white;
+//     // background-color: #f44336;
+//     // border: none;
+//     background-color: darkgray;
+//     border-radius: 20px;
+//     cursor: pointer;
+//     transition: background-color 0.3s;
+//     margin-top: 20px;
   
-  }
+//   }
   
-  .refresh-button:hover {
-    transform: scale(1.1); /* Correctly applies scaling */
-    transition: transform 0.3s ease; /* Smoothly transitions the transform property */
-  }
-  .login-button:hover {
-    background-color: #8d0815;
+//   .refresh-button:hover {
+//     transform: scale(1.1); /* Correctly applies scaling */
+//     transition: transform 0.3s ease; /* Smoothly transitions the transform property */
+//   }
+//   .login-button:hover {
+//     background-color: #8d0815;
   
-  }
+//   }
   
-  .blur {
-    -webkit-filter: blur(5px);
-    filter: blur(2px);
-  }
+//   .blur {
+//     -webkit-filter: blur(5px);
+//     filter: blur(2px);
+//   }
   
-  ::v-deep .blur .recipe-preview {
-    pointer-events: none;
-    cursor: default;
-  }
+//   ::v-deep .blur .recipe-preview {
+//     pointer-events: none;
+//     cursor: default;
+//   }
   
-  h1 {
-    font-size: clamp(3rem, 15vmin, 5rem);
-    font-family: sans-serif;
-    color: hsl(0 0% 98%);
-  }
+//   h1 {
+//     font-size: clamp(3rem, 15vmin, 5rem);
+//     font-family: sans-serif;
+//     color: hsl(0 0% 98%);
+//   }
   
-  .underlined {
-  /*   background: red; */
-    position: relative;
-  }
+//   .underlined {
+//   /*   background: red; */
+//     position: relative;
+//   }
   
-  .underline-mask:after {
-    content: '';
-    position: absolute;
-    top: 95%;
-    width: 150%;
-    aspect-ratio: 3 / 1;
-    left: 50%;
-    transform: translate(-50%, 0);
-    border-radius: 50%;
-    border: 6px solid hsl(280 80% 50%);
-    /* Use a conic gradient mask to hide and show the bits you want */
-    --spread: 140deg;
-    --start: 290deg;
-    mask: conic-gradient(from var(--start), white 0 var(--spread), transparent var(--spread));
-  }
+//   .underline-mask:after {
+//     content: '';
+//     position: absolute;
+//     top: 95%;
+//     width: 150%;
+//     aspect-ratio: 3 / 1;
+//     left: 50%;
+//     transform: translate(-50%, 0);
+//     border-radius: 50%;
+//     border: 6px solid hsl(280 80% 50%);
+//     /* Use a conic gradient mask to hide and show the bits you want */
+//     --spread: 140deg;
+//     --start: 290deg;
+//     mask: conic-gradient(from var(--start), white 0 var(--spread), transparent var(--spread));
+//   }
   
   
-  .underline-overflow {
-    display: inline-block;
-    /* A little extra padding and overflow hidden   */
-    overflow: hidden;
-    padding-bottom: clamp(1rem, 2vmin, 2rem);
-  }
-  .underline-overflow:after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    height: 150%;
-    aspect-ratio: 2.5 / 1;
-    left: 50%;
-    transform: translate(-50%, -10%);
-    border-radius: 50%;
-    border: 6px solid hsl(10 80% 50%);
-  }
+//   .underline-overflow {
+//     display: inline-block;
+//     /* A little extra padding and overflow hidden   */
+//     overflow: hidden;
+//     padding-bottom: clamp(1rem, 2vmin, 2rem);
+//   }
+//   .underline-overflow:after {
+//     content: '';
+//     position: absolute;
+//     top: 100%;
+//     height: 150%;
+//     aspect-ratio: 2.5 / 1;
+//     left: 50%;
+//     transform: translate(-50%, -10%);
+//     border-radius: 50%;
+//     border: 6px solid hsl(10 80% 50%);
+//   }
   
-  .underline-clip:after {
-    content: '';
-    position: absolute;
-    top: 95%;
-    width: 150%;
-    aspect-ratio: 3 / 1;
-    left: 50%;
-    transform: translate(-50%, 0);
-    border-radius: 50%;
-    border: 6px solid hsl(130 80% 50%);
-    /* Use a clip-path to hide and show the bits you want */
-    clip-path: polygon(0 0, 50% 50%, 100% 0);
-  }
+//   .underline-clip:after {
+//     content: '';
+//     position: absolute;
+//     top: 95%;
+//     width: 150%;
+//     aspect-ratio: 3 / 1;
+//     left: 50%;
+//     transform: translate(-50%, 0);
+//     border-radius: 50%;
+//     border: 6px solid hsl(130 80% 50%);
+//     /* Use a clip-path to hide and show the bits you want */
+//     clip-path: polygon(0 0, 50% 50%, 100% 0);
+//   }
   </style>

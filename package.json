@@ -6,6 +6,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@jambonn/vue-carousel": "^0.1.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.6.2",
     "bootstrap-vue": "^2.23.1",
