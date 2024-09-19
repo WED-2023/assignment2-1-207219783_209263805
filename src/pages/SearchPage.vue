@@ -62,11 +62,15 @@ export default {
     }
   },
   methods: {
+    goToRecipePage(recipeId) {
+    this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
+  },
     fetchRecipes() {
       if (!this.searchQuery) {
       console.log('Search query is empty.');
       return;
     }
+    
   const url = `http://localhost:3000/recipes/search?query=${this.searchQuery}&number=${this.selectedCount}`;
 
   axios.get(url)
@@ -225,6 +229,7 @@ export default {
   overflow: hidden;
   transform: translateZ(0); /* GPU acceleration for smoother animations */
   transition: transform 0.3s ease-out;
+  cursor: pointer;
 }
 
 .recipe-card:hover {

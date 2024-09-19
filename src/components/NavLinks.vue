@@ -6,7 +6,7 @@
 
     </div>
   </template>
-  
+
   <script>
   export default {
     name: "NavLinks"
@@ -25,22 +25,19 @@
 .nav-links a.router-link-exact-active, 
 .nav-links a.active-link {
   font-weight: bold; /* Bold the active link */
-  transform: scale(1.2); /* Apply scale transformation */
+  transform: scale(1.2);
 }
 
 .nav-links a {
   font-size: 1.25rem;
   padding: 5px 10px;
   text-decoration: none;
-  color: black; /* Uniform black text for all links */
-  transition: color 0.3s, transform 0.3s ease; /* Apply transition to both color and transform */
+  color: black; 
+  transition: color 0.3s, transform 0.3s ease; 
 }
 .nav-button:hover, .active-nav-button {
-  transform: scale(1.1); /* Scale the button on hover and when active */
+  transform: scale(1.1); 
 }
 
-// .router-link:hover {
-//   color: #f44336; /* Change color on hover */
-// }
   </style>
   
