@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img :src="card.image" class="card-img-top clickable-image" @click="navigateToRecipe(card.id || card.recipe_id, isMyRecipe)">
+    <img :src="card.image" class="card-img-top clickable-image" @click="navigateToRecipe(card.id || card.recipe_id)">
     <div class="card-body">
       <h5 class="card-title" style="font-weight: bold;">{{ card.title }}</h5>
       <p class="card-text"><small class="text-muted">⏱️ Prep time: {{ card.readyInMinutes }}</small></p>
@@ -27,11 +27,6 @@ export default {
     card: {
       type: Object,
       required: true
-    },
-    isMyRecipe: {
-      type: Boolean,
-      required: true,
-      default: false
     }
   },
   data() {
@@ -43,24 +38,14 @@ export default {
     this.viewed = localStorage.getItem(`viewed_${this.card.id}`) === 'true';
   },
   methods: {
-    navigateToRecipe(recipeId, isMyRecipe) {
+    navigateToRecipe(recipeId) {
       if (!recipeId) {
         console.error("recipeId is undefined! Check the source of the recipe object.");
         return;
       }
       this.card.viewed = true;
       localStorage.setItem(`viewed_${recipeId}`, true);
-      console.log("Navigating to recipe with ID:", recipeId, "isMyRecipe:", isMyRecipe);
-
-      if (isMyRecipe) {
-        // Navigate to view page for personal recipe
-        console.log("Navigating to recipe with ID:", recipeId, "isMyRecipe:", isMyRecipe);
-
-        this.$router.push({ name: 'RecipeViewPage', params: { recipeId: recipeId, isMyRecipe: true } });
-      } else {
-        // Navigate to view page for Spoonacular recipe
-        this.$router.push({ name: 'RecipeViewPage', params: { recipeId: recipeId, isMyRecipe: false } });
-      }
+      this.$router.push({ name: 'RecipeViewPage', params: { recipeId: recipeId }})
     },
     isFavorite(recipeId) {
       return JSON.parse(localStorage.getItem(`favorite_${recipeId}`)) || false;

@@ -4,14 +4,13 @@
       {{ title }}
       <slot></slot>
     </h3>
-        <RecipeCarousel class="recipe-preview-list" :recipes="recipes" :isMyRecipe="isMyRecipe" />
+        <RecipeCarousel class="recipe-preview-list" :recipes="recipes"/>
 
   </div>
 </template>
 <script>
 
 import RecipeCarousel from "./RecipeCarousel.vue"
-import { mockGetRecipesPreview } from "../services/recipes.js";
 export default {
   name: "RecipePreviewList",
   components: {
@@ -25,11 +24,6 @@ export default {
     recipes:{
       type: Array,
       required: true
-    },
-    isMyRecipe: {
-      type: Boolean,
-      required: false,
-      default: false
     }
   },
 };

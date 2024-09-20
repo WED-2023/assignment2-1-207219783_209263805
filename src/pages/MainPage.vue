@@ -64,7 +64,6 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList.vue";
-import { mockGetRecipesPreview } from "../services/recipes.js";
 import axios  from "axios";
 export default {
   components: {
