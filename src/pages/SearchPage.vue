@@ -19,34 +19,9 @@
     </div>
     </form>
 
-
-
-
-    <!-- Recipes Results -->
-<!-- 
-    <div v-if="recipes.length" class="recipes-grid">
-      <div v-for="recipe in sortedRecipes" :key="recipe.id" class="card">
-        <img :src="recipe.image" class="card-img-top clickable-image" @click="goToRecipePage(recipe.id)" />
-        <div class="card-body">
-          <h5 class="card-title" style="font-weight: bold;">{{ recipe.title }}</h5>
-          <p class="card-text">
-            <small class="text-muted">⏱️ Prep time: {{ recipe.readyInMinutes }} mins</small>
-          </p>
-          <p v-if="recipe.vegan" class="badge badge-success">🌿 Vegan</p>
-          <p v-if="recipe.vegetarian" class="badge badge-warning">🥕 Vegetarian</p>
-          <p v-if="recipe.glutenFree" class="badge badge-info">🚫 Gluten-Free</p>
-        </div>
-        <div class="card-footer bg-white">
-          <FavoriteButton :recipeId="String(recipe.id)"  @update-favorite-status="updateFavorite"></FavoriteButton>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <p v-else>No recipes found.</p> -->
-
     <RecipePreviewList 
           class="RandomRecipes recipe-preview-list" 
-          :recipes="recipes"
+          :recipes="sortedRecipes"
         />
   </div>
   
@@ -89,12 +64,13 @@ export default {
   updateFavorite(recipeId, isFavorite) {
       localStorage.setItem(`favorite_${recipeId}`, JSON.stringify(isFavorite));
     },
-    fetchRecipes() {
-      if (!this.searchQuery) {
-      console.log('Search query is empty.');
-      return;
-    }
-    
+
+fetchRecipes() {
+  if (!this.searchQuery) {
+    console.log('Search query is empty.');
+    return;
+  }
+  
   const url = `http://localhost:3000/recipes/search?query=${this.searchQuery}&number=${this.selectedCount}`;
 
   axios.get(url)
@@ -102,15 +78,21 @@ export default {
       this.recipes = response.data.results.map(recipe => ({
         ...recipe,
         readyInMinutes: recipe.readyInMinutes || 'N/A',
-        aggregateLikes: recipe.aggregateLikes || 'N/A',
+        popularity: recipe.aggregateLikes || 'N/A',
         instructions: recipe.instructions || 'No instructions provided.'
       }));
+
+      // Save the last search query in localStorage
+      localStorage.setItem('lastSearch', this.searchQuery);
+      localStorage.setItem('lastSelectedCount', this.selectedCount);  // Optionally save selected count as well
+
       console.log(this.recipes); // Logging to check the structure
     })
     .catch(error => {
       console.error('Error fetching recipes:', error);
     });
 }
+
 
 
   },

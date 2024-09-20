@@ -4,6 +4,8 @@
     <div class="card-body">
       <h5 class="card-title" style="font-weight: bold;">{{ card.title }}</h5>
       <p class="card-text"><small class="text-muted">⏱️ Prep time: {{ card.readyInMinutes }}</small></p>
+      <p>❤️ Likes: {{ card.popularity }} </p>
+      <!-- <p>❤️ Likes: {{ card.aggregateLikes !== undefined && card.aggregateLikes !== null ? card.aggregateLikes : 0 }}</p> -->
       <p v-if="card.vegan" class="badge badge-success">🌿 Vegan</p>
       <p v-if="card.vegetarian" class="badge badge-warning">🥕 Vegetarian</p>
       <p v-if="card.glutenFree" class="badge badge-info">🚫 Gluten-Free</p>
@@ -69,7 +71,7 @@ export default {
   border: none;
   border-radius: 50px;
   overflow: hidden; 
-  height: 30rem;
+  height: 32rem;
 
 }
 .clickable-image {

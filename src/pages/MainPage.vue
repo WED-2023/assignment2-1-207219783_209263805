@@ -84,7 +84,7 @@ export default {
 
     this.fetchRandomRecipes();
     if (this.$root.store.username) {
-      this.fetchLastViewedRecipes();
+      // this.fetchLastViewedRecipes();
     }
   },
   methods: {
