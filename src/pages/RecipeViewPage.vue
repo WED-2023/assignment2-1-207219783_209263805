@@ -27,11 +27,10 @@
           <div class="wrapped">
             <b>Instructions:</b>
             <ol v-if="recipe.instructions && recipe.instructions.length > 0">
-              <li v-for="step in recipe.instructions" :key="step.number">
-                {{ step.step }}
-              </li>
+              <li v-for="(step, index) in recipe.instructions" :key="index" v-html="step"></li>
             </ol>
             <p v-else>No instructions available for this recipe.</p>
+
           </div>
         </div>
         <div class="button-container">
@@ -65,12 +64,13 @@ export default {
         response = await axios.get(`http://localhost:3000/recipes/recipeId/${this.$route.params.recipeId}`);
         
         if (response && response.data) {
-          console.log(response);
           this.recipe = {
             ...response.data,
-              instructions: Array.isArray(response.data.analyzedInstructions) && response.data.analyzedInstructions.length > 0
-                ? response.data.analyzedInstructions.map(instruction => instruction.steps).flat() : []
-
+            instructions: response.data.instructions 
+              ? response.data.instructions.split(',')  
+              : Array.isArray(response.data.analyzedInstructions) && response.data.analyzedInstructions.length > 0
+              ? response.data.analyzedInstructions.map(instruction => instruction.steps.map(step => step.step)).flat()
+              : []
           };
             await this.addLastViewRecipe(this.$route.params.recipeId);
           
