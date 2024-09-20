@@ -315,4 +315,8 @@ h1 {
 .refresh-button.show-spinner .button-text {
   visibility: hidden; /* Keep the space for text */
 }
+.refresh-button {
+  min-width: 150px; /* Set an appropriate width */
+  min-height: 50px;
+}
 </style>

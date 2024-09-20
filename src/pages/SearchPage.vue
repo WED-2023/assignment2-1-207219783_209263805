@@ -19,29 +19,50 @@
     </div>
     </form>
 
-    <!-- Sorting Options -->
-    
+
+
+
+    <!-- Recipes Results -->
+<!-- 
     <div v-if="recipes.length" class="recipes-grid">
-      <div v-for="recipe in sortedRecipes" :key="recipe.id" class="recipe-card">
-        <img :src="recipe.image" alt="recipe image" @click="goToRecipePage(recipe.id)" class="recipe-image">
-        <div class="recipe-info">
-          <h3>{{ recipe.title }}</h3>
-          <p>{{ recipe.readyInMinutes }} mins | ★ {{ recipe.aggregateLikes }}</p>
-          <p v-if="recipe.instructions">{{ recipe.instructions.substring(0, 100) }}...</p>
-          <p v-else>No instructions available.</p>
+      <div v-for="recipe in sortedRecipes" :key="recipe.id" class="card">
+        <img :src="recipe.image" class="card-img-top clickable-image" @click="goToRecipePage(recipe.id)" />
+        <div class="card-body">
+          <h5 class="card-title" style="font-weight: bold;">{{ recipe.title }}</h5>
+          <p class="card-text">
+            <small class="text-muted">⏱️ Prep time: {{ recipe.readyInMinutes }} mins</small>
+          </p>
+          <p v-if="recipe.vegan" class="badge badge-success">🌿 Vegan</p>
+          <p v-if="recipe.vegetarian" class="badge badge-warning">🥕 Vegetarian</p>
+          <p v-if="recipe.glutenFree" class="badge badge-info">🚫 Gluten-Free</p>
+        </div>
+        <div class="card-footer bg-white">
+          <FavoriteButton :recipeId="String(recipe.id)"  @update-favorite-status="updateFavorite"></FavoriteButton>
         </div>
       </div>
-    </div>
-    <p v-else>No recipes found.</p>
+    </div> -->
+
+    <!-- <p v-else>No recipes found.</p> -->
+
+    <RecipePreviewList 
+          class="RandomRecipes recipe-preview-list" 
+          :recipes="recipes"
+        />
   </div>
+  
+
 </template>
 
 
 
 <script>
 import axios from 'axios';
+import RecipePreviewList from '../components/RecipePreviewList.vue';
 
 export default {
+  components: {
+    RecipePreviewList
+  },
   name: 'SearchPage',
   data() {
     return {
@@ -65,6 +86,9 @@ export default {
     goToRecipePage(recipeId) {
     this.$router.push({ name: 'RecipeViewPage', params: { recipeId } });
   },
+  updateFavorite(recipeId, isFavorite) {
+      localStorage.setItem(`favorite_${recipeId}`, JSON.stringify(isFavorite));
+    },
     fetchRecipes() {
       if (!this.searchQuery) {
       console.log('Search query is empty.');
@@ -101,7 +125,8 @@ export default {
 
 <style scoped>
 .container {
-  max-width: 1200px;
+  max-width: 1800px;
+  /* width: 100%; */
   margin: 0 auto;
   padding: 20px;
   text-align: center;

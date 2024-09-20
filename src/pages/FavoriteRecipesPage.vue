@@ -55,6 +55,7 @@ export default {
 .main-container {
   min-height: 100vh; /* Ensure full viewport height */
   width: 100%; /* Full width of the viewport */
+  max-width: 1800px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
