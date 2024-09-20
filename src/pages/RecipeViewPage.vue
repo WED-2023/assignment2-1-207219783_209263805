@@ -34,8 +34,11 @@
           </div>
         </div>
         <div class="button-container">
-          <b-button variant="primary" :to="{ name: 'main' }">Back to Home Page</b-button>
           <FavoriteButton :recipeId="$route.params.recipeId.toString()"></FavoriteButton>
+          
+        </div>
+        <div class="backb">
+          <BackButton/>          
         </div>
       </div>
     </div>
@@ -47,11 +50,13 @@
 <script>
 import FavoriteButton from '@/components/FavoriteButton.vue';
 import axios from 'axios';
+import BackButton from '../components/BackButton.vue';
 
 export default {
   name: 'RecipeViewPage',
   components: {
-    FavoriteButton
+    FavoriteButton,
+    BackButton
   },
   data() {
     return {
@@ -115,6 +120,9 @@ export default {
   border-radius: 20px;
   width: 70%;
 
+}
+.backb{
+  margin-left: 500px;
 }
 /* .card-header {
   background-color: #f8f9fa;

@@ -2,6 +2,8 @@
     <!-- <button @click="toggleFavorite" class="btn btn-outline-primary" :class="{ 'btn-success': isFavorite }">
       ⭐ {{ isFavorite ? 'Added to Favorites' : 'Add to Favorites' }}
     </button> -->
+    
+    
     <div>
     <button @click="toggleFavorite" class="btn" :class="{'btn-success': isFavorite}">
     <i class="material-icons">{{ isFavorite ? 'star' : 'star_border' }}</i>

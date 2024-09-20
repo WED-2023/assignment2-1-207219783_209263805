@@ -1,6 +1,7 @@
 <template>
   <div class="main-container">
     <br>
+
     <h1>My Favorites</h1>
     <div v-if="favoriteRecipes.length === 0">
       <p>No favorite recipes yet.</p>
@@ -19,10 +20,11 @@
 <script>
 import RecipePreviewList from '../components/RecipePreviewList.vue';
 import axios from 'axios';
-
+import BackButton from '../components/BackButton.vue';
 export default {
   components: {
-    RecipePreviewList
+    RecipePreviewList,
+    BackButton
   },
   data() {
     return {
