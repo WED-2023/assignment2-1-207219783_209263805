@@ -27,7 +27,6 @@
   
   <style scoped>
   .back-wrapper {
-    /* position: relative; */
   right:  30%;
   bottom: 20px; /* Fix the button at the bottom */
     transform: translateX(-50%); /* Ensure perfect centering */

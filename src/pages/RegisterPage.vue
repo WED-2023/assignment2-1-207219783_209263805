@@ -227,12 +227,10 @@ export default {
   },
 
     onRegister() {
-      // console.log("register method called");
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("register method go");
       this.Register();
     },
     onReset() {
@@ -316,7 +314,6 @@ h2 {
 input:focus ~ label,
 input:valid ~ label {
   top: -5px; 
-  // font-size: 0.8em;
 }
 
 /* Input Field Styling */

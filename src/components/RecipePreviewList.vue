@@ -1,10 +1,13 @@
 <template>
+  <!-- RecipePreviewList Component: Displays a titled section with a carousel of recipe cards.
+    Allows for dynamic content insertion through a slot mechanism for additional customization. -->
+
   <div class="">
     <h3 class="title">
       {{ title }}
       <slot></slot>
     </h3>
-        <RecipeCarousel class="recipe-preview-list" :recipes="recipes"/>
+    <RecipeCarousel class="recipe-preview-list" :recipes="recipes"/>
 
   </div>
 </template>

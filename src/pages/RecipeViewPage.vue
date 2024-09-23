@@ -124,11 +124,7 @@ export default {
 .backb{
   margin-left: 500px;
 }
-/* .card-header {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
-  padding: 15px;
-} */
+
 .card-title {
   margin: 0;
   font-size: 28px;
@@ -141,9 +137,7 @@ export default {
   width: 100%;
   height: auto;
 }
-/* .card-body {
-  padding: 15px;
-} */
+
 .wrapper {
   display: flex;
   justify-content: space-between;

@@ -20,8 +20,7 @@
               <label for="recipient-readyInMinutes">Preparation Time (minutes):</label>
               <input type="number" class="form-control" id="recipient-readyInMinutes" v-model="recipeDetails.readyInMinutes" min="1" required>
 
-              <!-- <label for="recipient-instructions">Instructions:</label>
-              <textarea class="form-control" id="recipient-instructions" v-model="recipeDetails.instructions"></textarea> -->
+            
               <label for="recipient-instructions">Instructions:</label>
               <div v-for="(instruction, index) in recipeDetails.instructions" :key="index" class="instruction-row">
                 <input type="text" v-model="recipeDetails.instructions[index]" placeholder="Instruction step" class="form-control" required>
@@ -86,23 +85,27 @@ export default {
   },
   methods: {
     saveChanges() {
+      // Check if all required fields are filled
       if (!this.allFieldsValid()) {
         alert("Please ensure all required fields are filled.");
         return;
       }
+      // Post the recipe details to the server
       axios.post('http://localhost:3000/users/myRecipes', this.recipeDetails)
         .then(response => {
           alert("Recipe saved successfully!");
-          this.closeModal();
+          this.closeModal(); // Close the modal on success
         })
         .catch(error => {
           alert(`Failed to save the recipe: ${error.message}`);
           console.error("Error:", error);
         });
     },
+    // Validate all required fields
     allFieldsValid() {
       return this.recipeDetails.title && this.recipeDetails.image && this.recipeDetails.readyInMinutes && this.recipeDetails.instructions.every(i => i) && this.recipeDetails.servings && this.recipeDetails.ingredients.every(i => i.name && i.amount);
     },
+    // Reset recipe details and close the modal
     closeModal() {
       this.recipeDetails = {
         title: '', image: '', readyInMinutes: 0, ingredients: [{ name: '', amount: '' }],
@@ -113,6 +116,7 @@ export default {
     addInstruction() {
       this.recipeDetails.instructions.push('');
     },
+    // Remove an instruction field
     removeInstruction(index) {
       if (this.recipeDetails.instructions.length > 1) {
         this.recipeDetails.instructions.splice(index, 1);
@@ -121,6 +125,8 @@ export default {
     addIngredient() {
       this.recipeDetails.ingredients.push({ name: '', amount: '' });
     },
+    
+    // Remove an ingredient field
     removeIngredient(index) {
       if (this.recipeDetails.ingredients.length > 1) {
         this.recipeDetails.ingredients.splice(index, 1);

@@ -23,9 +23,7 @@
         <div class="image-box">
           <img :src="card.imageUrl" />
         </div>
-        <!-- <div class="content" v-show="!card.hovered">
-          <h2>{{ card.title }}</h2>
-        </div> -->
+
         <div class="content" v-show="card.hovered">
           <p class="description-text">
             <b><u>Who prepares:</u></b> {{ card.whose }}<br>

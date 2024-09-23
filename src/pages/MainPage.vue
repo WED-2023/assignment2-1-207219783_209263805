@@ -5,18 +5,14 @@
       <span class="underlined underline-overflow"> & Delicious Recipes</span>
     </h1><br><br>
 
-    <!-- <h1>Explore, <span class="underlined underline-clip">Create</span>
-    & Enjoy <span class="underlined underline-mask">Delicious</span>
-    <span class="underlined underline-overflow">Recipes</span></h1> -->
+   
     
     <div class="columns">
       <!-- Left Column: Random Recipes -->
       <div class="left-column">
         <RecipePreviewList class="RandomRecipes recipe-preview-list" :recipes="randomRecipes" title="Random Recipes"/>
 
-        <!-- <b-button pill variant="outline-secondary" class="refresh-button" @click="fetchRandomRecipes">
-          Show New Random Recipes
-        </b-button> -->
+
 
         <div class="static">
     <button class="refresh-button" @click="fetchRandomRecipes">
@@ -39,7 +35,7 @@
       <!-- Right Column: Last Viewed Recipes or Login Prompt -->
       <div class="right-column">
         <div v-if="$root.store.username">
-          <!-- <RecipePreviewList class="LastWatchedRecipes" :recipes="lastRecipes" title="Last Watched Recipes"/> -->
+
           <div v-if="lastRecipes && lastRecipes.length === 0">
             <p>No recipes viewed recently</p>
           </div>
@@ -79,12 +75,10 @@ export default {
     };
   },
   mounted() {
-    //this.updateRecipes();
-    // this.updateLastRecipes();
+
 
     this.fetchRandomRecipes();
     if (this.$root.store.username) {
-      // this.fetchLastViewedRecipes();
     }
   },
   methods: {
@@ -122,7 +116,6 @@ export default {
 
 <style lang="scss" scoped>
 .main-container {
-  // background-color: aliceblue;
   min-height: 100vh; /* Ensure it takes at least the full viewport height */
   min-width: 100vh;
   display: flex;
@@ -161,8 +154,7 @@ h2{
   padding: 10px 20px;
   text-decoration: none;
   color: white;
-  // background-color: #f44336;
-  // border: none;
+
   background-color: darkgray;
   border-radius: 20px;
   cursor: pointer;
@@ -200,7 +192,6 @@ h1 {
 }
 
 .underlined {
-/*   background: red; */
   position: relative;
   vertical-align: middle; /* Align text vertically in the middle */
   margin-right: 20px; /* Add space between the underlined words */

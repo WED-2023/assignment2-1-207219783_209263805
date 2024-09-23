@@ -1,16 +1,11 @@
 <template>
-    <!-- <button @click="toggleFavorite" class="btn btn-outline-primary" :class="{ 'btn-success': isFavorite }">
-      ⭐ {{ isFavorite ? 'Added to Favorites' : 'Add to Favorites' }}
-    </button> -->
-    
-    
+
     <div>
     <button @click="toggleFavorite" class="btn" :class="{'btn-success': isFavorite}">
     <i class="material-icons">{{ isFavorite ? 'star' : 'star_border' }}</i>
     <span class="like-overlay"></span>
     </button>
 
-    <!-- <span class="fav-text">{{ isFavorite ? 'Added to Favorites' : 'Add to Favorites' }}</span> -->
     <span class="fav-text" v-if="!isFavorite">Add to your favorite</span>
     <span class="fav-text" v-else>Added to Favorites</span>
   </div>
@@ -48,13 +43,12 @@
             const response = await axios.delete(`http://localhost:3000/users/favorites?recipeId=${this.recipeId}`, { withCredentials: true });
             this.isFavorite = false;
             localStorage.removeItem(`favorite_${this.recipeId}`);
-            // this.$emit('update-favorite-status', this.recipeId, false);
-            this.$emit('favorite-deleted', this.recipeId);
+            this.$emit('favorite-deleted', this.recipeId); // call parent componenet event
             this.$toast.info(response.data.message || "Removed from Favorites", {
               timeout: 5000,
             });
           } else {
-            // Add to favorites
+            // Add to favorites on the server side
             const response = await axios.post('http://localhost:3000/users/favorites', { recipeId: this.recipeId }, { withCredentials: true });
             this.isFavorite = true;
             localStorage.setItem(`favorite_${this.recipeId}`, JSON.stringify(this.isFavorite));
@@ -84,10 +78,7 @@
   </script>
   
   <style scoped>
-  /* .btn-success {
-    background-color: #1d612d;
-    color: white;
-  } */
+
 
   .btn {
   position: relative;

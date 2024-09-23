@@ -1,11 +1,13 @@
 <template>
+  <!-- RecipePreview Component: Displays a recipe card with an image, title, and various attributes such as preparation time and dietary tags.
+    It includes interactive elements like a clickable image and a favorite button. -->
+
   <div class="card">
     <img :src="card.image" class="card-img-top clickable-image" @click="navigateToRecipe(card.id || card.recipe_id)">
     <div class="card-body">
       <h5 class="card-title" style="font-weight: bold;">{{ card.title }}</h5>
       <p class="card-text"><small class="text-muted">⏱️ Prep time: {{ card.readyInMinutes }}</small></p>
       <p>❤️ Likes: {{ card.popularity }} </p>
-      <!-- <p>❤️ Likes: {{ card.aggregateLikes !== undefined && card.aggregateLikes !== null ? card.aggregateLikes : 0 }}</p> -->
       <p v-if="card.vegan" class="badge badge-success">🌿 Vegan</p>
       <p v-if="card.vegetarian" class="badge badge-warning">🥕 Vegetarian</p>
       <p v-if="card.glutenFree" class="badge badge-info">🚫 Gluten-Free</p>
@@ -33,14 +35,18 @@ export default {
   },
   data() {
     return {
-      viewed: false
+      viewed: false // Tracks whether the recipe has been viewed
     };
   },
   mounted() {
+    // Check local storage to see if the recipe has been viewed and update accordingly
+
     this.viewed = localStorage.getItem(`viewed_${this.card.id}`) === 'true';
   },
   methods: {
     navigateToRecipe(recipeId) {
+      // Method to navigate to the detailed recipe view page -> RecipeViewPage.vue
+
       if (!recipeId) {
         console.error("recipeId is undefined! Check the source of the recipe object.");
         return;
@@ -50,9 +56,12 @@ export default {
       this.$router.push({ name: 'RecipeViewPage', params: { recipeId: recipeId }})
     },
     isFavorite(recipeId) {
+      // Check if the recipe is favorited in local storage
       return JSON.parse(localStorage.getItem(`favorite_${recipeId}`)) || false;
     },
     updateFavorite(recipeId, isFavorite) {
+      // Update the favorite status in local storage
+
       localStorage.setItem(`favorite_${recipeId}`, JSON.stringify(isFavorite));
     }
   }

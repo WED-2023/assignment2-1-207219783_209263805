@@ -1,4 +1,6 @@
 <template>
+    <!-- Links on the left side in the sidebar -->
+
     <div class="nav-links">
       <router-link :to="{ name: 'main' }" class="nav-button" active-class="active-link">All Recipes</router-link>
       <router-link :to="{ name: 'about' }" class="nav-button" active-class="active-link">About</router-link>

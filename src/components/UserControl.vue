@@ -1,4 +1,9 @@
 <template>
+    <!-- UserControls Component: Manages user interaction controls based on authentication status.
+      Provides links for login, registration, and user-specific actions like creating recipes and accessing personal areas.
+      Links on the right side in the sidebar -->
+
+
   <div class="user-controls">
     <span v-if="!$root.store.username" class="guest-controls">
       <router-link :to="{ name: 'register' }">
@@ -9,7 +14,6 @@
       </router-link>
     </span>
     <span v-else class="user-logged-in">
-      <!-- <router-link :to="{ name: 'newRecipe' }" class="nav-button">Create New Recipe</router-link> -->
       <button class="nav-button" data-toggle="modal" data-target="#exampleModal">
             Create New Recipe
           </button>
@@ -22,7 +26,6 @@
         </div>
       </div>
       <button  class="log-button" @click="logout">Logout</button>
-      <!-- <div v-if="logoutMessage" class="logout-message">{{ logoutMessage }}</div> -->
 
     </span>
   </div>
@@ -30,18 +33,17 @@
 
 <script>
 import axios from 'axios';
-// import { useToast } from 'vue-toastification';
 
 export default {
   name: "UserControls",
   data() {
     return {
-      logoutMessage: "",
+      logoutMessage: "", // Message displayed upon logout
     };
   },
   methods: {
 
-    async logout() {
+    async logout() { // Asynchronous method to handle user logout
 
       try {
         const response = await axios.post("http://localhost:3000/auth/Logout");
@@ -53,7 +55,7 @@ export default {
           });
 
        
-          this.$router.push("/login");
+          this.$router.push("/login"); // Redirect to login page
 
         } else {
           console.error("Logout failed: ", response.data.message);

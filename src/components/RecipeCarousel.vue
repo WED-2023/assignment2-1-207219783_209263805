@@ -1,4 +1,7 @@
 <template>
+  <!-- RecipesGrid Component: Dynamically displays recipes in a grid layout.
+    It uses a responsive grid system to adapt the number of columns based on the number of recipes, up to a maximum of five columns. Each recipe is represented by a RecipePreview component. -->
+
   <div :style="{ display: 'grid', gridTemplateColumns: gridTemplateColumns, gap: '20px', margin: '20px' }" class="recipes-grid">
     <div v-for="(recipe, index) in recipes" :key="recipe.recipe_id" class="recipe-item">
       <RecipePreview :card="recipe" :isMyRecipe="isMyRecipe" />
@@ -36,13 +39,7 @@ export default {
 </script>
 
 <style scoped>
-.recipes-grid {
-  /* Grid settings are dynamically set in the template */
-}
 
-.recipe-item {
-  /* Additional responsive styling if needed */
-}
 </style>
 
 

@@ -24,18 +24,6 @@
           </div>
         </form>
 
-        <!-- <b-alert
-          class="mt-2"
-          v-if="form.submitError"
-          variant="warning"
-          dismissible
-          show
-        >
-          Login failed: {{ form.submitError }}
-        </b-alert> -->
-        <!-- <b-card class="mt-3" header="Form Data Result">
-          <pre class="m-0">{{ form }}</pre>
-        </b-card> -->
       </div>
     </div>
   </section>
@@ -45,7 +33,6 @@
 import { required } from "vuelidate/lib/validators";
 import {mockLogin} from "../services/auth.js"
 import axios from 'axios';
-// import { useToast } from "vue-toastification";
 
 export default {
   
@@ -77,7 +64,7 @@ export default {
     },
 
     async Login() {
-      // const toast = useToast();
+
 
       try {
         const response = await axios.post("http://localhost:3000/auth/Login", {
@@ -111,13 +98,11 @@ export default {
     },
 
     onLogin() {
-      // console.log("login method called");
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("login method go");
 
       this.Login();
     },
@@ -157,12 +142,7 @@ section {
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  // // background-image: url("../assets/backVue.jpg");
-  // background-size: cover ;
-  // background-position: center;
-  // background-position: center;
-  // background-size: cover;
-
+ 
 }
 
 .form-box {
